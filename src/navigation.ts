@@ -25,6 +25,10 @@ export const headerData = {
           text: 'Counseling',
           href: getPermalink('/homes/counseling'),
         },
+        {
+          text: 'Beach Club',
+          href: getPermalink('/beach'),
+        },
       ],
     },
     {

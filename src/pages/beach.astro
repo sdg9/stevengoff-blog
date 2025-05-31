@@ -1,0 +1,424 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+import Features from '~/components/widgets/Features.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import Contact from '~/components/widgets/Contact.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import Header from '~/components/widgets/Header.astro';
+
+const metadata = {
+  title: 'Paradise Cove Beach Club - Exclusive Membership',
+  description: 'Experience the ultimate beachfront lifestyle with exclusive access to Paradise Cove Beach Club. Premium amenities, pristine sands, and unparalleled luxury await.',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <Fragment slot="announcement"></Fragment>
+  <Fragment slot="header">
+    <Header
+      links={[
+        { text: 'Home', href: '#' },
+        { text: 'About', href: '#about' },
+        { text: 'Amenities', href: '#amenities' },
+        { text: 'Membership', href: '#membership' },
+        { text: 'Events', href: '#events' },
+        { text: 'Gallery', href: '#gallery' },
+        { text: 'Contact', href: '#contact' },
+      ]}
+      actions={[
+        {
+          text: 'Join Now',
+          href: '#membership',
+          variant: 'primary',
+        },
+      ]}
+      isSticky
+      showToggleTheme
+    />
+  </Fragment>
+
+  <!-- Hero Widget ******************* -->
+
+  <Hero
+    id="hero"
+    title="Paradise Cove Beach Club"
+    tagline="Exclusive Beachfront Membership"
+    actions={[
+      { variant: 'primary', text: 'Become a Member', href: '#membership' },
+      { text: 'Take a Tour', href: '#about' },
+    ]}
+  >
+    <Fragment slot="subtitle">
+      Escape to your own slice of paradise where crystal-clear waters meet pristine white sands. Our exclusive beach club offers unparalleled luxury, world-class amenities, and the ultimate coastal lifestyle.
+      <br /><br />
+      <span class="text-sm font-medium">✓ Private Beach Access</span> •
+      <span class="text-sm font-medium">✓ Premium Amenities</span> •
+      <span class="text-sm font-medium">✓ Exclusive Events</span>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <img
+          class="w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&h=1080&q=80"
+          alt="Paradise Cove Beach Club pristine coastline"
+        />
+        <div class="absolute inset-0 bg-blue-900/40"></div>
+      </div>
+    </Fragment>
+  </Hero>
+
+  <!-- Content Widget **************** -->
+
+  <Content
+    id="about"
+    tagline="Welcome to Paradise"
+    title="Where Luxury Meets the Ocean"
+    items={[
+      {
+        title: 'Pristine Beach Access',
+        description: 'Enjoy exclusive access to our private stretch of immaculate coastline.',
+      },
+      {
+        title: 'World-Class Service',
+        description: 'Our dedicated staff ensures every visit exceeds your expectations.',
+      },
+      {
+        title: 'Premium Facilities',
+        description: 'State-of-the-art amenities designed for the ultimate beach experience.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      alt: 'Luxury beach club facilities',
+      loading: 'eager',
+    }}
+  >
+    <Fragment slot="content">
+      <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Your Private Oceanfront Escape
+      </h2>
+      <p>
+        Paradise Cove Beach Club represents the pinnacle of coastal luxury. Nestled along one of the most beautiful
+        stretches of coastline, our exclusive club offers members an unparalleled beach experience with world-class
+        amenities and personalized service.
+      </p>
+      <br />
+      <p>
+        Since 1985, we've been creating unforgettable memories for our distinguished members. From sunrise yoga sessions
+        to sunset cocktail parties, every moment at Paradise Cove is designed to rejuvenate your spirit and connect you
+        with the natural beauty of the ocean.
+      </p>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Features Widget *************** -->
+
+  <Features
+    id="amenities"
+    tagline="Club Amenities"
+    title="Luxury Amenities & Services"
+    subtitle="Everything you need for the perfect beach day and more"
+    items={[
+      {
+        title: 'Private Beach Access',
+        description: 'Exclusive access to our pristine private beach with complimentary beach chairs and umbrellas.',
+        icon: 'tabler:beach',
+      },
+      {
+        title: 'Oceanview Restaurant',
+        description: 'Fine dining with panoramic ocean views featuring fresh, locally-sourced cuisine.',
+        icon: 'tabler:chef-hat',
+      },
+      {
+        title: 'Infinity Pool',
+        description: 'Stunning infinity pool overlooking the ocean with poolside service available.',
+        icon: 'tabler:pool',
+      },
+      {
+        title: 'Spa & Wellness',
+        description: 'Full-service spa offering massages, treatments, and wellness programs.',
+        icon: 'tabler:flower',
+      },
+      {
+        title: 'Water Sports Center',
+        description: 'Complimentary kayaks, paddleboards, and snorkeling equipment for members.',
+        icon: 'tabler:sailboat',
+      },
+      {
+        title: 'Event Spaces',
+        description: 'Elegant venues for private events, celebrations, and corporate gatherings.',
+        icon: 'tabler:calendar-event',
+      },
+    ]}
+  />
+
+  <!-- Pricing Widget **************** -->
+
+  <Pricing
+    id="membership"
+    title="Membership Options"
+    subtitle="Choose the membership that fits your lifestyle"
+    prices={[
+      {
+        title: 'Social Membership',
+        subtitle: 'Perfect for occasional visits',
+        price: 150,
+        period: 'per month',
+        items: [
+          { description: 'Beach access on weekdays' },
+          { description: 'Pool and spa access' },
+          { description: '10% discount on dining' },
+          { description: 'Guest privileges (2 guests max)' },
+          { description: 'Monthly social events' },
+        ],
+        callToAction: {
+          target: '_blank',
+          text: 'Get started',
+          href: '#contact',
+        },
+      },
+      {
+        title: 'Full Membership',
+        subtitle: 'Complete access and privileges',
+        price: 300,
+        period: 'per month',
+        items: [
+          { description: 'Unlimited beach access 7 days/week' },
+          { description: 'Full amenities access' },
+          { description: '20% discount on dining & spa' },
+          { description: 'Guest privileges (4 guests max)' },
+          { description: 'Exclusive member events' },
+          { description: 'Complimentary water sports equipment' },
+          { description: 'Private cabana reservations' },
+        ],
+        callToAction: {
+          target: '_blank',
+          text: 'Get started',
+          href: '#contact',
+        },
+        hasRibbon: true,
+        ribbonTitle: 'popular',
+      },
+      {
+        title: 'Platinum Elite',
+        subtitle: 'Ultimate luxury experience',
+        price: 500,
+        period: 'per month',
+        items: [
+          { description: 'All Full Membership benefits' },
+          { description: 'Dedicated concierge service' },
+          { description: '30% discount on all services' },
+          { description: 'Unlimited guest privileges' },
+          { description: 'Premium cabana included' },
+          { description: 'Private chef service available' },
+          { description: 'Yacht club reciprocal privileges' },
+          { description: 'Valet parking included' },
+        ],
+        callToAction: {
+          target: '_blank',
+          text: 'Get started',
+          href: '#contact',
+        },
+      },
+    ]}
+  />
+
+  <!-- Features3 Widget ************** -->
+
+  <Features3
+    id="events"
+    title="Exclusive Member Events"
+    subtitle="Year-round celebrations and activities designed exclusively for our members"
+    columns={3}
+    items={[
+      {
+        title: 'Summer Concert Series',
+        description: 'Live music performances by renowned artists under the stars every Friday evening.',
+        icon: 'tabler:music',
+      },
+      {
+        title: 'Wine & Dine Events',
+        description: 'Monthly wine tastings and culinary experiences featuring world-class chefs.',
+        icon: 'tabler:glass',
+      },
+      {
+        title: 'Wellness Retreats',
+        description: 'Weekend wellness programs including yoga, meditation, and spa treatments.',
+        icon: 'tabler:yoga',
+      },
+      {
+        title: 'Beach Olympics',
+        description: 'Family-friendly competitions and games with prizes for all ages.',
+        icon: 'tabler:trophy',
+      },
+      {
+        title: 'Holiday Celebrations',
+        description: 'Special holiday parties and themed events throughout the year.',
+        icon: 'tabler:confetti',
+      },
+      {
+        title: 'Sunset Cruises',
+        description: 'Monthly sunset boat excursions with cocktails and hors d\'oeuvres.',
+        icon: 'tabler:sunset',
+      },
+    ]}
+  />
+
+  <!-- Steps Widget ****************** -->
+
+  <Steps
+    title="How to Join Paradise Cove"
+    items={[
+      {
+        title: 'Step 1: <span class="font-medium">Submit Application</span>',
+        description:
+          'Complete our membership application online or visit our club for a personal consultation.',
+        icon: 'tabler:clipboard',
+      },
+      {
+        title: 'Step 2: <span class="font-medium">Club Tour</span>',
+        description: 'Take a guided tour of our facilities and meet with our membership director.',
+        icon: 'tabler:walk',
+      },
+      {
+        title: 'Step 3: <span class="font-medium">Application Review</span>',
+        description: 'Our membership committee will review your application (typically 5-7 business days).',
+        icon: 'tabler:search',
+      },
+      {
+        title: 'Step 4: <span class="font-medium">Welcome to Paradise</span>',
+        description: 'Once approved, complete enrollment and start enjoying your membership benefits immediately.',
+        icon: 'tabler:beach',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      alt: 'Beach club membership process',
+    }}
+  />
+
+  <!-- Testimonials Widget *********** -->
+
+  <Testimonials
+    id="gallery"
+    title="What Our Members Say"
+    subtitle="Discover why Paradise Cove is more than a beach club - it's a lifestyle"
+    testimonials={[
+      {
+        testimonial: `Paradise Cove has become our family's second home. The staff treats us like royalty, and the facilities are absolutely pristine. Our kids love the junior lifeguard programs!`,
+        name: 'Jennifer & Mark Thompson',
+        job: 'Full Members since 2019',
+        image: {
+          src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+          alt: 'Thompson Family',
+        },
+      },
+      {
+        testimonial: `The level of service here is unmatched. From the moment you arrive until you leave, every detail is perfect. The sunset dinners on the terrace are absolutely magical.`,
+        name: 'Robert Chen',
+        job: 'Platinum Elite Member',
+        image: {
+          src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+          alt: 'Robert Chen',
+        },
+      },
+      {
+        testimonial: `As a busy executive, Paradise Cove is my sanctuary. The spa treatments are world-class, and the private cabanas provide the perfect escape from city life.`,
+        name: 'Amanda Rodriguez',
+        job: 'Full Member since 2021',
+        image: {
+          src: 'https://images.unsplash.com/photo-1619734086067-24bf8889ea7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+          alt: 'Amanda Rodriguez',
+        },
+      },
+    ]}
+  />
+
+  <!-- FAQs Widget ******************* -->
+
+  <FAQs
+    id="faq"
+    title="Frequently Asked Questions"
+    subtitle="Everything you need to know about Paradise Cove Beach Club membership"
+    tagline="FAQ"
+    classes={{ container: 'max-w-6xl' }}
+    items={[
+      {
+        title: 'What does membership include?',
+        description:
+          'Membership includes beach access, pool and spa facilities, dining privileges, guest access, and participation in member events. Specific benefits vary by membership level.',
+      },
+      {
+        title: 'Are there initiation fees?',
+        description:
+          'Yes, there is a one-time initiation fee: $500 for Social, $1,000 for Full, and $2,500 for Platinum Elite memberships. This fee covers membership processing and welcome amenities.',
+      },
+      {
+        title: 'Can I bring guests?',
+        description:
+          'All membership levels include guest privileges. Social members can bring 2 guests, Full members 4 guests, and Platinum Elite members have unlimited guest access.',
+      },
+      {
+        title: 'What are the operating hours?',
+        description:
+          'The club is open daily from 6:00 AM to 10:00 PM. Beach access is available 24/7 for Full and Platinum Elite members. Restaurant and spa hours may vary seasonally.',
+      },
+      {
+        title: 'Is there a dress code?',
+        description:
+          'We maintain a relaxed yet refined atmosphere. Beach casual attire is appropriate for most areas. Evening dining requires resort casual dress. Specific guidelines are provided to members.',
+      },
+      {
+        title: 'How do I make reservations?',
+        description:
+          'Members can make reservations through our mobile app, website, or by calling our concierge service. Cabana and restaurant reservations are recommended, especially during peak season.',
+      },
+    ]}
+  />
+
+  <!-- Contact Widget **************** -->
+
+  <Contact
+    id="contact"
+    title="Ready to Join Paradise Cove?"
+    subtitle="Start your membership application today and discover the ultimate beachfront lifestyle"
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Name',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email',
+      },
+      {
+        type: 'tel',
+        name: 'phone',
+        label: 'Phone',
+      },
+      {
+        type: 'text',
+        name: 'membership',
+        label: 'Preferred Membership Level',
+      },
+    ]}
+    textarea={{
+      label: 'Message',
+      placeholder: 'Tell us about your interest in Paradise Cove Beach Club membership...',
+    }}
+    description="Our membership team will contact you within 24 hours to schedule your personal tour."
+  />
+</Layout>
