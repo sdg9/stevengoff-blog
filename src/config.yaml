@@ -67,6 +67,9 @@ analytics:
   vendors:
     googleAnalytics:
       id: null # or "G-XXXXXXXXXX"
+    plausible:
+      domain: null # or "yourdomain.com"
+      src: null # or "https://plausible.io/js/script.js" or your custom plausible instance
 
 ui:
   theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

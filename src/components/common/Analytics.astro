@@ -11,3 +11,22 @@ import { ANALYTICS } from 'astrowind:config';
     />
   ) : null
 }
+
+{
+  ANALYTICS?.vendors?.plausible?.domain && ANALYTICS?.vendors?.plausible?.src ? (
+    <>
+      <script
+        defer
+        data-domain={ANALYTICS.vendors.plausible.domain}
+        src={ANALYTICS.vendors.plausible.src}
+      ></script>
+      <script>
+        window.plausible =
+          window.plausible ||
+          function () {
+            (window.plausible.q = window.plausible.q || []).push(arguments);
+          };
+      </script>
+    </>
+  ) : null
+}
