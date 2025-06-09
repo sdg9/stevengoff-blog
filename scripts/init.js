@@ -215,7 +215,158 @@ async function main() {
       }
     }
 
-    // 3. Select pages to keep
+    console.log(`✅ Configured analytics: ${plausibleConfig.domain || 'None'}\n`);
+
+    // 3. Color Palette Configuration
+    console.log('🎨 Color Palette Configuration');
+    
+    // Helper functions for color manipulation
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+    
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+      
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+      return { h: h * 360, s: s * 100, l: l * 100 };
+    }
+    
+    function hslToRgb(h, s, l) {
+      h /= 360; s /= 100; l /= 100;
+      const hue2rgb = (p, q, t) => {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1/6) return p + (q - p) * 6 * t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+      };
+      
+      if (s === 0) {
+        return { r: l * 255, g: l * 255, b: l * 255 };
+      }
+      
+      const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      const p = 2 * l - q;
+      return {
+        r: Math.round(hue2rgb(p, q, h + 1/3) * 255),
+        g: Math.round(hue2rgb(p, q, h) * 255),
+        b: Math.round(hue2rgb(p, q, h - 1/3) * 255)
+      };
+    }
+    
+    function adjustColorForDarkTheme(hex) {
+      const rgb = hexToRgb(hex);
+      if (!rgb) return hex;
+      
+      const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
+      // For dark theme: increase lightness if too dark, maintain saturation
+      if (hsl.l < 40) {
+        hsl.l = Math.min(hsl.l + 30, 70);
+      }
+      
+      const newRgb = hslToRgb(hsl.h, hsl.s, hsl.l);
+      return `#${Math.round(newRgb.r).toString(16).padStart(2, '0')}${Math.round(newRgb.g).toString(16).padStart(2, '0')}${Math.round(newRgb.b).toString(16).padStart(2, '0')}`;
+    }
+    
+    function parseColorsUrl(url) {
+      try {
+        const match = url.match(/coolors\.co\/(.+)$/);
+        if (!match) return null;
+        
+        const colors = match[1].split('-').map(c => `#${c}`);
+        if (colors.length < 3) return null;
+        
+        return colors;
+      } catch {
+        return null;
+      }
+    }
+    
+    const { useCustomColors } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'useCustomColors',
+        message: 'Do you want to customize your color palette?',
+        default: false
+      }
+    ]);
+    
+    let colorConfig = {
+      // Default colors
+      primary: '#0161ef',
+      secondary: '#0154cf',
+      accent: '#6d28d9',
+      lightBg: '#ffffff',
+      darkBg: '#030620',
+      lightText: '#101010',
+      darkText: '#e5ecf6',
+      lightTextMuted: 'rgb(16 16 16 / 66%)',
+      darkTextMuted: 'rgb(229 236 246 / 66%)'
+    };
+    
+    if (useCustomColors) {
+      console.log('\nYou can generate a color palette at https://coolors.co');
+      console.log('Example: https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51');
+      
+      const { colorInput } = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'colorInput',
+          message: 'Paste your Coolors.co URL or leave blank to use defaults:',
+          default: ''
+        }
+      ]);
+      
+      if (colorInput.trim()) {
+        const parsedColors = parseColorsUrl(colorInput.trim());
+        if (parsedColors && parsedColors.length >= 3) {
+          colorConfig.primary = parsedColors[0];
+          colorConfig.secondary = parsedColors[1];
+          colorConfig.accent = parsedColors[2];
+          
+          // Auto-generate dark theme variants
+          const primaryDark = adjustColorForDarkTheme(parsedColors[0]);
+          const secondaryDark = adjustColorForDarkTheme(parsedColors[1]);
+          const accentDark = adjustColorForDarkTheme(parsedColors[2]);
+          
+          console.log(`✅ Parsed ${parsedColors.length} colors from palette`);
+          console.log(`   Primary: ${colorConfig.primary} (dark: ${primaryDark})`);
+          console.log(`   Secondary: ${colorConfig.secondary} (dark: ${secondaryDark})`);
+          console.log(`   Accent: ${colorConfig.accent} (dark: ${accentDark})`);
+          
+          // Store dark variants for later use
+          colorConfig.primaryDark = primaryDark;
+          colorConfig.secondaryDark = secondaryDark;
+          colorConfig.accentDark = accentDark;
+        } else {
+          console.log('❌ Could not parse Coolors.co URL. Using default colors.');
+        }
+      }
+    }
+    
+    console.log(`✅ Color palette configured\n`);
+
+    // 4. Select pages to keep
     console.log('\n📄 Page Configuration');
     const availablePages = [
       { name: 'About', value: 'about' },
@@ -238,7 +389,7 @@ async function main() {
 
     console.log(`✅ Keeping pages: ${selectedPages.join(', ')}`);
 
-    // 4. Select home page template
+    // 5. Select home page template
     console.log('\n🏠 Home Page Template Selection');
     const homeTemplates = [
       { name: 'SaaS', value: 'saas' },
@@ -261,7 +412,7 @@ async function main() {
 
     console.log(`✅ Selected home template: ${selectedHome}`);
 
-    // 5. Apply configurations
+    // 6. Apply configurations
     console.log('\n⚙️ Applying configurations...');
 
     // Update config.yaml with site and analytics settings
@@ -297,7 +448,54 @@ async function main() {
         quotingType: '"',
       })
     );
-    console.log('✅ Updated analytics configuration');
+    console.log('✅ Updated site configuration and analytics');
+
+    // Update CustomStyles.astro with color palette
+    const customStylesPath = join(process.cwd(), 'src', 'components', 'CustomStyles.astro');
+    let customStylesContent = readFileSync(customStylesPath, 'utf8');
+    
+    // Helper function to convert hex to rgb format
+    function hexToRgbString(hex) {
+      const result = hexToRgb(hex);
+      return result ? `rgb(${result.r} ${result.g} ${result.b})` : hex;
+    }
+    
+    // Replace color values in the :root section
+    customStylesContent = customStylesContent.replace(
+      /--aw-color-primary: rgb\([^)]+\);/,
+      `--aw-color-primary: ${hexToRgbString(colorConfig.primary)};`
+    );
+    customStylesContent = customStylesContent.replace(
+      /--aw-color-secondary: rgb\([^)]+\);/,
+      `--aw-color-secondary: ${hexToRgbString(colorConfig.secondary)};`
+    );
+    customStylesContent = customStylesContent.replace(
+      /--aw-color-accent: rgb\([^)]+\);/,
+      `--aw-color-accent: ${hexToRgbString(colorConfig.accent)};`
+    );
+    
+    // Replace color values in the .dark section
+    if (colorConfig.primaryDark) {
+      customStylesContent = customStylesContent.replace(
+        /(\.dark\s*{[\s\S]*?--aw-color-primary: )rgb\([^)]+\)(;[\s\S]*?})/,
+        `$1${hexToRgbString(colorConfig.primaryDark)}$2`
+      );
+    }
+    if (colorConfig.secondaryDark) {
+      customStylesContent = customStylesContent.replace(
+        /(\.dark\s*{[\s\S]*?--aw-color-secondary: )rgb\([^)]+\)(;[\s\S]*?})/,
+        `$1${hexToRgbString(colorConfig.secondaryDark)}$2`
+      );
+    }
+    if (colorConfig.accentDark) {
+      customStylesContent = customStylesContent.replace(
+        /(\.dark\s*{[\s\S]*?--aw-color-accent: )rgb\([^)]+\)(;[\s\S]*?})/,
+        `$1${hexToRgbString(colorConfig.accentDark)}$2`
+      );
+    }
+    
+    writeFileSync(customStylesPath, customStylesContent);
+    console.log('✅ Updated color palette in CustomStyles.astro');
 
     // Remove unwanted pages
     const pagesDir = join(process.cwd(), 'src', 'pages');
@@ -450,8 +648,12 @@ ${flattenedLinks.join(',\n')}
 
     console.log('\n🎉 Setup complete!');
     console.log('\nYour Astro project has been configured with:');
+    console.log(`🌐 Site: ${siteConfig.name} (${siteConfig.site})`);
     if (plausibleConfig.domain) {
       console.log(`📊 Plausible Analytics: ${plausibleConfig.domain}`);
+    }
+    if (colorConfig.primary !== '#0161ef') {
+      console.log(`🎨 Custom Color Palette: Primary ${colorConfig.primary}, Secondary ${colorConfig.secondary}, Accent ${colorConfig.accent}`);
     }
     console.log(`📄 Pages: ${selectedPages.join(', ')}`);
     console.log(`🏠 Home template: ${selectedHome}`);
