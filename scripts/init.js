@@ -315,8 +315,7 @@ async function main() {
     const newHeaderData = `export const headerData = {
   links: [
 ${flattenedLinks.join(',\n')}
-  ],
-  actions: [{ text: 'Download', href: 'https://github.com/onwidget/astrowind', target: '_blank' }],
+  ]
 };`;
 
     // Replace the headerData export
