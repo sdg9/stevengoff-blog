@@ -38,7 +38,7 @@ async function main() {
   try {
     // 1. Git Initialization
     console.log('🔄 Initializing Git Repository');
-    
+
     // Check if we're in a git repo and if .git exists
     let gitExists = false;
     try {
@@ -46,7 +46,7 @@ async function main() {
     } catch {
       // .git directory doesn't exist, which is fine
     }
-    
+
     if (gitExists) {
       console.log('Removing existing git history...');
       deleteRecursively(join(process.cwd(), '.git'));
@@ -75,13 +75,13 @@ async function main() {
         type: 'confirm',
         name: 'usePlausible',
         message: 'Do you want to use Plausible Analytics?',
-        default: false
-      }
+        default: false,
+      },
     ]);
-    
+
     let plausibleConfig = {
       domain: null,
-      src: null
+      src: null,
     };
 
     if (usePlausible) {
@@ -98,8 +98,8 @@ async function main() {
               return 'Please provide a valid domain (e.g., example.com)';
             }
             return true;
-          }
-        }
+          },
+        },
       ]);
 
       // Ask for optional measurements
@@ -115,27 +115,27 @@ async function main() {
             { name: 'Hashed page paths', value: 'hash', checked: true },
             { name: 'Custom events', value: 'tagged-events', checked: false },
             { name: 'Custom properties', value: 'pageview-props', checked: false },
-            { name: 'Ecommerce revenue', value: 'revenue', checked: false }
-          ]
-        }
+            { name: 'Ecommerce revenue', value: 'revenue', checked: false },
+          ],
+        },
       ]);
 
       // Build the script src based on selected measurements
       const baseUrl = 'https://analytics.webtownhero.com/js/script';
       let scriptExtensions = [];
-      
+
       // Map measurement values to script extensions
       const extensionMap = {
         'outbound-links': 'outbound-links',
         'file-downloads': 'file-downloads',
         '404-errors': null, // This adds the window.plausible script instead
-        'hash': 'hash',
+        hash: 'hash',
         'tagged-events': 'tagged-events',
         'pageview-props': 'pageview-props',
-        'revenue': 'revenue'
+        revenue: 'revenue',
       };
 
-      measurements.forEach(measurement => {
+      measurements.forEach((measurement) => {
         const extension = extensionMap[measurement];
         if (extension) {
           scriptExtensions.push(extension);
@@ -171,7 +171,7 @@ async function main() {
       { name: 'Pricing', value: 'pricing' },
       { name: 'Services', value: 'services' },
       { name: 'Terms', value: 'terms' },
-      { name: 'Privacy', value: 'privacy' }
+      { name: 'Privacy', value: 'privacy' },
     ];
 
     const { selectedPages } = await inquirer.prompt([
@@ -180,10 +180,10 @@ async function main() {
         name: 'selectedPages',
         message: 'Which pages do you want to keep?',
         choices: availablePages,
-        default: ['about', 'contact']
-      }
+        default: ['about', 'contact'],
+      },
     ]);
-    
+
     console.log(`✅ Keeping pages: ${selectedPages.join(', ')}`);
 
     // 3. Select home page template
@@ -194,7 +194,7 @@ async function main() {
       { name: 'Mobile App', value: 'mobile-app' },
       { name: 'Personal', value: 'personal' },
       { name: 'Counseling', value: 'counseling' },
-      { name: 'Beach Club', value: 'beach' }
+      { name: 'Beach Club', value: 'beach' },
     ];
 
     const { selectedHome } = await inquirer.prompt([
@@ -203,10 +203,10 @@ async function main() {
         name: 'selectedHome',
         message: 'Which home page template do you want to use?',
         choices: homeTemplates,
-        default: 'saas'
-      }
+        default: 'saas',
+      },
     ]);
-    
+
     console.log(`✅ Selected home template: ${selectedHome}`);
 
     // 4. Apply configurations
@@ -216,14 +216,17 @@ async function main() {
     const configPath = join(process.cwd(), 'src', 'config.yaml');
     const configContent = readFileSync(configPath, 'utf8');
     const config = yaml.load(configContent);
-    
+
     config.analytics.vendors.plausible = plausibleConfig;
-    
-    writeFileSync(configPath, yaml.dump(config, { 
-      lineWidth: -1,
-      noRefs: true,
-      quotingType: '"'
-    }));
+
+    writeFileSync(
+      configPath,
+      yaml.dump(config, {
+        lineWidth: -1,
+        noRefs: true,
+        quotingType: '"',
+      })
+    );
     console.log('✅ Updated analytics configuration');
 
     // Remove unwanted pages
@@ -234,9 +237,9 @@ async function main() {
       { file: 'pricing.astro', key: 'pricing' },
       { file: 'services.astro', key: 'services' },
       { file: 'terms.md', key: 'terms' },
-      { file: 'privacy.md', key: 'privacy' }
+      { file: 'privacy.md', key: 'privacy' },
     ];
-    
+
     allPages.forEach(({ file, key }) => {
       if (!selectedPages.includes(key)) {
         const pagePath = join(pagesDir, file);
@@ -252,7 +255,7 @@ async function main() {
     // Replace index.astro with selected home template
     const selectedHomePath = join(pagesDir, 'homes', `${selectedHome}.astro`);
     const indexPath = join(pagesDir, 'index.astro');
-    
+
     try {
       if (statSync(selectedHomePath).isFile()) {
         const homeContent = readFileSync(selectedHomePath, 'utf8');
@@ -268,10 +271,10 @@ async function main() {
       join(pagesDir, 'homes'),
       join(pagesDir, '[...blog]'),
       join(pagesDir, 'landing'),
-      join(process.cwd(), 'src', 'components', 'blog')
+      join(process.cwd(), 'src', 'components', 'blog'),
     ];
-    
-    dirsToRemove.forEach(dir => {
+
+    dirsToRemove.forEach((dir) => {
       deleteRecursively(dir);
       console.log(`✅ Removed ${dir.split('/').pop()} directory`);
     });
@@ -279,33 +282,33 @@ async function main() {
     // Update navigation.ts to create flattened navigation
     const navigationPath = join(process.cwd(), 'src', 'navigation.ts');
     let navigationContent = readFileSync(navigationPath, 'utf8');
-    
+
     // Build flattened navigation links with only selected pages
     const pageConfigs = {
-      'about': { text: 'About', href: "getPermalink('/about')" },
-      'contact': { text: 'Contact', href: "getPermalink('/contact')" },
-      'pricing': { text: 'Pricing', href: "getPermalink('/pricing')" },
-      'services': { text: 'Services', href: "getPermalink('/services')" },
-      'terms': { text: 'Terms', href: "getPermalink('/terms')" },
-      'privacy': { text: 'Privacy', href: "getPermalink('/privacy')" }
+      about: { text: 'About', href: "getPermalink('/about')" },
+      contact: { text: 'Contact', href: "getPermalink('/contact')" },
+      pricing: { text: 'Pricing', href: "getPermalink('/pricing')" },
+      services: { text: 'Services', href: "getPermalink('/services')" },
+      terms: { text: 'Terms', href: "getPermalink('/terms')" },
+      privacy: { text: 'Privacy', href: "getPermalink('/privacy')" },
     };
-    
+
     // Start with Home as first item
     let flattenedLinks = [
       `    {
       text: 'Home',
       href: getPermalink('/'),
-    }`
+    }`,
     ];
-    
+
     // Add Features as second item
     flattenedLinks.push(`    {
       text: 'Features',
       href: getPermalink('/#features'),
     }`);
-    
+
     // Add selected pages
-    selectedPages.forEach(page => {
+    selectedPages.forEach((page) => {
       if (pageConfigs[page]) {
         flattenedLinks.push(`    {
       text: '${pageConfigs[page].text}',
@@ -313,7 +316,7 @@ async function main() {
     }`);
       }
     });
-    
+
     // Replace the entire headerData structure with flattened version
     const newHeaderData = `export const headerData = {
   links: [
@@ -321,22 +324,16 @@ ${flattenedLinks.join(',\n')}
   ],
   actions: [{ text: 'Download', href: 'https://github.com/onwidget/astrowind', target: '_blank' }],
 };`;
-  ],
-  actions: [{ text: 'Download', href: 'https://github.com/onwidget/astrowind', target: '_blank' }],
-};`;
-    
+
     // Replace the headerData export
-    navigationContent = navigationContent.replace(
-      /export const headerData = {[\s\S]*?};/,
-      newHeaderData
-    );
-    
+    navigationContent = navigationContent.replace(/export const headerData = {[\s\S]*?};/, newHeaderData);
+
     writeFileSync(navigationPath, navigationContent);
     console.log('✅ Updated navigation configuration');
 
     // Update footer secondaryLinks to only include selected pages
     navigationContent = readFileSync(navigationPath, 'utf8');
-    
+
     // Build footer secondary links based on selected pages
     let footerSecondaryLinks = [];
     if (selectedPages.includes('terms')) {
@@ -345,42 +342,44 @@ ${flattenedLinks.join(',\n')}
     if (selectedPages.includes('privacy')) {
       footerSecondaryLinks.push("{ text: 'Privacy Policy', href: getPermalink('/privacy') }");
     }
-    
+
     // Update the secondaryLinks in footerData
     if (footerSecondaryLinks.length > 0) {
       const newSecondaryLinks = `  secondaryLinks: [
     ${footerSecondaryLinks.join(',\n    ')}
   ],`;
-      
-      navigationContent = navigationContent.replace(
-        /secondaryLinks:\s*\[[\s\S]*?\],/,
-        newSecondaryLinks
-      );
+
+      navigationContent = navigationContent.replace(/secondaryLinks:\s*\[[\s\S]*?\],/, newSecondaryLinks);
     } else {
       // Remove secondaryLinks entirely if no terms/privacy pages
-      navigationContent = navigationContent.replace(
-        /secondaryLinks:\s*\[[\s\S]*?\],\s*/,
-        ''
-      );
+      navigationContent = navigationContent.replace(/secondaryLinks:\s*\[[\s\S]*?\],\s*/, '');
     }
-    
+
     writeFileSync(navigationPath, navigationContent);
     console.log('✅ Updated footer navigation configuration');
 
     // Disable blog in config if blog was removed
     config.apps.blog.isEnabled = false;
-    writeFileSync(configPath, yaml.dump(config, { 
-      lineWidth: -1,
-      noRefs: true,
-      quotingType: '"'
-    }));
+    writeFileSync(
+      configPath,
+      yaml.dump(config, {
+        lineWidth: -1,
+        noRefs: true,
+        quotingType: '"',
+      })
+    );
     console.log('✅ Disabled blog configuration');
 
     // Create final commit with user configurations
     console.log('\n💾 Committing your customizations...');
     if (!runGitCommand('git add .', '📁 Adding configuration changes')) {
       console.log('⚠️ Warning: Could not add changes to git');
-    } else if (!runGitCommand(`git commit -m "feat: Configure project - Analytics: ${plausibleConfig.domain || 'none'}, Pages: ${selectedPages.join(',')}, Home: ${selectedHome}"`, '💾 Creating configuration commit')) {
+    } else if (
+      !runGitCommand(
+        `git commit -m "feat: Configure project - Analytics: ${plausibleConfig.domain || 'none'}, Pages: ${selectedPages.join(',')}, Home: ${selectedHome}"`,
+        '💾 Creating configuration commit'
+      )
+    ) {
       console.log('⚠️ Warning: Could not create configuration commit');
     } else {
       console.log('✅ Configuration changes committed to git');
@@ -393,12 +392,11 @@ ${flattenedLinks.join(',\n')}
     }
     console.log(`📄 Pages: ${selectedPages.join(', ')}`);
     console.log(`🏠 Home template: ${selectedHome}`);
-    
+
     console.log('\nNext steps:');
     console.log('1. Run `pnpm install` to install dependencies');
     console.log('2. Run `pnpm dev` to start the development server');
     console.log('3. Customize your content and styling as needed');
-
   } catch (error) {
     console.error('❌ An error occurred during setup:', error.message);
     process.exit(1);
