@@ -27,7 +27,7 @@ export const headerData = {
         },
         {
           text: 'Beach Club',
-          href: getPermalink('/beach'),
+          href: getPermalink('/homes/beach'),
         },
       ],
     },
