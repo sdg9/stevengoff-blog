@@ -257,58 +257,90 @@ async function main() {
     const navigationPath = join(process.cwd(), 'src', 'navigation.ts');
     let navigationContent = readFileSync(navigationPath, 'utf8');
     
-    // Remove the Homes dropdown section
-    navigationContent = navigationContent.replace(
-      /{\s*text:\s*['"]Homes['"],\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
-      ''
-    );
+    // Build the new Pages links array with only selected pages
+    const pageConfigs = {
+      'about': { text: 'About us', href: "getPermalink('/about')" },
+      'contact': { text: 'Contact', href: "getPermalink('/contact')" },
+      'pricing': { text: 'Pricing', href: "getPermalink('/pricing')" },
+      'services': { text: 'Services', href: "getPermalink('/services')" },
+      'terms': { text: 'Terms', href: "getPermalink('/terms')" },
+      'privacy': { text: 'Privacy policy', href: "getPermalink('/privacy')" }
+    };
     
-    // Remove the Landing dropdown section
-    navigationContent = navigationContent.replace(
-      /{\s*text:\s*['"]Landing['"],\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
-      ''
-    );
+    // Always include Features anchor link
+    let newPagesLinks = [
+      `        {
+          text: 'Features (Anchor Link)',
+          href: getPermalink('/#features'),
+        }`
+    ];
     
-    // Remove the Blog dropdown section
-    navigationContent = navigationContent.replace(
-      /{\s*text:\s*['"]Blog['"],\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
-      ''
-    );
-
-    // Remove the Widgets link
-    navigationContent = navigationContent.replace(
-      /{\s*text:\s*['"]Widgets['"],\s*href:\s*['"][^'"]*['"],?\s*},?\s*/,
-      ''
-    );
-    
-    // Remove unused page links from Pages section based on selected pages
-    const pagesToRemove = availablePages.map(p => p.value).filter(page => !selectedPages.includes(page));
-    pagesToRemove.forEach(page => {
-      const pageNames = {
-        'about': 'About us',
-        'contact': 'Contact',
-        'pricing': 'Pricing',
-        'services': 'Services',
-        'terms': 'Terms',
-        'privacy': 'Privacy policy'
-      };
-      
-      const pageName = pageNames[page] || page.charAt(0).toUpperCase() + page.slice(1);
-      const patterns = [
-        new RegExp(`\\s*{\\s*text:\\s*['"]${pageName}['"],\\s*href:[^}]*},?\\s*`, 'g'),
-        new RegExp(`\\s*{\\s*text:\\s*['"]${pageName}[^'"]*['"][^}]*},?\\s*`, 'g')
-      ];
-      
-      patterns.forEach(pattern => {
-        navigationContent = navigationContent.replace(pattern, '');
-      });
+    // Add selected pages
+    selectedPages.forEach(page => {
+      if (pageConfigs[page]) {
+        newPagesLinks.push(`        {
+          text: '${pageConfigs[page].text}',
+          href: ${pageConfigs[page].href},
+        }`);
+      }
     });
     
-    // Clean up any trailing commas in the links array
-    navigationContent = navigationContent.replace(/,(\s*\])/g, '$1');
+    const newPagesSection = `    {
+      text: 'Pages',
+      links: [
+${newPagesLinks.join(',\n')}
+      ],
+    }`;
+    
+    // Replace the entire headerData structure with cleaned up version
+    const newHeaderData = `export const headerData = {
+  links: [
+${newPagesSection},
+  ],
+  actions: [{ text: 'Download', href: 'https://github.com/onwidget/astrowind', target: '_blank' }],
+};`;
+    
+    // Replace the headerData export
+    navigationContent = navigationContent.replace(
+      /export const headerData = {[\s\S]*?};/,
+      newHeaderData
+    );
     
     writeFileSync(navigationPath, navigationContent);
     console.log('✅ Updated navigation configuration');
+
+    // Update footer secondaryLinks to only include selected pages
+    navigationContent = readFileSync(navigationPath, 'utf8');
+    
+    // Build footer secondary links based on selected pages
+    let footerSecondaryLinks = [];
+    if (selectedPages.includes('terms')) {
+      footerSecondaryLinks.push("{ text: 'Terms', href: getPermalink('/terms') }");
+    }
+    if (selectedPages.includes('privacy')) {
+      footerSecondaryLinks.push("{ text: 'Privacy Policy', href: getPermalink('/privacy') }");
+    }
+    
+    // Update the secondaryLinks in footerData
+    if (footerSecondaryLinks.length > 0) {
+      const newSecondaryLinks = `  secondaryLinks: [
+    ${footerSecondaryLinks.join(',\n    ')}
+  ],`;
+      
+      navigationContent = navigationContent.replace(
+        /secondaryLinks:\s*\[[\s\S]*?\],/,
+        newSecondaryLinks
+      );
+    } else {
+      // Remove secondaryLinks entirely if no terms/privacy pages
+      navigationContent = navigationContent.replace(
+        /secondaryLinks:\s*\[[\s\S]*?\],\s*/,
+        ''
+      );
+    }
+    
+    writeFileSync(navigationPath, navigationContent);
+    console.log('✅ Updated footer navigation configuration');
 
     // Disable blog in config if blog was removed
     config.apps.blog.isEnabled = false;
