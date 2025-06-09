@@ -85,58 +85,81 @@ async function main() {
     };
 
     if (usePlausible) {
-      console.log('\nPlease provide your Plausible analytics snippet.');
-      console.log('Example:');
-      console.log('<script defer data-domain="example.com" src="https://analytics.webtownhero.com/js/script.hash.outbound-links.js"></script>');
-      console.log('<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>');
-      console.log('\nThis can be single or multi-line.');
-      
-      const { snippet } = await inquirer.prompt([
+      // Ask for domain
+      const { domain } = await inquirer.prompt([
         {
-          type: 'editor',
-          name: 'snippet',
-          message: 'Paste your Plausible script tag(s) (opens editor):',
-          default: '<!-- Paste your Plausible script tags here -->',
+          type: 'input',
+          name: 'domain',
+          message: 'Enter your Plausible domain (e.g., bluerainlily.com):',
           validate: (input) => {
-            if (!input.trim() || input.includes('<!-- Paste your Plausible script tags here -->')) {
-              return 'Please provide a script tag';
-            }
-            if (!input.includes('data-domain') || !input.includes('src=')) {
-              return 'Please provide a valid Plausible script tag with data-domain and src attributes';
+            if (!input.trim()) return 'Please provide a domain';
+            // Basic domain validation
+            if (!/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(input.trim())) {
+              return 'Please provide a valid domain (e.g., example.com)';
             }
             return true;
           }
         }
-      ]).catch(async () => {
-        // Fallback to input if editor fails
-        console.log('Editor not available, falling back to text input...');
-        return await inquirer.prompt([
-          {
-            type: 'input',
-            name: 'snippet',
-            message: 'Paste your Plausible script tag (single line):',
-            validate: (input) => {
-              if (!input.trim()) return 'Please provide a script tag';
-              if (!input.includes('data-domain') || !input.includes('src=')) {
-                return 'Please provide a valid Plausible script tag with data-domain and src attributes';
-              }
-              return true;
-            }
-          }
-        ]);
+      ]);
+
+      // Ask for optional measurements
+      const { measurements } = await inquirer.prompt([
+        {
+          type: 'checkbox',
+          name: 'measurements',
+          message: 'Select optional measurements to track:',
+          choices: [
+            { name: 'Outbound links', value: 'outbound-links', checked: true },
+            { name: 'File downloads', value: 'file-downloads', checked: false },
+            { name: '404 error pages', value: '404-errors', checked: true },
+            { name: 'Hashed page paths', value: 'hash', checked: true },
+            { name: 'Custom events', value: 'tagged-events', checked: false },
+            { name: 'Custom properties', value: 'pageview-props', checked: false },
+            { name: 'Ecommerce revenue', value: 'revenue', checked: false }
+          ]
+        }
+      ]);
+
+      // Build the script src based on selected measurements
+      const baseUrl = 'https://analytics.webtownhero.com/js/script';
+      let scriptExtensions = [];
+      
+      // Map measurement values to script extensions
+      const extensionMap = {
+        'outbound-links': 'outbound-links',
+        'file-downloads': 'file-downloads',
+        '404-errors': null, // This adds the window.plausible script instead
+        'hash': 'hash',
+        'tagged-events': 'tagged-events',
+        'pageview-props': 'pageview-props',
+        'revenue': 'revenue'
+      };
+
+      measurements.forEach(measurement => {
+        const extension = extensionMap[measurement];
+        if (extension) {
+          scriptExtensions.push(extension);
+        }
       });
-      
-      // Extract domain and src from the snippet (handle multi-line)
-      // Use dotall flag (s) to make . match newlines
-      const domainMatch = snippet.match(/data-domain="([^"]+)"/s);
-      const srcMatch = snippet.match(/src="([^"]+)"/s);
-      
-      if (domainMatch && srcMatch) {
-        plausibleConfig.domain = domainMatch[1];
-        plausibleConfig.src = srcMatch[1];
-        console.log(`✅ Configured Plausible for domain: ${plausibleConfig.domain}`);
+
+      // Build the script URL
+      let scriptSrc = baseUrl;
+      if (scriptExtensions.length > 0) {
+        scriptSrc += '.' + scriptExtensions.join('.') + '.js';
       } else {
-        console.log('❌ Could not parse the script tag. Skipping Plausible configuration.');
+        scriptSrc += '.js';
+      }
+
+      plausibleConfig.domain = domain.trim();
+      plausibleConfig.src = scriptSrc;
+
+      // Check if 404 error pages tracking is enabled (requires window.plausible)
+      plausibleConfig.needs404Script = measurements.includes('404-errors');
+
+      console.log(`✅ Configured Plausible for domain: ${plausibleConfig.domain}`);
+      console.log(`📊 Script URL: ${plausibleConfig.src}`);
+      if (plausibleConfig.needs404Script) {
+        console.log(`📊 Including 404 error tracking script`);
       }
     }
 

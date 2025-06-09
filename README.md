@@ -27,7 +27,7 @@
 The initialization script will:
 
 1. **Git Setup**: Remove existing git history and create a fresh repository with an initial commit
-2. **Analytics Setup**: Configure Plausible Analytics with your custom snippet (supports multi-line scripts)  
+2. **Analytics Setup**: Configure Plausible Analytics with domain and optional tracking features  
 3. **Page Selection**: Choose which pages to keep using an interactive checklist
 4. **Home Template**: Select from available home page templates using a dropdown menu
 5. **Final Commit**: Create a second commit with all your customizations

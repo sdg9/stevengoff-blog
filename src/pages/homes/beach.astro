@@ -1,5 +1,5 @@
 ---
-import Layout from '~/layouts/PageLayout.astro';
+import PageLayout from '~/layouts/PageLayout.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Content from '~/components/widgets/Content.astro';
 import Features from '~/components/widgets/Features.astro';
@@ -19,9 +19,10 @@ const metadata = {
 };
 ---
 
-<Layout metadata={metadata}>
+<PageLayout metadata={metadata}>
+  <!-- Can override -->
   <Fragment slot="announcement"></Fragment>
-  <Fragment slot="header">
+  <!-- <Fragment slot="header">
     <Header
       links={[
         { text: 'Home', href: '#' },
@@ -42,7 +43,7 @@ const metadata = {
       isSticky
       showToggleTheme
     />
-  </Fragment>
+  </Fragment> -->
 
   <!-- Hero Widget ******************* -->
 
@@ -420,4 +421,4 @@ const metadata = {
     }}
     description="Our membership team will contact you within 24 hours to schedule your personal tour."
   />
-</Layout>
+</PageLayout>
