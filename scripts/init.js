@@ -276,49 +276,51 @@ async function main() {
       console.log(`✅ Removed ${dir.split('/').pop()} directory`);
     });
 
-    // Update navigation.ts to remove unused links
+    // Update navigation.ts to create flattened navigation
     const navigationPath = join(process.cwd(), 'src', 'navigation.ts');
     let navigationContent = readFileSync(navigationPath, 'utf8');
     
-    // Build the new Pages links array with only selected pages
+    // Build flattened navigation links with only selected pages
     const pageConfigs = {
-      'about': { text: 'About us', href: "getPermalink('/about')" },
+      'about': { text: 'About', href: "getPermalink('/about')" },
       'contact': { text: 'Contact', href: "getPermalink('/contact')" },
       'pricing': { text: 'Pricing', href: "getPermalink('/pricing')" },
       'services': { text: 'Services', href: "getPermalink('/services')" },
       'terms': { text: 'Terms', href: "getPermalink('/terms')" },
-      'privacy': { text: 'Privacy policy', href: "getPermalink('/privacy')" }
+      'privacy': { text: 'Privacy', href: "getPermalink('/privacy')" }
     };
     
-    // Always include Features anchor link
-    let newPagesLinks = [
-      `        {
-          text: 'Features (Anchor Link)',
-          href: getPermalink('/#features'),
-        }`
+    // Start with Home as first item
+    let flattenedLinks = [
+      `    {
+      text: 'Home',
+      href: getPermalink('/'),
+    }`
     ];
+    
+    // Add Features as second item
+    flattenedLinks.push(`    {
+      text: 'Features',
+      href: getPermalink('/#features'),
+    }`);
     
     // Add selected pages
     selectedPages.forEach(page => {
       if (pageConfigs[page]) {
-        newPagesLinks.push(`        {
-          text: '${pageConfigs[page].text}',
-          href: ${pageConfigs[page].href},
-        }`);
+        flattenedLinks.push(`    {
+      text: '${pageConfigs[page].text}',
+      href: ${pageConfigs[page].href},
+    }`);
       }
     });
     
-    const newPagesSection = `    {
-      text: 'Pages',
-      links: [
-${newPagesLinks.join(',\n')}
-      ],
-    }`;
-    
-    // Replace the entire headerData structure with cleaned up version
+    // Replace the entire headerData structure with flattened version
     const newHeaderData = `export const headerData = {
   links: [
-${newPagesSection},
+${flattenedLinks.join(',\n')}
+  ],
+  actions: [{ text: 'Download', href: 'https://github.com/onwidget/astrowind', target: '_blank' }],
+};`;
   ],
   actions: [{ text: 'Download', href: 'https://github.com/onwidget/astrowind', target: '_blank' }],
 };`;
