@@ -4,23 +4,34 @@
 
 ## Quick Start
 
-1. Create a new project using this template:
+1. Create a new project using this template, since it's now private
+New way
+
+    ```bash
+    git clone https://github.com/Web-Town-Hero/astrowind-fork my-project-name
+    ```
+
+Old way
+
    ```bash
    pnpm create astro@latest my-project-name -- --template Web-Town-Hero/astrowind
    ```
 
 2. Navigate to your project and run the initialization script:
+
    ```bash
    cd my-project-name
    pnpm run init
    ```
 
 The initialization script will walk you through:
+
 - **Analytics Setup**: Configure Plausible Analytics with your custom snippet
 - **Page Selection**: Choose which pages to keep (about, contact, pricing, services, terms, privacy)
 - **Home Template**: Select from available home page templates (SaaS, Startup, Mobile App, Personal, Counseling, Beach Club)
 
 The script will automatically:
+
 - Update your analytics configuration
 - Remove unused pages and navigation links
 - Replace the home page with your selected template

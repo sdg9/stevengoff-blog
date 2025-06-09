@@ -3,11 +3,24 @@
 import { readFileSync, writeFileSync, unlinkSync, statSync, rmSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { execSync } from 'child_process';
 import inquirer from 'inquirer';
 import yaml from 'js-yaml';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+// Helper function to run git commands
+function runGitCommand(command, description = '') {
+  try {
+    console.log(description ? `${description}...` : `Running: ${command}`);
+    execSync(command, { cwd: process.cwd(), stdio: 'pipe' });
+    return true;
+  } catch (error) {
+    console.log(`❌ Failed to ${description || 'run git command'}: ${error.message}`);
+    return false;
+  }
+}
 
 // Helper function to delete files and directories recursively
 function deleteRecursively(path) {
@@ -23,6 +36,38 @@ async function main() {
   console.log('This script will help you configure your new Astro project.\n');
 
   try {
+    // 1. Git Initialization
+    console.log('🔄 Initializing Git Repository');
+    
+    // Check if we're in a git repo and if .git exists
+    let gitExists = false;
+    try {
+      gitExists = statSync(join(process.cwd(), '.git')).isDirectory();
+    } catch {
+      // .git directory doesn't exist, which is fine
+    }
+    
+    if (gitExists) {
+      console.log('Removing existing git history...');
+      deleteRecursively(join(process.cwd(), '.git'));
+    }
+
+    // Initialize new git repo
+    if (!runGitCommand('git init', '📦 Initializing new git repository')) {
+      throw new Error('Failed to initialize git repository');
+    }
+
+    // Add all files for initial commit
+    if (!runGitCommand('git add .', '📁 Adding all files to git')) {
+      throw new Error('Failed to add files to git');
+    }
+
+    // Create initial commit
+    if (!runGitCommand('git commit -m "Initial commit: AstroWind template"', '💾 Creating initial commit')) {
+      throw new Error('Failed to create initial commit');
+    }
+
+    console.log('✅ Git repository initialized with initial commit\n');
     // 1. Configure Plausible Analytics
     console.log('📊 Analytics Configuration');
     const { usePlausible } = await inquirer.prompt([
@@ -249,6 +294,16 @@ async function main() {
       quotingType: '"'
     }));
     console.log('✅ Disabled blog configuration');
+
+    // Create final commit with user configurations
+    console.log('\n💾 Committing your customizations...');
+    if (!runGitCommand('git add .', '📁 Adding configuration changes')) {
+      console.log('⚠️ Warning: Could not add changes to git');
+    } else if (!runGitCommand(`git commit -m "feat: Configure project - Analytics: ${plausibleConfig.domain || 'none'}, Pages: ${selectedPages.join(',')}, Home: ${selectedHome}"`, '💾 Creating configuration commit')) {
+      console.log('⚠️ Warning: Could not create configuration commit');
+    } else {
+      console.log('✅ Configuration changes committed to git');
+    }
 
     console.log('\n🎉 Setup complete!');
     console.log('\nYour Astro project has been configured with:');
