@@ -301,12 +301,6 @@ async function main() {
     }`,
     ];
 
-    // Add Features as second item
-    flattenedLinks.push(`    {
-      text: 'Features',
-      href: getPermalink('/#features'),
-    }`);
-
     // Add selected pages
     selectedPages.forEach((page) => {
       if (pageConfigs[page]) {
