@@ -290,14 +290,27 @@ async function main() {
     
     function parseColorsUrl(url) {
       try {
-        const match = url.match(/coolors\.co\/(.+)$/);
+        // Handle different Coolors URL formats
+        let match = url.match(/coolors\.co\/(.+)$/);
         if (!match) return null;
         
-        const colors = match[1].split('-').map(c => `#${c}`);
+        let colorsString = match[1];
+        
+        // Remove any path prefixes like 'palette/' or 'u/'
+        colorsString = colorsString.replace(/^(palette\/|u\/[^/]+\/)/, '');
+        
+        // Split colors and clean them
+        const colors = colorsString.split('-')
+          .map(c => c.replace(/[^a-fA-F0-9]/g, '')) // Remove non-hex characters
+          .filter(c => c.length === 6) // Only keep valid 6-character hex codes
+          .map(c => `#${c.toLowerCase()}`);
+        
         if (colors.length < 3) return null;
         
+        console.log(`Parsed colors: ${colors.join(', ')}`);
         return colors;
-      } catch {
+      } catch (error) {
+        console.log(`Error parsing URL: ${error.message}`);
         return null;
       }
     }
@@ -344,22 +357,41 @@ async function main() {
           colorConfig.secondary = parsedColors[1];
           colorConfig.accent = parsedColors[2];
           
-          // Auto-generate dark theme variants
-          const primaryDark = adjustColorForDarkTheme(parsedColors[0]);
-          const secondaryDark = adjustColorForDarkTheme(parsedColors[1]);
-          const accentDark = adjustColorForDarkTheme(parsedColors[2]);
-          
-          console.log(`✅ Parsed ${parsedColors.length} colors from palette`);
-          console.log(`   Primary: ${colorConfig.primary} (dark: ${primaryDark})`);
-          console.log(`   Secondary: ${colorConfig.secondary} (dark: ${secondaryDark})`);
-          console.log(`   Accent: ${colorConfig.accent} (dark: ${accentDark})`);
-          
-          // Store dark variants for later use
-          colorConfig.primaryDark = primaryDark;
-          colorConfig.secondaryDark = secondaryDark;
-          colorConfig.accentDark = accentDark;
+          // Validate hex colors
+          const isValidHex = (hex) => /^#[0-9a-fA-F]{6}$/.test(hex);
+          if (!isValidHex(colorConfig.primary) || !isValidHex(colorConfig.secondary) || !isValidHex(colorConfig.accent)) {
+            console.log('❌ Invalid hex colors detected. Using defaults.');
+            colorConfig = {
+              primary: '#0161ef',
+              secondary: '#0154cf',
+              accent: '#6d28d9',
+              lightBg: '#ffffff',
+              darkBg: '#030620',
+              lightText: '#101010',
+              darkText: '#e5ecf6',
+              lightTextMuted: 'rgb(16 16 16 / 66%)',
+              darkTextMuted: 'rgb(229 236 246 / 66%)'
+            };
+          } else {
+            // Auto-generate dark theme variants
+            const primaryDark = adjustColorForDarkTheme(parsedColors[0]);
+            const secondaryDark = adjustColorForDarkTheme(parsedColors[1]);
+            const accentDark = adjustColorForDarkTheme(parsedColors[2]);
+            
+            console.log(`✅ Parsed ${parsedColors.length} colors from palette`);
+            console.log(`   Primary: ${colorConfig.primary} (dark: ${primaryDark})`);
+            console.log(`   Secondary: ${colorConfig.secondary} (dark: ${secondaryDark})`);
+            console.log(`   Accent: ${colorConfig.accent} (dark: ${accentDark})`);
+            
+            // Store dark variants for later use
+            colorConfig.primaryDark = primaryDark;
+            colorConfig.secondaryDark = secondaryDark;
+            colorConfig.accentDark = accentDark;
+          }
         } else {
-          console.log('❌ Could not parse Coolors.co URL. Using default colors.');
+          console.log('❌ Could not parse Coolors.co URL. Please check the format.');
+          console.log('   Expected format: https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51');
+          console.log('   Using default colors.');
         }
       }
     }
@@ -457,40 +489,45 @@ async function main() {
     // Helper function to convert hex to rgb format
     function hexToRgbString(hex) {
       const result = hexToRgb(hex);
-      return result ? `rgb(${result.r} ${result.g} ${result.b})` : hex;
+      return result ? `rgb(${result.r} ${result.g} ${result.b})` : `rgb(1 97 239)`; // fallback
     }
     
-    // Replace color values in the :root section
+    // Replace color values in the :root section (light theme)
     customStylesContent = customStylesContent.replace(
-      /--aw-color-primary: rgb\([^)]+\);/,
-      `--aw-color-primary: ${hexToRgbString(colorConfig.primary)};`
+      /(--aw-color-primary:\s*)rgb\([^)]+\)(;)/,
+      `$1${hexToRgbString(colorConfig.primary)}$2`
     );
     customStylesContent = customStylesContent.replace(
-      /--aw-color-secondary: rgb\([^)]+\);/,
-      `--aw-color-secondary: ${hexToRgbString(colorConfig.secondary)};`
+      /(--aw-color-secondary:\s*)rgb\([^)]+\)(;)/,
+      `$1${hexToRgbString(colorConfig.secondary)}$2`
     );
     customStylesContent = customStylesContent.replace(
-      /--aw-color-accent: rgb\([^)]+\);/,
-      `--aw-color-accent: ${hexToRgbString(colorConfig.accent)};`
+      /(--aw-color-accent:\s*)rgb\([^)]+\)(;)/,
+      `$1${hexToRgbString(colorConfig.accent)}$2`
     );
     
-    // Replace color values in the .dark section
-    if (colorConfig.primaryDark) {
+    // Replace color values in the .dark section using a more targeted approach
+    const darkSectionRegex = /(\.dark\s*{[^}]*)(--aw-color-primary:\s*)rgb\([^)]+\)(;[^}]*})/s;
+    if (colorConfig.primaryDark && darkSectionRegex.test(customStylesContent)) {
       customStylesContent = customStylesContent.replace(
-        /(\.dark\s*{[\s\S]*?--aw-color-primary: )rgb\([^)]+\)(;[\s\S]*?})/,
-        `$1${hexToRgbString(colorConfig.primaryDark)}$2`
+        darkSectionRegex,
+        `$1$2${hexToRgbString(colorConfig.primaryDark)}$3`
       );
     }
-    if (colorConfig.secondaryDark) {
+    
+    const darkSecondarySectionRegex = /(\.dark\s*{[^}]*)(--aw-color-secondary:\s*)rgb\([^)]+\)(;[^}]*})/s;
+    if (colorConfig.secondaryDark && darkSecondarySectionRegex.test(customStylesContent)) {
       customStylesContent = customStylesContent.replace(
-        /(\.dark\s*{[\s\S]*?--aw-color-secondary: )rgb\([^)]+\)(;[\s\S]*?})/,
-        `$1${hexToRgbString(colorConfig.secondaryDark)}$2`
+        darkSecondarySectionRegex,
+        `$1$2${hexToRgbString(colorConfig.secondaryDark)}$3`
       );
     }
-    if (colorConfig.accentDark) {
+    
+    const darkAccentSectionRegex = /(\.dark\s*{[^}]*)(--aw-color-accent:\s*)rgb\([^)]+\)(;[^}]*})/s;
+    if (colorConfig.accentDark && darkAccentSectionRegex.test(customStylesContent)) {
       customStylesContent = customStylesContent.replace(
-        /(\.dark\s*{[\s\S]*?--aw-color-accent: )rgb\([^)]+\)(;[\s\S]*?})/,
-        `$1${hexToRgbString(colorConfig.accentDark)}$2`
+        darkAccentSectionRegex,
+        `$1$2${hexToRgbString(colorConfig.accentDark)}$3`
       );
     }
     
