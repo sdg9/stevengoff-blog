@@ -86,26 +86,50 @@ async function main() {
 
     if (usePlausible) {
       console.log('\nPlease provide your Plausible analytics snippet.');
-      console.log('Example: <script defer data-domain="example.com" src="https://analytics.webtownhero.com/js/script.hash.outbound-links.js"></script>');
+      console.log('Example:');
+      console.log('<script defer data-domain="example.com" src="https://analytics.webtownhero.com/js/script.hash.outbound-links.js"></script>');
+      console.log('<script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>');
+      console.log('\nThis can be single or multi-line.');
       
       const { snippet } = await inquirer.prompt([
         {
-          type: 'input',
+          type: 'editor',
           name: 'snippet',
-          message: 'Paste your Plausible script tag:',
+          message: 'Paste your Plausible script tag(s) (opens editor):',
+          default: '<!-- Paste your Plausible script tags here -->',
           validate: (input) => {
-            if (!input.trim()) return 'Please provide a script tag';
+            if (!input.trim() || input.includes('<!-- Paste your Plausible script tags here -->')) {
+              return 'Please provide a script tag';
+            }
             if (!input.includes('data-domain') || !input.includes('src=')) {
               return 'Please provide a valid Plausible script tag with data-domain and src attributes';
             }
             return true;
           }
         }
-      ]);
+      ]).catch(async () => {
+        // Fallback to input if editor fails
+        console.log('Editor not available, falling back to text input...');
+        return await inquirer.prompt([
+          {
+            type: 'input',
+            name: 'snippet',
+            message: 'Paste your Plausible script tag (single line):',
+            validate: (input) => {
+              if (!input.trim()) return 'Please provide a script tag';
+              if (!input.includes('data-domain') || !input.includes('src=')) {
+                return 'Please provide a valid Plausible script tag with data-domain and src attributes';
+              }
+              return true;
+            }
+          }
+        ]);
+      });
       
-      // Extract domain and src from the snippet
-      const domainMatch = snippet.match(/data-domain="([^"]+)"/);
-      const srcMatch = snippet.match(/src="([^"]+)"/);
+      // Extract domain and src from the snippet (handle multi-line)
+      // Use dotall flag (s) to make . match newlines
+      const domainMatch = snippet.match(/data-domain="([^"]+)"/s);
+      const srcMatch = snippet.match(/src="([^"]+)"/s);
       
       if (domainMatch && srcMatch) {
         plausibleConfig.domain = domainMatch[1];

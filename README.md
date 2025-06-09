@@ -4,38 +4,41 @@
 
 ## Quick Start
 
-1. Create a new project using this template, since it's now private
-New way
+1. Clone this repository (for private template usage):
 
-    ```bash
-    git clone https://github.com/Web-Town-Hero/astrowind-fork my-project-name
-    ```
+   ```bash
+   git clone https://github.com/Web-Town-Hero/astrowind-fork.git my-project-name
+   cd my-project-name
+   ```
 
-Old way
+   Or create a new project using this template:
 
    ```bash
    pnpm create astro@latest my-project-name -- --template Web-Town-Hero/astrowind
+   cd my-project-name
    ```
 
-2. Navigate to your project and run the initialization script:
+2. Run the initialization script:
 
    ```bash
-   cd my-project-name
    pnpm run init
    ```
 
-The initialization script will walk you through:
+The initialization script will:
 
-- **Analytics Setup**: Configure Plausible Analytics with your custom snippet
-- **Page Selection**: Choose which pages to keep (about, contact, pricing, services, terms, privacy)
-- **Home Template**: Select from available home page templates (SaaS, Startup, Mobile App, Personal, Counseling, Beach Club)
+1. **Git Setup**: Remove existing git history and create a fresh repository with an initial commit
+2. **Analytics Setup**: Configure Plausible Analytics with your custom snippet (supports multi-line scripts)  
+3. **Page Selection**: Choose which pages to keep using an interactive checklist
+4. **Home Template**: Select from available home page templates using a dropdown menu
+5. **Final Commit**: Create a second commit with all your customizations
 
 The script will automatically:
 
 - Update your analytics configuration
 - Remove unused pages and navigation links
 - Replace the home page with your selected template
-- Clean up unused template files
+- Clean up unused template files and blog components
+- Create a clean git history with two commits: initial template and your configurations
 
 ### Commands
 
