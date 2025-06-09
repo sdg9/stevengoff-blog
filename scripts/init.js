@@ -68,7 +68,59 @@ async function main() {
     }
 
     console.log('✅ Git repository initialized with initial commit\n');
-    // 1. Configure Plausible Analytics
+
+    // 1. Site Configuration
+    console.log('🌐 Site Configuration');
+    const siteConfig = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is your site name?',
+        default: 'My Awesome Site',
+        validate: (input) => input.trim() ? true : 'Site name is required'
+      },
+      {
+        type: 'input',
+        name: 'site',
+        message: 'What is your site URL? (e.g., https://example.com)',
+        default: 'https://example.com',
+        validate: (input) => {
+          try {
+            new URL(input);
+            return true;
+          } catch {
+            return 'Please enter a valid URL (including https://)';
+          }
+        }
+      },
+      {
+        type: 'input',
+        name: 'description',
+        message: 'Enter a brief description of your site:',
+        default: 'A modern, fast, and accessible website built with Astro and Tailwind CSS.',
+        validate: (input) => input.trim() ? true : 'Description is required'
+      },
+      {
+        type: 'input',
+        name: 'twitterHandle',
+        message: 'Twitter handle (optional, e.g., @yourusername):',
+        default: '',
+        filter: (input) => {
+          if (!input.trim()) return '';
+          return input.startsWith('@') ? input : `@${input}`;
+        }
+      },
+      {
+        type: 'input',
+        name: 'googleSiteVerificationId',
+        message: 'Google Site Verification ID (optional):',
+        default: ''
+      }
+    ]);
+
+    console.log(`✅ Site configured: ${siteConfig.name} at ${siteConfig.site}\n`);
+
+    // 2. Configure Plausible Analytics
     console.log('📊 Analytics Configuration');
     const { usePlausible } = await inquirer.prompt([
       {
@@ -163,7 +215,7 @@ async function main() {
       }
     }
 
-    // 2. Select pages to keep
+    // 3. Select pages to keep
     console.log('\n📄 Page Configuration');
     const availablePages = [
       { name: 'About', value: 'about' },
@@ -186,7 +238,7 @@ async function main() {
 
     console.log(`✅ Keeping pages: ${selectedPages.join(', ')}`);
 
-    // 3. Select home page template
+    // 4. Select home page template
     console.log('\n🏠 Home Page Template Selection');
     const homeTemplates = [
       { name: 'SaaS', value: 'saas' },
@@ -209,14 +261,32 @@ async function main() {
 
     console.log(`✅ Selected home template: ${selectedHome}`);
 
-    // 4. Apply configurations
+    // 5. Apply configurations
     console.log('\n⚙️ Applying configurations...');
 
-    // Update config.yaml with analytics settings
+    // Update config.yaml with site and analytics settings
     const configPath = join(process.cwd(), 'src', 'config.yaml');
     const configContent = readFileSync(configPath, 'utf8');
     const config = yaml.load(configContent);
 
+    // Update site configuration
+    config.site.name = siteConfig.name;
+    config.site.site = siteConfig.site;
+    config.site.googleSiteVerificationId = siteConfig.googleSiteVerificationId || '';
+
+    // Update metadata
+    config.metadata.title.default = siteConfig.name;
+    config.metadata.title.template = `%s — ${siteConfig.name}`;
+    config.metadata.description = siteConfig.description;
+    config.metadata.openGraph.site_name = siteConfig.name;
+    
+    // Update Twitter handle if provided
+    if (siteConfig.twitterHandle) {
+      config.metadata.twitter.handle = siteConfig.twitterHandle;
+      config.metadata.twitter.site = siteConfig.twitterHandle;
+    }
+
+    // Update analytics configuration
     config.analytics.vendors.plausible = plausibleConfig;
 
     writeFileSync(
@@ -369,7 +439,7 @@ ${flattenedLinks.join(',\n')}
       console.log('⚠️ Warning: Could not add changes to git');
     } else if (
       !runGitCommand(
-        `git commit -m "feat: Configure project - Analytics: ${plausibleConfig.domain || 'none'}, Pages: ${selectedPages.join(',')}, Home: ${selectedHome}"`,
+        `git commit -m "feat: Configure project - Site: ${siteConfig.name}, Analytics: ${plausibleConfig.domain || 'none'}, Pages: ${selectedPages.join(',')}, Home: ${selectedHome}"`,
         '💾 Creating configuration commit'
       )
     ) {

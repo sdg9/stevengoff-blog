@@ -20,13 +20,15 @@ import { ANALYTICS } from 'astrowind:config';
         data-domain={ANALYTICS.vendors.plausible.domain}
         src={ANALYTICS.vendors.plausible.src}
       ></script>
-      <script>
-        window.plausible =
-          window.plausible ||
-          function () {
-            (window.plausible.q = window.plausible.q || []).push(arguments);
-          };
-      </script>
+      {ANALYTICS?.vendors?.plausible?.needs404Script && (
+        <script>
+          window.plausible =
+            window.plausible ||
+            function (...args) {
+              (window.plausible.q = window.plausible.q || []).push(args);
+            };
+        </script>
+      )}
     </>
   ) : null
 }
