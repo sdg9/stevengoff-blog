@@ -1,67 +1,18 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync, unlinkSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, unlinkSync, statSync, rmSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import readline from 'readline';
+import inquirer from 'inquirer';
 import yaml from 'js-yaml';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-// Helper function to ask questions
-function askQuestion(question) {
-  return new Promise((resolve) => {
-    rl.question(question, (answer) => {
-      resolve(answer.trim());
-    });
-  });
-}
-
-// Helper function to ask multiple choice questions
-async function askMultipleChoice(question, choices, allowMultiple = false) {
-  console.log(`\n${question}`);
-  choices.forEach((choice, index) => {
-    console.log(`${index + 1}. ${choice}`);
-  });
-  
-  const prompt = allowMultiple ? 
-    `Enter numbers separated by commas (e.g., 1,3,4): ` :
-    `Enter your choice (1-${choices.length}): `;
-  
-  const answer = await askQuestion(prompt);
-  
-  if (allowMultiple) {
-    return answer.split(',').map(num => parseInt(num.trim()) - 1).filter(num => num >= 0 && num < choices.length);
-  } else {
-    const choice = parseInt(answer) - 1;
-    return choice >= 0 && choice < choices.length ? choice : 0;
-  }
-}
-
 // Helper function to delete files and directories recursively
 function deleteRecursively(path) {
   try {
-    const stats = statSync(path);
-    if (stats.isDirectory()) {
-      const files = readdirSync(path);
-      files.forEach(file => {
-        deleteRecursively(join(path, file));
-      });
-      // Remove the directory itself (this will fail silently if not empty)
-      try {
-        unlinkSync(path);
-      } catch (e) {
-        // Directory might not be empty, that's okay
-      }
-    } else {
-      unlinkSync(path);
-    }
+    rmSync(path, { recursive: true, force: true });
   } catch (err) {
     console.log(`Note: Could not delete ${path} - ${err.message}`);
   }
@@ -74,18 +25,38 @@ async function main() {
   try {
     // 1. Configure Plausible Analytics
     console.log('📊 Analytics Configuration');
-    const usePlausible = await askQuestion('Do you want to use Plausible Analytics? (y/n): ');
+    const { usePlausible } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'usePlausible',
+        message: 'Do you want to use Plausible Analytics?',
+        default: false
+      }
+    ]);
     
     let plausibleConfig = {
       domain: null,
       src: null
     };
 
-    if (usePlausible.toLowerCase() === 'y' || usePlausible.toLowerCase() === 'yes') {
+    if (usePlausible) {
       console.log('\nPlease provide your Plausible analytics snippet.');
       console.log('Example: <script defer data-domain="example.com" src="https://analytics.webtownhero.com/js/script.hash.outbound-links.js"></script>');
       
-      const snippet = await askQuestion('Paste your Plausible script tag: ');
+      const { snippet } = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'snippet',
+          message: 'Paste your Plausible script tag:',
+          validate: (input) => {
+            if (!input.trim()) return 'Please provide a script tag';
+            if (!input.includes('data-domain') || !input.includes('src=')) {
+              return 'Please provide a valid Plausible script tag with data-domain and src attributes';
+            }
+            return true;
+          }
+        }
+      ]);
       
       // Extract domain and src from the snippet
       const domainMatch = snippet.match(/data-domain="([^"]+)"/);
@@ -102,26 +73,48 @@ async function main() {
 
     // 2. Select pages to keep
     console.log('\n📄 Page Configuration');
-    const availablePages = ['about', 'contact', 'pricing', 'services', 'terms', 'privacy'];
-    const selectedPageIndexes = await askMultipleChoice(
-      'Which pages do you want to keep? (Select multiple)',
-      availablePages,
-      true
-    );
+    const availablePages = [
+      { name: 'About', value: 'about' },
+      { name: 'Contact', value: 'contact' },
+      { name: 'Pricing', value: 'pricing' },
+      { name: 'Services', value: 'services' },
+      { name: 'Terms', value: 'terms' },
+      { name: 'Privacy', value: 'privacy' }
+    ];
+
+    const { selectedPages } = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        name: 'selectedPages',
+        message: 'Which pages do you want to keep?',
+        choices: availablePages,
+        default: ['about', 'contact']
+      }
+    ]);
     
-    const pagesToKeep = selectedPageIndexes.map(index => availablePages[index]);
-    console.log(`✅ Keeping pages: ${pagesToKeep.join(', ')}`);
+    console.log(`✅ Keeping pages: ${selectedPages.join(', ')}`);
 
     // 3. Select home page template
     console.log('\n🏠 Home Page Template Selection');
-    const homeTemplates = ['saas', 'startup', 'mobile-app', 'personal', 'counseling', 'beach'];
-    const selectedHomeIndex = await askMultipleChoice(
-      'Which home page template do you want to use?',
-      homeTemplates.map(t => t.charAt(0).toUpperCase() + t.slice(1).replace('-', ' ')),
-      false
-    );
+    const homeTemplates = [
+      { name: 'SaaS', value: 'saas' },
+      { name: 'Startup', value: 'startup' },
+      { name: 'Mobile App', value: 'mobile-app' },
+      { name: 'Personal', value: 'personal' },
+      { name: 'Counseling', value: 'counseling' },
+      { name: 'Beach Club', value: 'beach' }
+    ];
+
+    const { selectedHome } = await inquirer.prompt([
+      {
+        type: 'list',
+        name: 'selectedHome',
+        message: 'Which home page template do you want to use?',
+        choices: homeTemplates,
+        default: 'saas'
+      }
+    ]);
     
-    const selectedHome = homeTemplates[selectedHomeIndex];
     console.log(`✅ Selected home template: ${selectedHome}`);
 
     // 4. Apply configurations
@@ -143,17 +136,23 @@ async function main() {
 
     // Remove unwanted pages
     const pagesDir = join(process.cwd(), 'src', 'pages');
-    const allPages = ['about.astro', 'contact.astro', 'pricing.astro', 'services.astro', 'terms.md', 'privacy.md'];
+    const allPages = [
+      { file: 'about.astro', key: 'about' },
+      { file: 'contact.astro', key: 'contact' },
+      { file: 'pricing.astro', key: 'pricing' },
+      { file: 'services.astro', key: 'services' },
+      { file: 'terms.md', key: 'terms' },
+      { file: 'privacy.md', key: 'privacy' }
+    ];
     
-    allPages.forEach(page => {
-      const pageBase = page.replace(/\.(astro|md)$/, '');
-      if (!pagesToKeep.includes(pageBase)) {
-        const pagePath = join(pagesDir, page);
+    allPages.forEach(({ file, key }) => {
+      if (!selectedPages.includes(key)) {
+        const pagePath = join(pagesDir, file);
         try {
           unlinkSync(pagePath);
-          console.log(`✅ Removed ${page}`);
+          console.log(`✅ Removed ${file}`);
         } catch (err) {
-          console.log(`⚠️ Could not remove ${page}: ${err.message}`);
+          console.log(`⚠️ Could not remove ${file}: ${err.message}`);
         }
       }
     });
@@ -162,25 +161,28 @@ async function main() {
     const selectedHomePath = join(pagesDir, 'homes', `${selectedHome}.astro`);
     const indexPath = join(pagesDir, 'index.astro');
     
-    if (statSync(selectedHomePath).isFile()) {
-      const homeContent = readFileSync(selectedHomePath, 'utf8');
-      writeFileSync(indexPath, homeContent);
-      console.log(`✅ Replaced index.astro with ${selectedHome} template`);
+    try {
+      if (statSync(selectedHomePath).isFile()) {
+        const homeContent = readFileSync(selectedHomePath, 'utf8');
+        writeFileSync(indexPath, homeContent);
+        console.log(`✅ Replaced index.astro with ${selectedHome} template`);
+      }
+    } catch (err) {
+      console.log(`⚠️ Could not replace index.astro: ${err.message}`);
     }
 
-    // Remove homes directory and blog directory
-    const homesDir = join(pagesDir, 'homes');
-    const blogDir = join(pagesDir, '[...blog]');
-    const landingDir = join(pagesDir, 'landing');
+    // Remove directories that are no longer needed
+    const dirsToRemove = [
+      join(pagesDir, 'homes'),
+      join(pagesDir, '[...blog]'),
+      join(pagesDir, 'landing'),
+      join(process.cwd(), 'src', 'components', 'blog')
+    ];
     
-    deleteRecursively(homesDir);
-    console.log('✅ Removed homes directory');
-    
-    deleteRecursively(blogDir);
-    console.log('✅ Removed blog directory');
-    
-    deleteRecursively(landingDir);
-    console.log('✅ Removed landing directory');
+    dirsToRemove.forEach(dir => {
+      deleteRecursively(dir);
+      console.log(`✅ Removed ${dir.split('/').pop()} directory`);
+    });
 
     // Update navigation.ts to remove unused links
     const navigationPath = join(process.cwd(), 'src', 'navigation.ts');
@@ -188,34 +190,53 @@ async function main() {
     
     // Remove the Homes dropdown section
     navigationContent = navigationContent.replace(
-      /{\s*text:\s*'Homes',\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
+      /{\s*text:\s*['"]Homes['"],\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
       ''
     );
     
     // Remove the Landing dropdown section
     navigationContent = navigationContent.replace(
-      /{\s*text:\s*'Landing',\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
+      /{\s*text:\s*['"]Landing['"],\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
       ''
     );
     
     // Remove the Blog dropdown section
     navigationContent = navigationContent.replace(
-      /{\s*text:\s*'Blog',\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
+      /{\s*text:\s*['"]Blog['"],\s*links:\s*\[[\s\S]*?\],\s*},\s*/,
+      ''
+    );
+
+    // Remove the Widgets link
+    navigationContent = navigationContent.replace(
+      /{\s*text:\s*['"]Widgets['"],\s*href:\s*['"][^'"]*['"],?\s*},?\s*/,
       ''
     );
     
     // Remove unused page links from Pages section based on selected pages
-    const pagesToRemove = availablePages.filter(page => !pagesToKeep.includes(page));
+    const pagesToRemove = availablePages.map(p => p.value).filter(page => !selectedPages.includes(page));
     pagesToRemove.forEach(page => {
+      const pageNames = {
+        'about': 'About us',
+        'contact': 'Contact',
+        'pricing': 'Pricing',
+        'services': 'Services',
+        'terms': 'Terms',
+        'privacy': 'Privacy policy'
+      };
+      
+      const pageName = pageNames[page] || page.charAt(0).toUpperCase() + page.slice(1);
       const patterns = [
-        new RegExp(`\\s*{\\s*text:\\s*'${page.charAt(0).toUpperCase() + page.slice(1)}[^']*',\\s*href:[^}]*},?\\s*`, 'i'),
-        new RegExp(`\\s*{\\s*text:\\s*'${page.charAt(0).toUpperCase() + page.slice(1)}[^']*'[^}]*},?\\s*`, 'i')
+        new RegExp(`\\s*{\\s*text:\\s*['"]${pageName}['"],\\s*href:[^}]*},?\\s*`, 'g'),
+        new RegExp(`\\s*{\\s*text:\\s*['"]${pageName}[^'"]*['"][^}]*},?\\s*`, 'g')
       ];
       
       patterns.forEach(pattern => {
         navigationContent = navigationContent.replace(pattern, '');
       });
     });
+    
+    // Clean up any trailing commas in the links array
+    navigationContent = navigationContent.replace(/,(\s*\])/g, '$1');
     
     writeFileSync(navigationPath, navigationContent);
     console.log('✅ Updated navigation configuration');
@@ -234,7 +255,7 @@ async function main() {
     if (plausibleConfig.domain) {
       console.log(`📊 Plausible Analytics: ${plausibleConfig.domain}`);
     }
-    console.log(`📄 Pages: ${pagesToKeep.join(', ')}`);
+    console.log(`📄 Pages: ${selectedPages.join(', ')}`);
     console.log(`🏠 Home template: ${selectedHome}`);
     
     console.log('\nNext steps:');
@@ -245,8 +266,6 @@ async function main() {
   } catch (error) {
     console.error('❌ An error occurred during setup:', error.message);
     process.exit(1);
-  } finally {
-    rl.close();
   }
 }
 
