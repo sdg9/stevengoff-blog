@@ -2,8 +2,29 @@
 
 [Original Readme](https://github.com/onwidget/astrowind/blob/main/README.md)
 
-- Using as template with pnpm
-  - pnpm create astro@latest blue-rain-lily -- --template Web-Town-Hero/astrowind
+## Quick Start
+
+1. Create a new project using this template:
+   ```bash
+   pnpm create astro@latest my-project-name -- --template Web-Town-Hero/astrowind
+   ```
+
+2. Navigate to your project and run the initialization script:
+   ```bash
+   cd my-project-name
+   pnpm run init
+   ```
+
+The initialization script will walk you through:
+- **Analytics Setup**: Configure Plausible Analytics with your custom snippet
+- **Page Selection**: Choose which pages to keep (about, contact, pricing, services, terms, privacy)
+- **Home Template**: Select from available home page templates (SaaS, Startup, Mobile App, Personal, Counseling, Beach Club)
+
+The script will automatically:
+- Update your analytics configuration
+- Remove unused pages and navigation links
+- Replace the home page with your selected template
+- Clean up unused template files
 
 ### Commands
 
@@ -11,6 +32,7 @@ All commands are run from the root of the project, from a terminal:
 
 | Command             | Action                                             |
 | :------------------ | :------------------------------------------------- |
+| `pnpm run init`      | Run interactive setup script (for new projects)   |
 | `pnpm install`       | Installs dependencies                              |
 | `pnpm run dev`       | Starts local dev server at `localhost:4321`        |
 | `pnpm run build`     | Build your production site to `./dist/`            |
