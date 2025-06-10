@@ -6,6 +6,28 @@ import { execSync } from 'child_process';
 import inquirer from 'inquirer';
 import yaml from 'js-yaml';
 
+// Helper function to handle prompts with defaults when -y flag is used
+function promptWithDefaults(questions, useDefaults) {
+  if (useDefaults) {
+    // Return an object with default values for all questions
+    const defaults = {};
+    questions.forEach((question) => {
+      if (question.type === 'checkbox') {
+        // For checkboxes, use the default array if provided, otherwise select checked items
+        if (question.default && Array.isArray(question.default)) {
+          defaults[question.name] = question.default;
+        } else {
+          defaults[question.name] = question.choices.filter((choice) => choice.checked).map((choice) => choice.value);
+        }
+      } else {
+        defaults[question.name] = question.default !== undefined ? question.default : '';
+      }
+    });
+    return Promise.resolve(defaults);
+  }
+  return inquirer.prompt(questions);
+}
+
 // Helper function to run git commands
 function runGitCommand(command, description = '') {
   try {
@@ -46,8 +68,15 @@ function isTemplateRepository() {
 }
 
 async function main() {
+  // Check for -y flag to accept all defaults
+  const useDefaults = process.argv.includes('-y') || process.argv.includes('--yes');
+
   console.log('🚀 Welcome to AstroWind Setup!');
   console.log('This script will help you configure your new Astro project.\n');
+
+  if (useDefaults) {
+    console.log('🏃 Running with default settings (using -y flag)\n');
+  }
 
   // Safety check to prevent running on the original template repository
   if (isTemplateRepository()) {
@@ -65,14 +94,16 @@ async function main() {
     console.log('═══════════════════════════════════════════════════════════════');
     console.log('');
 
-    const { forceRun } = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'forceRun',
-        message: '⚠️  Are you absolutely sure you want to continue? This will modify the template repository.',
-        default: false,
-      },
-    ]);
+    const { forceRun } = useDefaults
+      ? { forceRun: false } // Always decline when using defaults for safety
+      : await inquirer.prompt([
+          {
+            type: 'confirm',
+            name: 'forceRun',
+            message: '⚠️  Are you absolutely sure you want to continue? This will modify the template repository.',
+            default: false,
+          },
+        ]);
 
     if (!forceRun) {
       console.log('✅ Good choice! Setup cancelled to protect the template repository.');
@@ -118,65 +149,71 @@ async function main() {
 
     // 1. Site Configuration
     console.log('🌐 Site Configuration');
-    const siteConfig = await inquirer.prompt([
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is your site name?',
-        default: 'My Awesome Site',
-        validate: (input) => (input.trim() ? true : 'Site name is required'),
-      },
-      {
-        type: 'input',
-        name: 'site',
-        message: 'What is your site URL? (e.g., https://example.com)',
-        default: 'https://example.com',
-        validate: (input) => {
-          try {
-            new URL(input);
-            return true;
-          } catch {
-            return 'Please enter a valid URL (including https://)';
-          }
+    const siteConfig = await promptWithDefaults(
+      [
+        {
+          type: 'input',
+          name: 'name',
+          message: 'What is your site name?',
+          default: 'My Awesome Site',
+          validate: (input) => (input.trim() ? true : 'Site name is required'),
         },
-      },
-      {
-        type: 'input',
-        name: 'description',
-        message: 'Enter a brief description of your site:',
-        default: 'A modern, fast, and accessible website built with Astro and Tailwind CSS.',
-        validate: (input) => (input.trim() ? true : 'Description is required'),
-      },
-      {
-        type: 'input',
-        name: 'twitterHandle',
-        message: 'Twitter handle (optional, e.g., @yourusername):',
-        default: '',
-        filter: (input) => {
-          if (!input.trim()) return '';
-          return input.startsWith('@') ? input : `@${input}`;
+        {
+          type: 'input',
+          name: 'site',
+          message: 'What is your site URL? (e.g., https://example.com)',
+          default: 'https://example.com',
+          validate: (input) => {
+            try {
+              new URL(input);
+              return true;
+            } catch {
+              return 'Please enter a valid URL (including https://)';
+            }
+          },
         },
-      },
-      {
-        type: 'input',
-        name: 'googleSiteVerificationId',
-        message: 'Google Site Verification ID (optional):',
-        default: '',
-      },
-    ]);
+        {
+          type: 'input',
+          name: 'description',
+          message: 'Enter a brief description of your site:',
+          default: 'A modern, fast, and accessible website built with Astro and Tailwind CSS.',
+          validate: (input) => (input.trim() ? true : 'Description is required'),
+        },
+        {
+          type: 'input',
+          name: 'twitterHandle',
+          message: 'Twitter handle (optional, e.g., @yourusername):',
+          default: '',
+          filter: (input) => {
+            if (!input.trim()) return '';
+            return input.startsWith('@') ? input : `@${input}`;
+          },
+        },
+        {
+          type: 'input',
+          name: 'googleSiteVerificationId',
+          message: 'Google Site Verification ID (optional):',
+          default: '',
+        },
+      ],
+      useDefaults
+    );
 
     console.log(`✅ Site configured: ${siteConfig.name} at ${siteConfig.site}\n`);
 
     // 2. Configure Plausible Analytics
     console.log('📊 Analytics Configuration');
-    const { usePlausible } = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'usePlausible',
-        message: 'Do you want to use Plausible Analytics?',
-        default: false,
-      },
-    ]);
+    const { usePlausible } = await promptWithDefaults(
+      [
+        {
+          type: 'confirm',
+          name: 'usePlausible',
+          message: 'Do you want to use Plausible Analytics?',
+          default: false,
+        },
+      ],
+      useDefaults
+    );
 
     let plausibleConfig = {
       domain: null,
@@ -185,39 +222,46 @@ async function main() {
 
     if (usePlausible) {
       // Ask for domain
-      const { domain } = await inquirer.prompt([
-        {
-          type: 'input',
-          name: 'domain',
-          message: 'Enter your Plausible domain (e.g., bluerainlily.com):',
-          validate: (input) => {
-            if (!input.trim()) return 'Please provide a domain';
-            // Basic domain validation
-            if (!/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(input.trim())) {
-              return 'Please provide a valid domain (e.g., example.com)';
-            }
-            return true;
+      const { domain } = await promptWithDefaults(
+        [
+          {
+            type: 'input',
+            name: 'domain',
+            message: 'Enter your Plausible domain (e.g., bluerainlily.com):',
+            default: 'example.com',
+            validate: (input) => {
+              if (!input.trim()) return 'Please provide a domain';
+              // Basic domain validation
+              if (!/^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(input.trim())) {
+                return 'Please provide a valid domain (e.g., example.com)';
+              }
+              return true;
+            },
           },
-        },
-      ]);
+        ],
+        useDefaults
+      );
 
       // Ask for optional measurements
-      const { measurements } = await inquirer.prompt([
-        {
-          type: 'checkbox',
-          name: 'measurements',
-          message: 'Select optional measurements to track:',
-          choices: [
-            { name: 'Outbound links', value: 'outbound-links', checked: true },
-            { name: 'File downloads', value: 'file-downloads', checked: false },
-            { name: '404 error pages', value: '404-errors', checked: true },
-            { name: 'Hashed page paths', value: 'hash', checked: true },
-            { name: 'Custom events', value: 'tagged-events', checked: false },
-            { name: 'Custom properties', value: 'pageview-props', checked: false },
-            { name: 'Ecommerce revenue', value: 'revenue', checked: false },
-          ],
-        },
-      ]);
+      const { measurements } = await promptWithDefaults(
+        [
+          {
+            type: 'checkbox',
+            name: 'measurements',
+            message: 'Select optional measurements to track:',
+            choices: [
+              { name: 'Outbound links', value: 'outbound-links', checked: true },
+              { name: 'File downloads', value: 'file-downloads', checked: false },
+              { name: '404 error pages', value: '404-errors', checked: true },
+              { name: 'Hashed page paths', value: 'hash', checked: true },
+              { name: 'Custom events', value: 'tagged-events', checked: false },
+              { name: 'Custom properties', value: 'pageview-props', checked: false },
+              { name: 'Ecommerce revenue', value: 'revenue', checked: false },
+            ],
+          },
+        ],
+        useDefaults
+      );
 
       // Build the script src based on selected measurements
       const baseUrl = 'https://analytics.webtownhero.com/js/script';
@@ -378,14 +422,17 @@ async function main() {
       }
     }
 
-    const { useCustomColors } = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'useCustomColors',
-        message: 'Do you want to customize your color palette?',
-        default: false,
-      },
-    ]);
+    const { useCustomColors } = await promptWithDefaults(
+      [
+        {
+          type: 'confirm',
+          name: 'useCustomColors',
+          message: 'Do you want to customize your color palette?',
+          default: false,
+        },
+      ],
+      useDefaults
+    );
 
     let colorConfig = {
       // Default colors
@@ -404,14 +451,14 @@ async function main() {
       console.log('\nYou can generate a color palette at https://coolors.co');
       console.log('Example: https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51');
 
-      const { colorInput } = await inquirer.prompt([
+      const { colorInput } = await promptWithDefaults([
         {
           type: 'input',
           name: 'colorInput',
           message: 'Paste your Coolors.co URL or leave blank to use defaults:',
           default: '',
         },
-      ]);
+      ], useDefaults);
 
       if (colorInput.trim()) {
         const parsedColors = parseColorsUrl(colorInput.trim());
@@ -469,90 +516,93 @@ async function main() {
     console.log('🔗 Social Links Configuration');
     console.log('Enter just your handle/username for each platform (e.g., "webtownhero")');
 
-    const socialHandles = await inquirer.prompt([
-      {
-        type: 'input',
-        name: 'twitter',
-        message: 'X (Twitter) handle (optional):',
-        default: '',
-        validate: (input) => {
-          if (!input.trim()) return true;
-          // Remove @ if present and validate as username
-          const handle = input.replace('@', '').trim();
-          if (!/^[a-zA-Z0-9_]+$/.test(handle)) {
-            return 'Please enter a valid handle (letters, numbers, and underscores only)';
-          }
-          return true;
+    const socialHandles = await promptWithDefaults(
+      [
+        {
+          type: 'input',
+          name: 'twitter',
+          message: 'X (Twitter) handle (optional):',
+          default: '',
+          validate: (input) => {
+            if (!input.trim()) return true;
+            // Remove @ if present and validate as username
+            const handle = input.replace('@', '').trim();
+            if (!/^[a-zA-Z0-9_]+$/.test(handle)) {
+              return 'Please enter a valid handle (letters, numbers, and underscores only)';
+            }
+            return true;
+          },
+          filter: (input) => input.replace('@', '').trim(), // Remove @ if present
         },
-        filter: (input) => input.replace('@', '').trim(), // Remove @ if present
-      },
-      {
-        type: 'input',
-        name: 'instagram',
-        message: 'Instagram handle (optional):',
-        default: '',
-        validate: (input) => {
-          if (!input.trim()) return true;
-          const handle = input.replace('@', '').trim();
-          if (!/^[a-zA-Z0-9_.]+$/.test(handle)) {
-            return 'Please enter a valid handle (letters, numbers, dots, and underscores only)';
-          }
-          return true;
+        {
+          type: 'input',
+          name: 'instagram',
+          message: 'Instagram handle (optional):',
+          default: '',
+          validate: (input) => {
+            if (!input.trim()) return true;
+            const handle = input.replace('@', '').trim();
+            if (!/^[a-zA-Z0-9_.]+$/.test(handle)) {
+              return 'Please enter a valid handle (letters, numbers, dots, and underscores only)';
+            }
+            return true;
+          },
+          filter: (input) => input.replace('@', '').trim(),
         },
-        filter: (input) => input.replace('@', '').trim(),
-      },
-      {
-        type: 'input',
-        name: 'linkedin',
-        message: 'LinkedIn company handle (optional):',
-        default: '',
-        validate: (input) => {
-          if (!input.trim()) return true;
-          const handle = input.trim();
-          if (!/^[a-zA-Z0-9-]+$/.test(handle)) {
-            return 'Please enter a valid company handle (letters, numbers, and hyphens only)';
-          }
-          return true;
+        {
+          type: 'input',
+          name: 'linkedin',
+          message: 'LinkedIn company handle (optional):',
+          default: '',
+          validate: (input) => {
+            if (!input.trim()) return true;
+            const handle = input.trim();
+            if (!/^[a-zA-Z0-9-]+$/.test(handle)) {
+              return 'Please enter a valid company handle (letters, numbers, and hyphens only)';
+            }
+            return true;
+          },
+          filter: (input) => input.trim(),
         },
-        filter: (input) => input.trim(),
-      },
-      {
-        type: 'input',
-        name: 'facebook',
-        message: 'Facebook page handle (optional):',
-        default: '',
-        validate: (input) => {
-          if (!input.trim()) return true;
-          const handle = input.trim();
-          if (!/^[a-zA-Z0-9.]+$/.test(handle)) {
-            return 'Please enter a valid page handle (letters, numbers, and dots only)';
-          }
-          return true;
+        {
+          type: 'input',
+          name: 'facebook',
+          message: 'Facebook page handle (optional):',
+          default: '',
+          validate: (input) => {
+            if (!input.trim()) return true;
+            const handle = input.trim();
+            if (!/^[a-zA-Z0-9.]+$/.test(handle)) {
+              return 'Please enter a valid page handle (letters, numbers, and dots only)';
+            }
+            return true;
+          },
+          filter: (input) => input.trim(),
         },
-        filter: (input) => input.trim(),
-      },
-      {
-        type: 'input',
-        name: 'github',
-        message: 'GitHub username (optional):',
-        default: '',
-        validate: (input) => {
-          if (!input.trim()) return true;
-          const handle = input.trim();
-          if (!/^[a-zA-Z0-9-]+$/.test(handle)) {
-            return 'Please enter a valid username (letters, numbers, and hyphens only)';
-          }
-          return true;
+        {
+          type: 'input',
+          name: 'github',
+          message: 'GitHub username (optional):',
+          default: '',
+          validate: (input) => {
+            if (!input.trim()) return true;
+            const handle = input.trim();
+            if (!/^[a-zA-Z0-9-]+$/.test(handle)) {
+              return 'Please enter a valid username (letters, numbers, and hyphens only)';
+            }
+            return true;
+          },
+          filter: (input) => input.trim(),
         },
-        filter: (input) => input.trim(),
-      },
-      {
-        type: 'confirm',
-        name: 'includeRss',
-        message: 'Include RSS feed link?',
-        default: true,
-      },
-    ]);
+        {
+          type: 'confirm',
+          name: 'includeRss',
+          message: 'Include RSS feed link?',
+          default: false,
+        },
+      ],
+      useDefaults
+    );
 
     // Build full URLs from handles
     const socialLinksConfig = {
@@ -577,15 +627,18 @@ async function main() {
       { name: 'Privacy', value: 'privacy' },
     ];
 
-    const { selectedPages } = await inquirer.prompt([
-      {
-        type: 'checkbox',
-        name: 'selectedPages',
-        message: 'Which pages do you want to keep?',
-        choices: availablePages,
-        default: ['about', 'contact'],
-      },
-    ]);
+    const { selectedPages } = await promptWithDefaults(
+      [
+        {
+          type: 'checkbox',
+          name: 'selectedPages',
+          message: 'Which pages do you want to keep?',
+          choices: availablePages,
+          default: ['about', 'contact'],
+        },
+      ],
+      useDefaults
+    );
 
     console.log(`✅ Keeping pages: ${selectedPages.join(', ')}`);
 
@@ -600,15 +653,15 @@ async function main() {
       { name: 'Beach Club', value: 'beach' },
     ];
 
-    const { selectedHome } = await inquirer.prompt([
+    const { selectedHome } = await promptWithDefaults([
       {
         type: 'list',
         name: 'selectedHome',
         message: 'Which home page template do you want to use?',
         choices: homeTemplates,
-        default: 'saas',
+        default: 'counseling',
       },
-    ]);
+    ], useDefaults);
 
     console.log(`✅ Selected home template: ${selectedHome}`);
 

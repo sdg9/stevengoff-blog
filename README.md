@@ -22,6 +22,8 @@
 
    ```
    rm -rf brl && git clone https://github.com/Web-Town-Hero/astrowind-fork brl && cd brl && pnpm i && pnpm run init
+
+   cd .. && rm -rf brl && git clone https://github.com/Web-Town-Hero/astrowind-fork brl && cd brl && pnpm i && pnpm run init
    ```
 
 2. Run the initialization script:
