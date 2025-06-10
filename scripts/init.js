@@ -467,67 +467,84 @@ async function main() {
 
     // 4. Social Links Configuration
     console.log('🔗 Social Links Configuration');
+    console.log('Enter just your handle/username for each platform (e.g., "webtownhero")');
 
-    const socialLinksConfig = await inquirer.prompt([
+    const socialHandles = await inquirer.prompt([
       {
         type: 'input',
         name: 'twitter',
-        message: 'X (Twitter) URL (optional):',
+        message: 'X (Twitter) handle (optional):',
         default: '',
         validate: (input) => {
           if (!input.trim()) return true;
-          try {
-            new URL(input);
-            return true;
-          } catch {
-            return 'Please enter a valid URL (e.g., https://twitter.com/yourusername)';
+          // Remove @ if present and validate as username
+          const handle = input.replace('@', '').trim();
+          if (!/^[a-zA-Z0-9_]+$/.test(handle)) {
+            return 'Please enter a valid handle (letters, numbers, and underscores only)';
           }
+          return true;
         },
+        filter: (input) => input.replace('@', '').trim(), // Remove @ if present
       },
       {
         type: 'input',
         name: 'instagram',
-        message: 'Instagram URL (optional):',
+        message: 'Instagram handle (optional):',
         default: '',
         validate: (input) => {
           if (!input.trim()) return true;
-          try {
-            new URL(input);
-            return true;
-          } catch {
-            return 'Please enter a valid URL (e.g., https://instagram.com/yourusername)';
+          const handle = input.replace('@', '').trim();
+          if (!/^[a-zA-Z0-9_.]+$/.test(handle)) {
+            return 'Please enter a valid handle (letters, numbers, dots, and underscores only)';
           }
+          return true;
         },
+        filter: (input) => input.replace('@', '').trim(),
+      },
+      {
+        type: 'input',
+        name: 'linkedin',
+        message: 'LinkedIn company handle (optional):',
+        default: '',
+        validate: (input) => {
+          if (!input.trim()) return true;
+          const handle = input.trim();
+          if (!/^[a-zA-Z0-9-]+$/.test(handle)) {
+            return 'Please enter a valid company handle (letters, numbers, and hyphens only)';
+          }
+          return true;
+        },
+        filter: (input) => input.trim(),
       },
       {
         type: 'input',
         name: 'facebook',
-        message: 'Facebook URL (optional):',
+        message: 'Facebook page handle (optional):',
         default: '',
         validate: (input) => {
           if (!input.trim()) return true;
-          try {
-            new URL(input);
-            return true;
-          } catch {
-            return 'Please enter a valid URL (e.g., https://facebook.com/yourpage)';
+          const handle = input.trim();
+          if (!/^[a-zA-Z0-9.]+$/.test(handle)) {
+            return 'Please enter a valid page handle (letters, numbers, and dots only)';
           }
+          return true;
         },
+        filter: (input) => input.trim(),
       },
       {
         type: 'input',
         name: 'github',
-        message: 'GitHub URL (optional):',
+        message: 'GitHub username (optional):',
         default: '',
         validate: (input) => {
           if (!input.trim()) return true;
-          try {
-            new URL(input);
-            return true;
-          } catch {
-            return 'Please enter a valid URL (e.g., https://github.com/yourusername)';
+          const handle = input.trim();
+          if (!/^[a-zA-Z0-9-]+$/.test(handle)) {
+            return 'Please enter a valid username (letters, numbers, and hyphens only)';
           }
+          return true;
         },
+        filter: (input) => input.trim(),
       },
       {
         type: 'confirm',
@@ -536,6 +553,16 @@ async function main() {
         default: true,
       },
     ]);
+
+    // Build full URLs from handles
+    const socialLinksConfig = {
+      twitter: socialHandles.twitter ? `https://x.com/${socialHandles.twitter}` : '',
+      instagram: socialHandles.instagram ? `https://www.instagram.com/${socialHandles.instagram}/` : '',
+      linkedin: socialHandles.linkedin ? `https://www.linkedin.com/company/${socialHandles.linkedin}/` : '',
+      facebook: socialHandles.facebook ? `https://www.facebook.com/${socialHandles.facebook}` : '',
+      github: socialHandles.github ? `https://github.com/${socialHandles.github}` : '',
+      includeRss: socialHandles.includeRss,
+    };
 
     console.log(`✅ Social links configured\n`);
 
@@ -784,6 +811,11 @@ ${flattenedLinks.join(',\n')}
         `    { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '${socialLinksConfig.instagram}' }`
       );
     }
+    if (socialLinksConfig.linkedin) {
+      socialLinks.push(
+        `    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '${socialLinksConfig.linkedin}' }`
+      );
+    }
     if (socialLinksConfig.facebook) {
       socialLinks.push(
         `    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '${socialLinksConfig.facebook}' }`
@@ -881,6 +913,7 @@ ${socialLinks.join(',\n')}
     const configuredSocial = [];
     if (socialLinksConfig.twitter) configuredSocial.push('X');
     if (socialLinksConfig.instagram) configuredSocial.push('Instagram');
+    if (socialLinksConfig.linkedin) configuredSocial.push('LinkedIn');
     if (socialLinksConfig.facebook) configuredSocial.push('Facebook');
     if (socialLinksConfig.github) configuredSocial.push('GitHub');
     if (socialLinksConfig.includeRss) configuredSocial.push('RSS');
