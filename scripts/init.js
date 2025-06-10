@@ -398,7 +398,81 @@ async function main() {
     
     console.log(`✅ Color palette configured\n`);
 
-    // 4. Select pages to keep
+    // 4. Social Links Configuration
+    console.log('🔗 Social Links Configuration');
+    
+    const socialLinksConfig = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'twitter',
+        message: 'X (Twitter) URL (optional):',
+        default: '',
+        validate: (input) => {
+          if (!input.trim()) return true;
+          try {
+            new URL(input);
+            return true;
+          } catch {
+            return 'Please enter a valid URL (e.g., https://twitter.com/yourusername)';
+          }
+        }
+      },
+      {
+        type: 'input',
+        name: 'instagram',
+        message: 'Instagram URL (optional):',
+        default: '',
+        validate: (input) => {
+          if (!input.trim()) return true;
+          try {
+            new URL(input);
+            return true;
+          } catch {
+            return 'Please enter a valid URL (e.g., https://instagram.com/yourusername)';
+          }
+        }
+      },
+      {
+        type: 'input',
+        name: 'facebook',
+        message: 'Facebook URL (optional):',
+        default: '',
+        validate: (input) => {
+          if (!input.trim()) return true;
+          try {
+            new URL(input);
+            return true;
+          } catch {
+            return 'Please enter a valid URL (e.g., https://facebook.com/yourpage)';
+          }
+        }
+      },
+      {
+        type: 'input',
+        name: 'github',
+        message: 'GitHub URL (optional):',
+        default: '',
+        validate: (input) => {
+          if (!input.trim()) return true;
+          try {
+            new URL(input);
+            return true;
+          } catch {
+            return 'Please enter a valid URL (e.g., https://github.com/yourusername)';
+          }
+        }
+      },
+      {
+        type: 'confirm',
+        name: 'includeRss',
+        message: 'Include RSS feed link?',
+        default: true
+      }
+    ]);
+    
+    console.log(`✅ Social links configured\n`);
+
+    // 5. Select pages to keep
     console.log('\n📄 Page Configuration');
     const availablePages = [
       { name: 'About', value: 'about' },
@@ -421,7 +495,7 @@ async function main() {
 
     console.log(`✅ Keeping pages: ${selectedPages.join(', ')}`);
 
-    // 5. Select home page template
+    // 6. Select home page template
     console.log('\n🏠 Home Page Template Selection');
     const homeTemplates = [
       { name: 'SaaS', value: 'saas' },
@@ -444,7 +518,7 @@ async function main() {
 
     console.log(`✅ Selected home template: ${selectedHome}`);
 
-    // 6. Apply configurations
+    // 7. Apply configurations
     console.log('\n⚙️ Applying configurations...');
 
     // Update config.yaml with site and analytics settings
@@ -629,6 +703,49 @@ ${flattenedLinks.join(',\n')}
     writeFileSync(navigationPath, navigationContent);
     console.log('✅ Updated navigation configuration');
 
+    // Update social links in navigation
+    navigationContent = readFileSync(navigationPath, 'utf8');
+    
+    // Build social links array based on user input
+    let socialLinks = [];
+    
+    if (socialLinksConfig.twitter) {
+      socialLinks.push(`    { ariaLabel: 'X', icon: 'tabler:brand-x', href: '${socialLinksConfig.twitter}' }`);
+    }
+    if (socialLinksConfig.instagram) {
+      socialLinks.push(`    { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '${socialLinksConfig.instagram}' }`);
+    }
+    if (socialLinksConfig.facebook) {
+      socialLinks.push(`    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '${socialLinksConfig.facebook}' }`);
+    }
+    if (socialLinksConfig.includeRss) {
+      socialLinks.push(`    { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') }`);
+    }
+    if (socialLinksConfig.github) {
+      socialLinks.push(`    { ariaLabel: 'Github', icon: 'tabler:brand-github', href: '${socialLinksConfig.github}' }`);
+    }
+    
+    // Replace the socialLinks array
+    if (socialLinks.length > 0) {
+      const newSocialLinks = `  socialLinks: [
+${socialLinks.join(',\n')}
+  ],`;
+      
+      navigationContent = navigationContent.replace(
+        /socialLinks:\s*\[[\s\S]*?\],/,
+        newSocialLinks
+      );
+    } else {
+      // Remove socialLinks entirely if none configured
+      navigationContent = navigationContent.replace(
+        /socialLinks:\s*\[[\s\S]*?\],\s*/,
+        ''
+      );
+    }
+    
+    writeFileSync(navigationPath, navigationContent);
+    console.log('✅ Updated social links configuration');
+
     // Update footer secondaryLinks to only include selected pages
     navigationContent = readFileSync(navigationPath, 'utf8');
 
@@ -692,6 +809,19 @@ ${flattenedLinks.join(',\n')}
     if (colorConfig.primary !== '#0161ef') {
       console.log(`🎨 Custom Color Palette: Primary ${colorConfig.primary}, Secondary ${colorConfig.secondary}, Accent ${colorConfig.accent}`);
     }
+    
+    // Show configured social links
+    const configuredSocial = [];
+    if (socialLinksConfig.twitter) configuredSocial.push('X');
+    if (socialLinksConfig.instagram) configuredSocial.push('Instagram');
+    if (socialLinksConfig.facebook) configuredSocial.push('Facebook');
+    if (socialLinksConfig.github) configuredSocial.push('GitHub');
+    if (socialLinksConfig.includeRss) configuredSocial.push('RSS');
+    
+    if (configuredSocial.length > 0) {
+      console.log(`🔗 Social Links: ${configuredSocial.join(', ')}`);
+    }
+    
     console.log(`📄 Pages: ${selectedPages.join(', ')}`);
     console.log(`🏠 Home template: ${selectedHome}`);
 

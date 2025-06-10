@@ -36,12 +36,10 @@ The initialization script will:
 2. **Site Configuration**: Set your site name, URL, description, and metadata
 3. **Analytics Setup**: Configure Plausible Analytics with domain and optional tracking features
 4. **Color Palette**: Customize your color scheme using Coolors.co URLs or defaults
-5. **Page Selection**: Choose which pages to keep using an interactive checklist
-6. **Home Template**: Select from available home page templates using a dropdown menu
-7. **Final Commit**: Create a second commit with all your customizations  
-3. **Page Selection**: Choose which pages to keep using an interactive checklist
-4. **Home Template**: Select from available home page templates using a dropdown menu
-5. **Final Commit**: Create a second commit with all your customizations
+5. **Social Links**: Configure X (Twitter), Instagram, Facebook, GitHub, and RSS links
+6. **Page Selection**: Choose which pages to keep using an interactive checklist
+7. **Home Template**: Select from available home page templates using a dropdown menu
+8. **Final Commit**: Create a second commit with all your customizations
 
 The script will automatically:
 
