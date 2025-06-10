@@ -203,26 +203,29 @@ async function main() {
 
     // 2. Contact Information Configuration
     console.log('📞 Contact Information Configuration');
-    const contactInfo = await promptWithDefaults([
-      {
-        type: 'input',
-        name: 'address',
-        message: 'Business address (optional):',
-        default: '',
-      },
-      {
-        type: 'input',
-        name: 'phone',
-        message: 'Phone number (optional):',
-        default: '',
-      },
-      {
-        type: 'input',
-        name: 'email',
-        message: 'Contact email (optional):',
-        default: '',
-      },
-    ], useDefaults);
+    const contactInfo = await promptWithDefaults(
+      [
+        {
+          type: 'input',
+          name: 'address',
+          message: 'Business address (optional):',
+          default: '',
+        },
+        {
+          type: 'input',
+          name: 'phone',
+          message: 'Phone number (optional):',
+          default: '',
+        },
+        {
+          type: 'input',
+          name: 'email',
+          message: 'Contact email (optional):',
+          default: '',
+        },
+      ],
+      useDefaults
+    );
 
     console.log(`✅ Contact information configured\n`);
 
@@ -476,14 +479,17 @@ async function main() {
       console.log('\nYou can generate a color palette at https://coolors.co');
       console.log('Example: https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51');
 
-      const { colorInput } = await promptWithDefaults([
-        {
-          type: 'input',
-          name: 'colorInput',
-          message: 'Paste your Coolors.co URL or leave blank to use defaults:',
-          default: '',
-        },
-      ], useDefaults);
+      const { colorInput } = await promptWithDefaults(
+        [
+          {
+            type: 'input',
+            name: 'colorInput',
+            message: 'Paste your Coolors.co URL or leave blank to use defaults:',
+            default: '',
+          },
+        ],
+        useDefaults
+      );
 
       if (colorInput.trim()) {
         const parsedColors = parseColorsUrl(colorInput.trim());
@@ -701,15 +707,18 @@ async function main() {
       { name: 'Beach Club', value: 'beach' },
     ];
 
-    const { selectedHome } = await promptWithDefaults([
-      {
-        type: 'list',
-        name: 'selectedHome',
-        message: 'Which home page template do you want to use?',
-        choices: homeTemplates,
-        default: 'counseling',
-      },
-    ], useDefaults);
+    const { selectedHome } = await promptWithDefaults(
+      [
+        {
+          type: 'list',
+          name: 'selectedHome',
+          message: 'Which home page template do you want to use?',
+          choices: homeTemplates,
+          default: 'counseling',
+        },
+      ],
+      useDefaults
+    );
 
     console.log(`✅ Selected home template: ${selectedHome}`);
 
@@ -956,21 +965,21 @@ ${socialLinks.join(',\n')}
 
     // Build footer links structure with header links
     let footerLinksArray = [];
-    
+
     // Create "Pages" section with header links
     if (selectedPages.length > 0) {
       let pageLinks = [];
-      
+
       // Add home link
       pageLinks.push("{ text: 'Home', href: getPermalink('/') }");
-      
+
       // Add selected pages
       selectedPages.forEach((page) => {
         if (pageConfigs[page]) {
           pageLinks.push(`{ text: '${pageConfigs[page].text}', href: ${pageConfigs[page].href} }`);
         }
       });
-      
+
       footerLinksArray.push(`    {
       title: 'Pages',
       links: [
@@ -994,16 +1003,24 @@ ${socialLinks.join(',\n')}
       footerSocialLinks.push(`{ ariaLabel: 'X', icon: 'tabler:brand-x', href: '${socialLinksConfig.twitter}' }`);
     }
     if (socialLinksConfig.instagram) {
-      footerSocialLinks.push(`{ ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '${socialLinksConfig.instagram}' }`);
+      footerSocialLinks.push(
+        `{ ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '${socialLinksConfig.instagram}' }`
+      );
     }
     if (socialLinksConfig.linkedin) {
-      footerSocialLinks.push(`{ ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '${socialLinksConfig.linkedin}' }`);
+      footerSocialLinks.push(
+        `{ ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '${socialLinksConfig.linkedin}' }`
+      );
     }
     if (socialLinksConfig.facebook) {
-      footerSocialLinks.push(`{ ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '${socialLinksConfig.facebook}' }`);
+      footerSocialLinks.push(
+        `{ ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '${socialLinksConfig.facebook}' }`
+      );
     }
     if (socialLinksConfig.github) {
-      footerSocialLinks.push(`{ ariaLabel: 'Github', icon: 'tabler:brand-github', href: '${socialLinksConfig.github}' }`);
+      footerSocialLinks.push(
+        `{ ariaLabel: 'Github', icon: 'tabler:brand-github', href: '${socialLinksConfig.github}' }`
+      );
     }
     if (socialLinksConfig.includeRss) {
       footerSocialLinks.push(`{ ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') }`);
@@ -1059,17 +1076,17 @@ ${footerLinksArray.join(',\n')}
     console.log('\n🎉 Setup complete!');
     console.log('\nYour Astro project has been configured with:');
     console.log(`🌐 Site: ${siteConfig.name} (${siteConfig.site})`);
-    
+
     // Show configured contact information
     const configuredContact = [];
     if (contactInfo.address) configuredContact.push('Address');
     if (contactInfo.phone) configuredContact.push('Phone');
     if (contactInfo.email) configuredContact.push('Email');
-    
+
     if (configuredContact.length > 0) {
       console.log(`📞 Contact Info: ${configuredContact.join(', ')}`);
     }
-    
+
     if (plausibleConfig.domain) {
       console.log(`📊 Plausible Analytics: ${plausibleConfig.domain}`);
     }
