@@ -1,14 +1,10 @@
 #!/usr/bin/env node
 
 import { readFileSync, writeFileSync, unlinkSync, statSync, rmSync } from 'fs';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
+import { join } from 'path';
 import { execSync } from 'child_process';
 import inquirer from 'inquirer';
 import yaml from 'js-yaml';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 // Helper function to run git commands
 function runGitCommand(command, description = '') {
@@ -31,9 +27,60 @@ function deleteRecursively(path) {
   }
 }
 
+// Safety mechanism to prevent running on the original template repository
+function isTemplateRepository() {
+  try {
+    // Check for .template-repo marker file (primary safety check)
+    const templateMarkerPath = join(process.cwd(), '.template-repo');
+    try {
+      statSync(templateMarkerPath);
+      return true; // File exists, this is the template repository
+    } catch {
+      // File doesn't exist, continue with other checks
+    }
+    return false;
+  } catch {
+    console.log('Warning: Could not determine if this is a template repository');
+    return false;
+  }
+}
+
 async function main() {
   console.log('🚀 Welcome to AstroWind Setup!');
   console.log('This script will help you configure your new Astro project.\n');
+
+  // Safety check to prevent running on the original template repository
+  if (isTemplateRepository()) {
+    console.log('🛑 SAFETY CHECK FAILED');
+    console.log('═══════════════════════════════════════════════════════════════');
+    console.log('This appears to be the original AstroWind template repository.');
+    console.log('The init script should only be run on a copy/fork of the template,');
+    console.log('not on the template itself to avoid accidental modifications.');
+    console.log('');
+    console.log('To use this template:');
+    console.log('1. Fork or download this repository');
+    console.log('2. Create a new directory for your project');
+    console.log('3. Copy the template files to your new directory');
+    console.log('4. Run the init script in your new project directory');
+    console.log('═══════════════════════════════════════════════════════════════');
+    console.log('');
+
+    const { forceRun } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'forceRun',
+        message: '⚠️  Are you absolutely sure you want to continue? This will modify the template repository.',
+        default: false,
+      },
+    ]);
+
+    if (!forceRun) {
+      console.log('✅ Good choice! Setup cancelled to protect the template repository.');
+      process.exit(0);
+    }
+
+    console.log('🔥 Proceeding with template repository modification...\n');
+  }
 
   try {
     // 1. Git Initialization
@@ -77,7 +124,7 @@ async function main() {
         name: 'name',
         message: 'What is your site name?',
         default: 'My Awesome Site',
-        validate: (input) => input.trim() ? true : 'Site name is required'
+        validate: (input) => (input.trim() ? true : 'Site name is required'),
       },
       {
         type: 'input',
@@ -91,14 +138,14 @@ async function main() {
           } catch {
             return 'Please enter a valid URL (including https://)';
           }
-        }
+        },
       },
       {
         type: 'input',
         name: 'description',
         message: 'Enter a brief description of your site:',
         default: 'A modern, fast, and accessible website built with Astro and Tailwind CSS.',
-        validate: (input) => input.trim() ? true : 'Description is required'
+        validate: (input) => (input.trim() ? true : 'Description is required'),
       },
       {
         type: 'input',
@@ -108,14 +155,14 @@ async function main() {
         filter: (input) => {
           if (!input.trim()) return '';
           return input.startsWith('@') ? input : `@${input}`;
-        }
+        },
       },
       {
         type: 'input',
         name: 'googleSiteVerificationId',
         message: 'Google Site Verification ID (optional):',
-        default: ''
-      }
+        default: '',
+      },
     ]);
 
     console.log(`✅ Site configured: ${siteConfig.name} at ${siteConfig.site}\n`);
@@ -219,94 +266,110 @@ async function main() {
 
     // 3. Color Palette Configuration
     console.log('🎨 Color Palette Configuration');
-    
+
     // Helper functions for color manipulation
     function hexToRgb(hex) {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-      return result ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16)
-      } : null;
+      return result
+        ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+          }
+        : null;
     }
-    
+
     function rgbToHsl(r, g, b) {
-      r /= 255; g /= 255; b /= 255;
-      const max = Math.max(r, g, b), min = Math.min(r, g, b);
-      let h, s, l = (max + min) / 2;
-      
+      r /= 255;
+      g /= 255;
+      b /= 255;
+      const max = Math.max(r, g, b),
+        min = Math.min(r, g, b);
+      let h,
+        s,
+        l = (max + min) / 2;
+
       if (max === min) {
         h = s = 0;
       } else {
         const d = max - min;
         s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
         switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
+          case r:
+            h = (g - b) / d + (g < b ? 6 : 0);
+            break;
+          case g:
+            h = (b - r) / d + 2;
+            break;
+          case b:
+            h = (r - g) / d + 4;
+            break;
         }
         h /= 6;
       }
       return { h: h * 360, s: s * 100, l: l * 100 };
     }
-    
+
     function hslToRgb(h, s, l) {
-      h /= 360; s /= 100; l /= 100;
+      h /= 360;
+      s /= 100;
+      l /= 100;
       const hue2rgb = (p, q, t) => {
         if (t < 0) t += 1;
         if (t > 1) t -= 1;
-        if (t < 1/6) return p + (q - p) * 6 * t;
-        if (t < 1/2) return q;
-        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        if (t < 1 / 6) return p + (q - p) * 6 * t;
+        if (t < 1 / 2) return q;
+        if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
         return p;
       };
-      
+
       if (s === 0) {
         return { r: l * 255, g: l * 255, b: l * 255 };
       }
-      
+
       const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
       const p = 2 * l - q;
       return {
-        r: Math.round(hue2rgb(p, q, h + 1/3) * 255),
+        r: Math.round(hue2rgb(p, q, h + 1 / 3) * 255),
         g: Math.round(hue2rgb(p, q, h) * 255),
-        b: Math.round(hue2rgb(p, q, h - 1/3) * 255)
+        b: Math.round(hue2rgb(p, q, h - 1 / 3) * 255),
       };
     }
-    
+
     function adjustColorForDarkTheme(hex) {
       const rgb = hexToRgb(hex);
       if (!rgb) return hex;
-      
+
       const hsl = rgbToHsl(rgb.r, rgb.g, rgb.b);
       // For dark theme: increase lightness if too dark, maintain saturation
       if (hsl.l < 40) {
         hsl.l = Math.min(hsl.l + 30, 70);
       }
-      
+
       const newRgb = hslToRgb(hsl.h, hsl.s, hsl.l);
       return `#${Math.round(newRgb.r).toString(16).padStart(2, '0')}${Math.round(newRgb.g).toString(16).padStart(2, '0')}${Math.round(newRgb.b).toString(16).padStart(2, '0')}`;
     }
-    
+
     function parseColorsUrl(url) {
       try {
         // Handle different Coolors URL formats
         let match = url.match(/coolors\.co\/(.+)$/);
         if (!match) return null;
-        
+
         let colorsString = match[1];
-        
+
         // Remove any path prefixes like 'palette/' or 'u/'
         colorsString = colorsString.replace(/^(palette\/|u\/[^/]+\/)/, '');
-        
+
         // Split colors and clean them
-        const colors = colorsString.split('-')
-          .map(c => c.replace(/[^a-fA-F0-9]/g, '')) // Remove non-hex characters
-          .filter(c => c.length === 6) // Only keep valid 6-character hex codes
-          .map(c => `#${c.toLowerCase()}`);
-        
+        const colors = colorsString
+          .split('-')
+          .map((c) => c.replace(/[^a-fA-F0-9]/g, '')) // Remove non-hex characters
+          .filter((c) => c.length === 6) // Only keep valid 6-character hex codes
+          .map((c) => `#${c.toLowerCase()}`);
+
         if (colors.length < 3) return null;
-        
+
         console.log(`Parsed colors: ${colors.join(', ')}`);
         return colors;
       } catch (error) {
@@ -314,16 +377,16 @@ async function main() {
         return null;
       }
     }
-    
+
     const { useCustomColors } = await inquirer.prompt([
       {
         type: 'confirm',
         name: 'useCustomColors',
         message: 'Do you want to customize your color palette?',
-        default: false
-      }
+        default: false,
+      },
     ]);
-    
+
     let colorConfig = {
       // Default colors
       primary: '#0161ef',
@@ -334,32 +397,36 @@ async function main() {
       lightText: '#101010',
       darkText: '#e5ecf6',
       lightTextMuted: 'rgb(16 16 16 / 66%)',
-      darkTextMuted: 'rgb(229 236 246 / 66%)'
+      darkTextMuted: 'rgb(229 236 246 / 66%)',
     };
-    
+
     if (useCustomColors) {
       console.log('\nYou can generate a color palette at https://coolors.co');
       console.log('Example: https://coolors.co/264653-2a9d8f-e9c46a-f4a261-e76f51');
-      
+
       const { colorInput } = await inquirer.prompt([
         {
           type: 'input',
           name: 'colorInput',
           message: 'Paste your Coolors.co URL or leave blank to use defaults:',
-          default: ''
-        }
+          default: '',
+        },
       ]);
-      
+
       if (colorInput.trim()) {
         const parsedColors = parseColorsUrl(colorInput.trim());
         if (parsedColors && parsedColors.length >= 3) {
           colorConfig.primary = parsedColors[0];
           colorConfig.secondary = parsedColors[1];
           colorConfig.accent = parsedColors[2];
-          
+
           // Validate hex colors
           const isValidHex = (hex) => /^#[0-9a-fA-F]{6}$/.test(hex);
-          if (!isValidHex(colorConfig.primary) || !isValidHex(colorConfig.secondary) || !isValidHex(colorConfig.accent)) {
+          if (
+            !isValidHex(colorConfig.primary) ||
+            !isValidHex(colorConfig.secondary) ||
+            !isValidHex(colorConfig.accent)
+          ) {
             console.log('❌ Invalid hex colors detected. Using defaults.');
             colorConfig = {
               primary: '#0161ef',
@@ -370,19 +437,19 @@ async function main() {
               lightText: '#101010',
               darkText: '#e5ecf6',
               lightTextMuted: 'rgb(16 16 16 / 66%)',
-              darkTextMuted: 'rgb(229 236 246 / 66%)'
+              darkTextMuted: 'rgb(229 236 246 / 66%)',
             };
           } else {
             // Auto-generate dark theme variants
             const primaryDark = adjustColorForDarkTheme(parsedColors[0]);
             const secondaryDark = adjustColorForDarkTheme(parsedColors[1]);
             const accentDark = adjustColorForDarkTheme(parsedColors[2]);
-            
+
             console.log(`✅ Parsed ${parsedColors.length} colors from palette`);
             console.log(`   Primary: ${colorConfig.primary} (dark: ${primaryDark})`);
             console.log(`   Secondary: ${colorConfig.secondary} (dark: ${secondaryDark})`);
             console.log(`   Accent: ${colorConfig.accent} (dark: ${accentDark})`);
-            
+
             // Store dark variants for later use
             colorConfig.primaryDark = primaryDark;
             colorConfig.secondaryDark = secondaryDark;
@@ -395,12 +462,12 @@ async function main() {
         }
       }
     }
-    
+
     console.log(`✅ Color palette configured\n`);
 
     // 4. Social Links Configuration
     console.log('🔗 Social Links Configuration');
-    
+
     const socialLinksConfig = await inquirer.prompt([
       {
         type: 'input',
@@ -415,7 +482,7 @@ async function main() {
           } catch {
             return 'Please enter a valid URL (e.g., https://twitter.com/yourusername)';
           }
-        }
+        },
       },
       {
         type: 'input',
@@ -430,7 +497,7 @@ async function main() {
           } catch {
             return 'Please enter a valid URL (e.g., https://instagram.com/yourusername)';
           }
-        }
+        },
       },
       {
         type: 'input',
@@ -445,7 +512,7 @@ async function main() {
           } catch {
             return 'Please enter a valid URL (e.g., https://facebook.com/yourpage)';
           }
-        }
+        },
       },
       {
         type: 'input',
@@ -460,16 +527,16 @@ async function main() {
           } catch {
             return 'Please enter a valid URL (e.g., https://github.com/yourusername)';
           }
-        }
+        },
       },
       {
         type: 'confirm',
         name: 'includeRss',
         message: 'Include RSS feed link?',
-        default: true
-      }
+        default: true,
+      },
     ]);
-    
+
     console.log(`✅ Social links configured\n`);
 
     // 5. Select pages to keep
@@ -536,7 +603,7 @@ async function main() {
     config.metadata.title.template = `%s — ${siteConfig.name}`;
     config.metadata.description = siteConfig.description;
     config.metadata.openGraph.site_name = siteConfig.name;
-    
+
     // Update Twitter handle if provided
     if (siteConfig.twitterHandle) {
       config.metadata.twitter.handle = siteConfig.twitterHandle;
@@ -559,13 +626,13 @@ async function main() {
     // Update CustomStyles.astro with color palette
     const customStylesPath = join(process.cwd(), 'src', 'components', 'CustomStyles.astro');
     let customStylesContent = readFileSync(customStylesPath, 'utf8');
-    
+
     // Helper function to convert hex to rgb format
     function hexToRgbString(hex) {
       const result = hexToRgb(hex);
       return result ? `rgb(${result.r} ${result.g} ${result.b})` : `rgb(1 97 239)`; // fallback
     }
-    
+
     // Replace color values in the :root section (light theme)
     customStylesContent = customStylesContent.replace(
       /(--aw-color-primary:\s*)rgb\([^)]+\)(;)/,
@@ -579,7 +646,7 @@ async function main() {
       /(--aw-color-accent:\s*)rgb\([^)]+\)(;)/,
       `$1${hexToRgbString(colorConfig.accent)}$2`
     );
-    
+
     // Replace color values in the .dark section using a more targeted approach
     const darkSectionRegex = /(\.dark\s*{[^}]*)(--aw-color-primary:\s*)rgb\([^)]+\)(;[^}]*})/s;
     if (colorConfig.primaryDark && darkSectionRegex.test(customStylesContent)) {
@@ -588,7 +655,7 @@ async function main() {
         `$1$2${hexToRgbString(colorConfig.primaryDark)}$3`
       );
     }
-    
+
     const darkSecondarySectionRegex = /(\.dark\s*{[^}]*)(--aw-color-secondary:\s*)rgb\([^)]+\)(;[^}]*})/s;
     if (colorConfig.secondaryDark && darkSecondarySectionRegex.test(customStylesContent)) {
       customStylesContent = customStylesContent.replace(
@@ -596,7 +663,7 @@ async function main() {
         `$1$2${hexToRgbString(colorConfig.secondaryDark)}$3`
       );
     }
-    
+
     const darkAccentSectionRegex = /(\.dark\s*{[^}]*)(--aw-color-accent:\s*)rgb\([^)]+\)(;[^}]*})/s;
     if (colorConfig.accentDark && darkAccentSectionRegex.test(customStylesContent)) {
       customStylesContent = customStylesContent.replace(
@@ -604,7 +671,7 @@ async function main() {
         `$1$2${hexToRgbString(colorConfig.accentDark)}$3`
       );
     }
-    
+
     writeFileSync(customStylesPath, customStylesContent);
     console.log('✅ Updated color palette in CustomStyles.astro');
 
@@ -705,18 +772,22 @@ ${flattenedLinks.join(',\n')}
 
     // Update social links in navigation
     navigationContent = readFileSync(navigationPath, 'utf8');
-    
+
     // Build social links array based on user input
     let socialLinks = [];
-    
+
     if (socialLinksConfig.twitter) {
       socialLinks.push(`    { ariaLabel: 'X', icon: 'tabler:brand-x', href: '${socialLinksConfig.twitter}' }`);
     }
     if (socialLinksConfig.instagram) {
-      socialLinks.push(`    { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '${socialLinksConfig.instagram}' }`);
+      socialLinks.push(
+        `    { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '${socialLinksConfig.instagram}' }`
+      );
     }
     if (socialLinksConfig.facebook) {
-      socialLinks.push(`    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '${socialLinksConfig.facebook}' }`);
+      socialLinks.push(
+        `    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '${socialLinksConfig.facebook}' }`
+      );
     }
     if (socialLinksConfig.includeRss) {
       socialLinks.push(`    { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') }`);
@@ -724,25 +795,19 @@ ${flattenedLinks.join(',\n')}
     if (socialLinksConfig.github) {
       socialLinks.push(`    { ariaLabel: 'Github', icon: 'tabler:brand-github', href: '${socialLinksConfig.github}' }`);
     }
-    
+
     // Replace the socialLinks array
     if (socialLinks.length > 0) {
       const newSocialLinks = `  socialLinks: [
 ${socialLinks.join(',\n')}
   ],`;
-      
-      navigationContent = navigationContent.replace(
-        /socialLinks:\s*\[[\s\S]*?\],/,
-        newSocialLinks
-      );
+
+      navigationContent = navigationContent.replace(/socialLinks:\s*\[[\s\S]*?\],/, newSocialLinks);
     } else {
       // Remove socialLinks entirely if none configured
-      navigationContent = navigationContent.replace(
-        /socialLinks:\s*\[[\s\S]*?\],\s*/,
-        ''
-      );
+      navigationContent = navigationContent.replace(/socialLinks:\s*\[[\s\S]*?\],\s*/, '');
     }
-    
+
     writeFileSync(navigationPath, navigationContent);
     console.log('✅ Updated social links configuration');
 
@@ -807,9 +872,11 @@ ${socialLinks.join(',\n')}
       console.log(`📊 Plausible Analytics: ${plausibleConfig.domain}`);
     }
     if (colorConfig.primary !== '#0161ef') {
-      console.log(`🎨 Custom Color Palette: Primary ${colorConfig.primary}, Secondary ${colorConfig.secondary}, Accent ${colorConfig.accent}`);
+      console.log(
+        `🎨 Custom Color Palette: Primary ${colorConfig.primary}, Secondary ${colorConfig.secondary}, Accent ${colorConfig.accent}`
+      );
     }
-    
+
     // Show configured social links
     const configuredSocial = [];
     if (socialLinksConfig.twitter) configuredSocial.push('X');
@@ -817,11 +884,11 @@ ${socialLinks.join(',\n')}
     if (socialLinksConfig.facebook) configuredSocial.push('Facebook');
     if (socialLinksConfig.github) configuredSocial.push('GitHub');
     if (socialLinksConfig.includeRss) configuredSocial.push('RSS');
-    
+
     if (configuredSocial.length > 0) {
       console.log(`🔗 Social Links: ${configuredSocial.join(', ')}`);
     }
-    
+
     console.log(`📄 Pages: ${selectedPages.join(', ')}`);
     console.log(`🏠 Home template: ${selectedHome}`);
 
