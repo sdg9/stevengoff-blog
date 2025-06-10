@@ -35,8 +35,36 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
       <div class="col-span-12 lg:col-span-4">
         <div class="mb-2">
           <a class="inline-block font-bold text-xl" href={getHomePermalink()}>{SITE?.name}</a>
-          <!-- TODO include contact info here -->
         </div>
+        
+        {/* Contact Information */}
+        {(SITE?.contact?.address || SITE?.contact?.phone || SITE?.contact?.email) && (
+          <div class="mb-4 space-y-2">
+            {SITE.contact.address && (
+              <div class="flex items-start text-sm text-muted">
+                <Icon name="tabler:map-pin" class="w-4 h-4 mt-0.5 mr-2 flex-shrink-0" />
+                <span>{SITE.contact.address}</span>
+              </div>
+            )}
+            {SITE.contact.phone && (
+              <div class="flex items-center text-sm text-muted">
+                <Icon name="tabler:phone" class="w-4 h-4 mr-2 flex-shrink-0" />
+                <a href={`tel:${SITE.contact.phone}`} class="hover:text-gray-700 dark:hover:text-gray-300 transition duration-150 ease-in-out">
+                  {SITE.contact.phone}
+                </a>
+              </div>
+            )}
+            {SITE.contact.email && (
+              <div class="flex items-center text-sm text-muted">
+                <Icon name="tabler:mail" class="w-4 h-4 mr-2 flex-shrink-0" />
+                <a href={`mailto:${SITE.contact.email}`} class="hover:text-gray-700 dark:hover:text-gray-300 transition duration-150 ease-in-out">
+                  {SITE.contact.email}
+                </a>
+              </div>
+            )}
+          </div>
+        )}
+        
         <div class="text-sm text-muted flex gap-1">
           {
             secondaryLinks.map(({ text, href }, index) => (

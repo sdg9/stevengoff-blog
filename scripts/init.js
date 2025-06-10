@@ -201,7 +201,32 @@ async function main() {
 
     console.log(`✅ Site configured: ${siteConfig.name} at ${siteConfig.site}\n`);
 
-    // 2. Configure Plausible Analytics
+    // 2. Contact Information Configuration
+    console.log('📞 Contact Information Configuration');
+    const contactInfo = await promptWithDefaults([
+      {
+        type: 'input',
+        name: 'address',
+        message: 'Business address (optional):',
+        default: '',
+      },
+      {
+        type: 'input',
+        name: 'phone',
+        message: 'Phone number (optional):',
+        default: '',
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'Contact email (optional):',
+        default: '',
+      },
+    ], useDefaults);
+
+    console.log(`✅ Contact information configured\n`);
+
+    // 3. Configure Plausible Analytics
     console.log('📊 Analytics Configuration');
     const { usePlausible } = await promptWithDefaults(
       [
@@ -701,6 +726,13 @@ async function main() {
     config.site.site = siteConfig.site;
     config.site.googleSiteVerificationId = siteConfig.googleSiteVerificationId || '';
 
+    // Add contact information to config
+    config.site.contact = {
+      address: contactInfo.address || '',
+      phone: contactInfo.phone || '',
+      email: contactInfo.email || '',
+    };
+
     // Update metadata
     config.metadata.title.default = siteConfig.name;
     config.metadata.title.template = `%s — ${siteConfig.name}`;
@@ -1027,6 +1059,17 @@ ${footerLinksArray.join(',\n')}
     console.log('\n🎉 Setup complete!');
     console.log('\nYour Astro project has been configured with:');
     console.log(`🌐 Site: ${siteConfig.name} (${siteConfig.site})`);
+    
+    // Show configured contact information
+    const configuredContact = [];
+    if (contactInfo.address) configuredContact.push('Address');
+    if (contactInfo.phone) configuredContact.push('Phone');
+    if (contactInfo.email) configuredContact.push('Email');
+    
+    if (configuredContact.length > 0) {
+      console.log(`📞 Contact Info: ${configuredContact.join(', ')}`);
+    }
+    
     if (plausibleConfig.domain) {
       console.log(`📊 Plausible Analytics: ${plausibleConfig.domain}`);
     }

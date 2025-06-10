@@ -6,6 +6,12 @@ site:
 
   googleSiteVerificationId: ""
 
+  # Contact information (optional)
+  contact:
+    address: ""
+    phone: ""
+    email: ""
+
 # Default SEO metadata
 metadata:
   title:

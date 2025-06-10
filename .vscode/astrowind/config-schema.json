@@ -19,6 +19,21 @@
         },
         "googleSiteVerificationId": {
           "type": "string"
+        },
+        "contact": {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "required": ["name", "site", "base", "trailingSlash"],
