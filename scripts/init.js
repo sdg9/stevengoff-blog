@@ -623,8 +623,6 @@ async function main() {
       { name: 'Contact', value: 'contact' },
       { name: 'Pricing', value: 'pricing' },
       { name: 'Services', value: 'services' },
-      { name: 'Terms', value: 'terms' },
-      { name: 'Privacy', value: 'privacy' },
     ];
 
     const { selectedPages } = await promptWithDefaults(
@@ -641,6 +639,31 @@ async function main() {
     );
 
     console.log(`✅ Keeping pages: ${selectedPages.join(', ')}`);
+
+    // 5b. Select footer-only pages
+    console.log('\n📄 Footer-Only Page Configuration');
+    const footerOnlyPages = [
+      { name: 'Terms of Service', value: 'terms' },
+      { name: 'Privacy Policy', value: 'privacy' },
+    ];
+
+    const { selectedFooterPages } = await promptWithDefaults(
+      [
+        {
+          type: 'checkbox',
+          name: 'selectedFooterPages',
+          message: 'Which footer-only pages do you want to include? (These will only appear in footer navigation)',
+          choices: footerOnlyPages,
+          default: ['terms', 'privacy'],
+        },
+      ],
+      useDefaults
+    );
+
+    console.log(`✅ Footer-only pages: ${selectedFooterPages.join(', ')}`);
+
+    // Combine all selected pages for file management
+    const allSelectedPages = [...selectedPages, ...selectedFooterPages];
 
     // 6. Select home page template
     console.log('\n🏠 Home Page Template Selection');
@@ -767,7 +790,7 @@ async function main() {
     ];
 
     allPages.forEach(({ file, key }) => {
-      if (!selectedPages.includes(key)) {
+      if (!allSelectedPages.includes(key)) {
         const pagePath = join(pagesDir, file);
         try {
           unlinkSync(pagePath);
@@ -896,15 +919,55 @@ ${socialLinks.join(',\n')}
     writeFileSync(navigationPath, navigationContent);
     console.log('✅ Updated social links configuration');
 
-    // Update footer secondaryLinks to only include selected pages
+    // Update footer data to include header links
     navigationContent = readFileSync(navigationPath, 'utf8');
 
-    // Build footer secondary links based on selected pages
+    // Build footer links structure with header links
+    let footerLinksArray = [];
+    
+    // Create "Pages" section with header links
+    if (selectedPages.length > 0) {
+      let pageLinks = [];
+      
+      // Add home link
+      pageLinks.push("{ text: 'Home', href: getPermalink('/') }");
+      
+      // Add selected pages
+      selectedPages.forEach((page) => {
+        if (pageConfigs[page]) {
+          pageLinks.push(`{ text: '${pageConfigs[page].text}', href: ${pageConfigs[page].href} }`);
+        }
+      });
+      
+      footerLinksArray.push(`    {
+      title: 'Pages',
+      links: [
+        ${pageLinks.join(',\n        ')}
+      ],
+    }`);
+    }
+
+    // Create footer data with header links included
+    const newFooterData = `export const footerData = {
+  links: [
+${footerLinksArray.join(',\n')}
+  ],`;
+
+    // Replace the footerData links section
+    navigationContent = navigationContent.replace(/export const footerData = {[\s\S]*?links: \[[\s\S]*?\],/, newFooterData);
+
+    writeFileSync(navigationPath, navigationContent);
+    console.log('✅ Updated footer data with header links');
+
+    // Update footer secondaryLinks to only include selected footer pages
+    navigationContent = readFileSync(navigationPath, 'utf8');
+
+    // Build footer secondary links based on selected footer pages
     let footerSecondaryLinks = [];
-    if (selectedPages.includes('terms')) {
+    if (selectedFooterPages.includes('terms')) {
       footerSecondaryLinks.push("{ text: 'Terms', href: getPermalink('/terms') }");
     }
-    if (selectedPages.includes('privacy')) {
+    if (selectedFooterPages.includes('privacy')) {
       footerSecondaryLinks.push("{ text: 'Privacy Policy', href: getPermalink('/privacy') }");
     }
 
@@ -976,6 +1039,9 @@ ${socialLinks.join(',\n')}
     }
 
     console.log(`📄 Pages: ${selectedPages.join(', ')}`);
+    if (selectedFooterPages.length > 0) {
+      console.log(`📄 Footer-only pages: ${selectedFooterPages.join(', ')}`);
+    }
     console.log(`🏠 Home template: ${selectedHome}`);
 
     console.log('\nNext steps:');
