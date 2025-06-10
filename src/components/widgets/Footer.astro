@@ -97,7 +97,7 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
       }
 
       <div class="text-sm mr-4 dark:text-muted">
-        <Fragment set:html={footNote} />
+        <Fragment set:html={footNote || `© ${new Date().getFullYear()} ${SITE?.name}. All rights reserved.`} />
       </div>
     </div>
   </div>
