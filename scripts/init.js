@@ -919,7 +919,7 @@ ${socialLinks.join(',\n')}
     writeFileSync(navigationPath, navigationContent);
     console.log('✅ Updated social links configuration');
 
-    // Update footer data to include header links
+    // Update footer data to include header links and remove extra sections
     navigationContent = readFileSync(navigationPath, 'utf8');
 
     // Build footer links structure with header links
@@ -943,24 +943,9 @@ ${socialLinks.join(',\n')}
       title: 'Pages',
       links: [
         ${pageLinks.join(',\n        ')}
-      ],
+      ]
     }`);
     }
-
-    // Create footer data with header links included
-    const newFooterData = `export const footerData = {
-  links: [
-${footerLinksArray.join(',\n')}
-  ],`;
-
-    // Replace the footerData links section
-    navigationContent = navigationContent.replace(/export const footerData = {[\s\S]*?links: \[[\s\S]*?\],/, newFooterData);
-
-    writeFileSync(navigationPath, navigationContent);
-    console.log('✅ Updated footer data with header links');
-
-    // Update footer secondaryLinks to only include selected footer pages
-    navigationContent = readFileSync(navigationPath, 'utf8');
 
     // Build footer secondary links based on selected footer pages
     let footerSecondaryLinks = [];
@@ -971,20 +956,46 @@ ${footerLinksArray.join(',\n')}
       footerSecondaryLinks.push("{ text: 'Privacy Policy', href: getPermalink('/privacy') }");
     }
 
-    // Update the secondaryLinks in footerData
-    if (footerSecondaryLinks.length > 0) {
-      const newSecondaryLinks = `  secondaryLinks: [
-    ${footerSecondaryLinks.join(',\n    ')}
-  ],`;
-
-      navigationContent = navigationContent.replace(/secondaryLinks:\s*\[[\s\S]*?\],/, newSecondaryLinks);
-    } else {
-      // Remove secondaryLinks entirely if no terms/privacy pages
-      navigationContent = navigationContent.replace(/secondaryLinks:\s*\[[\s\S]*?\],\s*/, '');
+    // Build social links array based on user input
+    let footerSocialLinks = [];
+    if (socialLinksConfig.twitter) {
+      footerSocialLinks.push(`{ ariaLabel: 'X', icon: 'tabler:brand-x', href: '${socialLinksConfig.twitter}' }`);
+    }
+    if (socialLinksConfig.instagram) {
+      footerSocialLinks.push(`{ ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '${socialLinksConfig.instagram}' }`);
+    }
+    if (socialLinksConfig.linkedin) {
+      footerSocialLinks.push(`{ ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: '${socialLinksConfig.linkedin}' }`);
+    }
+    if (socialLinksConfig.facebook) {
+      footerSocialLinks.push(`{ ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '${socialLinksConfig.facebook}' }`);
+    }
+    if (socialLinksConfig.github) {
+      footerSocialLinks.push(`{ ariaLabel: 'Github', icon: 'tabler:brand-github', href: '${socialLinksConfig.github}' }`);
+    }
+    if (socialLinksConfig.includeRss) {
+      footerSocialLinks.push(`{ ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') }`);
     }
 
+    // Create complete footer data structure
+    const newFooterData = `export const footerData = {
+  links: [
+${footerLinksArray.join(',\n')}
+  ],
+  secondaryLinks: [
+    ${footerSecondaryLinks.join(',\n    ')}
+  ],
+  socialLinks: [
+    ${footerSocialLinks.join(',\n    ')}
+  ],
+  footNote: \`\`,
+};`;
+
+    // Replace the entire footerData export
+    navigationContent = navigationContent.replace(/export const footerData = {[\s\S]*?};/, newFooterData);
+
     writeFileSync(navigationPath, navigationContent);
-    console.log('✅ Updated footer navigation configuration');
+    console.log('✅ Updated footer data with header links');
 
     // Disable blog in config if blog was removed
     config.apps.blog.isEnabled = false;
