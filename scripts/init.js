@@ -592,10 +592,10 @@ async function main() {
     // 6. Select home page template
     console.log('\n🏠 Home Page Template Selection');
     const homeTemplates = [
-      { name: 'SaaS', value: 'saas' },
-      { name: 'Startup', value: 'startup' },
-      { name: 'Mobile App', value: 'mobile-app' },
-      { name: 'Personal', value: 'personal' },
+      // { name: 'SaaS', value: 'saas' },
+      // { name: 'Startup', value: 'startup' },
+      // { name: 'Mobile App', value: 'mobile-app' },
+      // { name: 'Personal', value: 'personal' },
       { name: 'Counseling', value: 'counseling' },
       { name: 'Beach Club', value: 'beach' },
     ];
