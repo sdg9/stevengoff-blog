@@ -988,14 +988,26 @@ ${socialLinks.join(',\n')}
     }`);
     }
 
-    // Build footer secondary links based on selected footer pages
+    // Build Legal section for footer if legal pages are selected
+    if (selectedFooterPages.includes('terms') || selectedFooterPages.includes('privacy')) {
+      let legalLinks = [];
+      if (selectedFooterPages.includes('terms')) {
+        legalLinks.push("{ text: 'Terms', href: getPermalink('/terms') }");
+      }
+      if (selectedFooterPages.includes('privacy')) {
+        legalLinks.push("{ text: 'Privacy Policy', href: getPermalink('/privacy') }");
+      }
+
+      footerLinksArray.push(`    {
+      title: 'Legal',
+      links: [
+        ${legalLinks.join(',\n        ')}
+      ]
+    }`);
+    }
+
+    // Build footer secondary links - keeping empty for now since legal moved to main links
     let footerSecondaryLinks = [];
-    if (selectedFooterPages.includes('terms')) {
-      footerSecondaryLinks.push("{ text: 'Terms', href: getPermalink('/terms') }");
-    }
-    if (selectedFooterPages.includes('privacy')) {
-      footerSecondaryLinks.push("{ text: 'Privacy Policy', href: getPermalink('/privacy') }");
-    }
 
     // Build social links array based on user input
     let footerSocialLinks = [];
