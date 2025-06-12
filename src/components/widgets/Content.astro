@@ -11,6 +11,7 @@ const {
   subtitle = await Astro.slots.render('subtitle'),
   tagline,
   content = await Astro.slots.render('content'),
+  contentEnd = await Astro.slots.render('contentEnd'),
   callToAction,
   items = [],
   columns,
@@ -67,6 +68,8 @@ const {
             action: 'text-lg font-medium leading-6 dark:text-white ml-2 rtl:ml-0 rtl:mr-2',
           }}
         />
+
+        {contentEnd && <div class="mb-12 text-lg dark:text-slate-400" set:html={contentEnd} />}
       </div>
       <div aria-hidden="true" class="mt-10 md:mt-0 md:basis-1/2">
         {
