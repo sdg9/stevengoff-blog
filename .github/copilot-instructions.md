@@ -4,9 +4,6 @@ When completing a task, at the end of your reply provide a git commit message I 
 git commit -m "Implement business discovery phase" -m "Added functionality to scrape Google Maps for local businesses based on user input."
 ```
 
-## Customer Experience
-- Implement on-scroll animations for key elements (especially on the landing page) using Intersection Observer and CSS transitions (fade, slide-in). Use a class like `.animate-on-scroll` and `data-animation` attributes to trigger effects.
-
 ## Technical Details
 Use pnpm as the package manager.
 Use Astro as the static site generator.
