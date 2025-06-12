@@ -29,6 +29,22 @@ export const headerData = {
           text: 'Beach Club',
           href: getPermalink('/homes/beach'),
         },
+        {
+          text: 'Physio 1',
+          href: getPermalink('/homes/physio-home-1'),
+        },
+        {
+          text: 'Physio 2',
+          href: getPermalink('/homes/physio-home-2'),
+        },
+        {
+          text: 'Physio 3',
+          href: getPermalink('/homes/physio-home-3'),
+        },
+        {
+          text: 'Alt Therapy',
+          href: getPermalink('/homes/alternative-therapy'),
+        },
       ],
     },
     {

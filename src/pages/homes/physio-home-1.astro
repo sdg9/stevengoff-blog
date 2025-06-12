@@ -1,0 +1,282 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Brands from '~/components/widgets/Brands.astro';
+
+const metadata = {
+  title: 'Physical Therapy - Outcome-Driven Care | Get Moving Again',
+  description:
+    'Expert physical therapy focused on your recovery. Book your appointment today and start your journey back to pain-free movement.',
+  robots: {
+    index: true,
+    follow: true,
+  },
+  openGraph: {
+    type: 'website',
+    title: 'Physical Therapy - Outcome-Driven Care',
+    description: 'Expert physical therapy focused on your recovery. Book your appointment today.',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Physical Therapy - Outcome-Driven Care',
+    description: 'Expert physical therapy focused on your recovery. Book your appointment today.',
+  },
+};
+---
+
+<PageLayout metadata={metadata}>
+  <!-- Sticky Top Bar -->
+  <div class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 py-2">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <div class="flex items-center space-x-4">
+        <a
+          href="tel:+1234567890"
+          class="text-sm font-medium text-[var(--color-text-default)] hover:text-[var(--color-primary)] flex items-center"
+        >
+          <span class="mr-2">📞</span> (123) 456-7890
+        </a>
+      </div>
+      <a
+        href="#appointment"
+        class="bg-[var(--color-primary)] text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-[var(--color-secondary)] transition-colors animate-on-scroll"
+      >
+        Request Appointment
+      </a>
+    </div>
+  </div>
+
+  <!-- Full-height Hero with Split Layout -->
+  <Hero
+    tagline="Outcome-Driven Physical Therapy"
+    title="Got Pain? We Can Help"
+    subtitle="Get back to doing what you love with personalized, evidence-based physical therapy treatment. Book your appointment today and start your journey to recovery."
+    actions={[
+      {
+        text: 'Schedule Now',
+        href: '#appointment',
+        variant: 'primary',
+      },
+      {
+        text: 'Call Us',
+        href: 'tel:+1234567890',
+        variant: 'secondary',
+      },
+    ]}
+    image={{
+      src: '~/assets/images/hero-image.png',
+      alt: 'Physical therapist helping patient',
+    }}
+  >
+    <div slot="content" class="pt-16 min-h-screen flex items-center animate-on-scroll"></div>
+  </Hero>
+
+  <!-- 3-Step Process -->
+  <Steps
+    title="Getting Started is Fast & Easy"
+    subtitle="Your path to recovery in three simple steps"
+    items={[
+      {
+        title: 'Call & Schedule',
+        description: 'Contact us to book your initial evaluation appointment at your convenience.',
+        icon: 'tabler:phone',
+      },
+      {
+        title: 'Evaluate & Plan',
+        description: 'Our expert therapists assess your condition and create a personalized treatment plan.',
+        icon: 'tabler:stethoscope',
+      },
+      {
+        title: 'Recover & Thrive',
+        description: 'Work with us to achieve your goals and get back to living pain-free.',
+        icon: 'tabler:trophy',
+      },
+    ]}
+    classes={{
+      container: 'animate-on-scroll',
+    }}
+  />
+
+  <!-- Services Grid with Hover Effects -->
+  <Features
+    id="services"
+    title="Our Services"
+    subtitle="Comprehensive physical therapy treatments tailored to your needs"
+    items={[
+      {
+        title: 'Orthopedic Therapy',
+        description: 'Specialized treatment for bone, joint, and muscle injuries to restore function and reduce pain.',
+        icon: 'tabler:bone',
+      },
+      {
+        title: 'Sports Rehabilitation',
+        description:
+          'Get back in the game with targeted therapy for sports-related injuries and performance enhancement.',
+        icon: 'tabler:medal',
+      },
+      {
+        title: 'Post-Surgical Recovery',
+        description: 'Comprehensive rehabilitation programs to help you recover fully after surgery.',
+        icon: 'tabler:bandage',
+      },
+      {
+        title: 'Manual Therapy',
+        description: 'Hands-on techniques to improve mobility, reduce pain, and restore normal movement patterns.',
+        icon: 'tabler:hand-grab',
+      },
+      {
+        title: 'Chronic Pain Management',
+        description: 'Evidence-based approaches to help you manage and overcome persistent pain conditions.',
+        icon: 'tabler:heart-handshake',
+      },
+      {
+        title: 'Movement Analysis',
+        description: 'Advanced assessment techniques to identify and correct movement dysfunctions.',
+        icon: 'tabler:activity',
+      },
+    ]}
+  >
+    <div slot="bg" class="animate-on-scroll"></div>
+  </Features>
+
+  <!-- Testimonial Carousel -->
+  <Testimonials
+    title="What Our Patients Say"
+    subtitle="Real stories from real people who got their lives back"
+    testimonials={[
+      {
+        testimonial:
+          "After my knee surgery, I thought I'd never run again. The team here got me back on the trail in just 3 months. Their expertise and encouragement made all the difference.",
+        name: 'Sarah Johnson',
+        job: 'Marathon Runner',
+        image: {
+          src: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+          alt: 'Sarah Johnson',
+        },
+      },
+      {
+        testimonial:
+          'Chronic back pain had me sidelined for years. The personalized treatment plan here not only eliminated my pain but taught me how to prevent it from coming back.',
+        name: 'Mike Chen',
+        job: 'Construction Manager',
+        image: {
+          src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx4fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+          alt: 'Mike Chen',
+        },
+      },
+      {
+        testimonial:
+          'Professional, caring, and incredibly knowledgeable. They worked with my schedule and insurance to make recovery affordable and convenient.',
+        name: 'Lisa Rodriguez',
+        job: 'Teacher',
+        image: {
+          src: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2787&q=80',
+          alt: 'Lisa Rodriguez',
+        },
+      },
+    ]}
+    classes={{
+      container: 'animate-on-scroll',
+    }}
+  />
+
+  <!-- Insurance Strip -->
+  <Brands
+    title="We Accept Most Insurance Plans"
+    subtitle="Making quality physical therapy accessible and affordable"
+    icons={[]}
+    images={[
+      {
+        src: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&w=200&h=100&fit=crop',
+        alt: 'Aetna',
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&w=200&h=100&fit=crop',
+        alt: 'Blue Cross Blue Shield',
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&w=200&h=100&fit=crop',
+        alt: 'Cigna',
+      },
+      {
+        src: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&w=200&h=100&fit=crop',
+        alt: 'UnitedHealthcare',
+      },
+    ]}
+    classes={{
+      container: 'animate-on-scroll',
+    }}
+  />
+
+  <!-- Contact/Appointment Form -->
+  <CallToAction
+    id="appointment"
+    title="Ready to Start Your Recovery?"
+    subtitle="Book your appointment today and take the first step toward a pain-free life."
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Schedule Online',
+        href: '#',
+        class: 'animate-on-scroll',
+      },
+      {
+        variant: 'secondary',
+        text: 'Call Now',
+        href: 'tel:+1234567890',
+      },
+    ]}
+    classes={{
+      container:
+        'bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] text-white animate-on-scroll',
+    }}
+  />
+
+  <!-- Enhanced animation styles -->
+  <style>
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition:
+        opacity 0.6s ease-out,
+        transform 0.6s ease-out;
+    }
+
+    .animate-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .animate-on-scroll {
+        opacity: 1;
+        transform: none;
+        transition: none;
+      }
+    }
+  </style>
+
+  <script>
+    // Intersection Observer for scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px',
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all elements with animate-on-scroll class
+    document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+      observer.observe(el);
+    });
+  </script>
+</PageLayout>
