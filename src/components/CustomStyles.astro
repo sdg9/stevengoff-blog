@@ -25,19 +25,53 @@ import '@fontsource-variable/inter';
     --aw-font-serif: 'Inter Variable';
     --aw-font-heading: 'Inter Variable';
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    /* 5-color palette system - Core semantic tokens */
+    --color-primary: #818cf9; /* Primary brand color */
+    --color-secondary: #2f3848; /* Secondary/supporting color */
+    --color-accent: #f14444; /* Accent for highlights, CTAs */
+    --color-background: #ffffff; /* Background color */
+    --color-foreground: #0f172a; /* Foreground text color */
 
-    --aw-color-text-heading: rgb(0 0 0);
-    --aw-color-text-default: rgb(16 16 16);
-    --aw-color-text-muted: rgb(16 16 16 / 66%);
-    --aw-color-bg-page: rgb(255 255 255);
+    /* Extended semantic tokens (derived from base 5) */
+    --color-primary-foreground: #ffffff;
+    --color-secondary-foreground: #ffffff;
+    --color-muted: #f1f5f9; /* Subtle backgrounds, borders */
+    --color-muted-foreground: #64748b;
+    --color-border: #e2e8f0;
 
-    --aw-color-bg-page-dark: rgb(3 6 32);
+    /* System colors */
+    --color-destructive: #ef4444; /* Error states */
+    --color-destructive-foreground: #ffffff;
+    --color-success: #10b981; /* Success states */
+    --color-success-foreground: #ffffff;
+    --color-warning: #f59e0b; /* Warning states */
+    --color-warning-foreground: #ffffff;
+
+    /* Text colors */
+    --color-text-heading: var(--color-foreground);
+    --color-text-default: var(--color-foreground);
+    --color-text-muted: var(--color-muted-foreground);
+
+    /* Page colors */
+    --color-bg-page: var(--color-background);
+    --color-bg-page-dark: rgb(3 6 32);
+
+    /* Simplified gradients */
+    --gradient-hero: linear-gradient(
+      135deg,
+      var(--color-foreground) 0%,
+      var(--color-primary) 25%,
+      var(--color-secondary) 50%,
+      var(--color-accent) 100%
+    );
+
+    --gradient-cta: linear-gradient(135deg, var(--color-accent), var(--color-primary));
+
+    --gradient-subtle: linear-gradient(135deg, var(--color-muted), var(--color-primary));
 
     ::selection {
-      background-color: lavender;
+      background-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+      color: var(--color-foreground);
     }
   }
 
@@ -46,18 +80,30 @@ import '@fontsource-variable/inter';
     --aw-font-serif: 'Inter Variable';
     --aw-font-heading: 'Inter Variable';
 
-    --aw-color-primary: rgb(1 97 239);
-    --aw-color-secondary: rgb(1 84 207);
-    --aw-color-accent: rgb(109 40 217);
+    /* Dark mode adjustments to 5-color palette */
+    --color-primary: rgb(1 97 239); /* Keep primary consistent for brand */
+    --color-secondary: rgb(1 84 207);
+    --color-accent: rgb(109 40 217);
+    --color-background: #0f172a;
+    --color-foreground: rgb(247 248 248);
 
-    --aw-color-text-heading: rgb(247, 248, 248);
-    --aw-color-text-default: rgb(229 236 246);
-    --aw-color-text-muted: rgb(229 236 246 / 66%);
-    --aw-color-bg-page: rgb(3 6 32);
+    --color-primary-foreground: #211717;
+    --color-secondary-foreground: #5c3939;
+    --color-muted: #1e293b;
+    --color-muted-foreground: #94a3b8;
+    --color-border: #334155;
+
+    --color-text-heading: var(--color-foreground);
+    --color-text-default: var(--color-foreground);
+    --color-text-muted: var(--color-muted-foreground);
+
+    /* Page colors */
+    --color-bg-page: var(--color-background);
+    --color-bg-page-dark: rgb(3 6 32);
 
     ::selection {
-      background-color: black;
-      color: snow;
+      background-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
+      color: var(--color-foreground);
     }
   }
 </style>

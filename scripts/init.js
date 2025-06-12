@@ -779,20 +779,20 @@ async function main() {
 
     // Replace color values in the :root section (light theme)
     customStylesContent = customStylesContent.replace(
-      /(--aw-color-primary:\s*)rgb\([^)]+\)(;)/,
+      /(--color-primary:\s*)rgb\([^)]+\)(;)/,
       `$1${hexToRgbString(colorConfig.primary)}$2`
     );
     customStylesContent = customStylesContent.replace(
-      /(--aw-color-secondary:\s*)rgb\([^)]+\)(;)/,
+      /(--color-secondary:\s*)rgb\([^)]+\)(;)/,
       `$1${hexToRgbString(colorConfig.secondary)}$2`
     );
     customStylesContent = customStylesContent.replace(
-      /(--aw-color-accent:\s*)rgb\([^)]+\)(;)/,
+      /(--color-accent:\s*)rgb\([^)]+\)(;)/,
       `$1${hexToRgbString(colorConfig.accent)}$2`
     );
 
     // Replace color values in the .dark section using a more targeted approach
-    const darkSectionRegex = /(\.dark\s*{[^}]*)(--aw-color-primary:\s*)rgb\([^)]+\)(;[^}]*})/s;
+    const darkSectionRegex = /(\.dark\s*{[^}]*)(--color-primary:\s*)rgb\([^)]+\)(;[^}]*})/s;
     if (colorConfig.primaryDark && darkSectionRegex.test(customStylesContent)) {
       customStylesContent = customStylesContent.replace(
         darkSectionRegex,
@@ -800,7 +800,7 @@ async function main() {
       );
     }
 
-    const darkSecondarySectionRegex = /(\.dark\s*{[^}]*)(--aw-color-secondary:\s*)rgb\([^)]+\)(;[^}]*})/s;
+    const darkSecondarySectionRegex = /(\.dark\s*{[^}]*)(--color-secondary:\s*)rgb\([^)]+\)(;[^}]*})/s;
     if (colorConfig.secondaryDark && darkSecondarySectionRegex.test(customStylesContent)) {
       customStylesContent = customStylesContent.replace(
         darkSecondarySectionRegex,
@@ -808,7 +808,7 @@ async function main() {
       );
     }
 
-    const darkAccentSectionRegex = /(\.dark\s*{[^}]*)(--aw-color-accent:\s*)rgb\([^)]+\)(;[^}]*})/s;
+    const darkAccentSectionRegex = /(\.dark\s*{[^}]*)(--color-accent:\s*)rgb\([^)]+\)(;[^}]*})/s;
     if (colorConfig.accentDark && darkAccentSectionRegex.test(customStylesContent)) {
       customStylesContent = customStylesContent.replace(
         darkAccentSectionRegex,

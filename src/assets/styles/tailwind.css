@@ -21,23 +21,23 @@
 }
 
 @utility bg-page {
-  background-color: var(--aw-color-bg-page);
+  background-color: var(--color-bg-page);
 }
 
 @utility bg-dark {
-  background-color: var(--aw-color-bg-page-dark);
+  background-color: var(--color-bg-page-dark);
 }
 
 @utility bg-light {
-  background-color: var(--aw-color-bg-page);
+  background-color: var(--color-bg-page);
 }
 
 @utility text-page {
-  color: var(--aw-color-text-page);
+  color: var(--color-text-page);
 }
 
 @utility text-muted {
-  color: var(--aw-color-text-muted);
+  color: var(--color-text-muted);
 }
 
 @utility btn {
