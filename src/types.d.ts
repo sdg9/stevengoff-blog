@@ -210,6 +210,8 @@ export interface Form {
   disclaimer?: Disclaimer;
   button?: string;
   description?: string;
+  formEndpoint?: string;
+  formId?: string;
 }
 
 // WIDGETS

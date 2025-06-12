@@ -2,10 +2,24 @@
 import type { Form as Props } from '~/types';
 import Button from '~/components/ui/Button.astro';
 
-const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } = Astro.props;
+const {
+  inputs,
+  textarea,
+  disclaimer,
+  button = 'Contact us',
+  description = '',
+  formEndpoint = '',
+  formId = '',
+} = Astro.props;
 ---
 
-<form>
+<form method="POST" action={formEndpoint} name="contact" id="contact-form" novalidate>
+  {formId && <input type="hidden" name="formId" value={formId} />}
+  {/* Honeypot field (hidden from users, visible to bots) */}
+  <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+    <label for="website">Website</label>
+    <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+  </div>
   {
     inputs &&
       inputs.map(
@@ -18,13 +32,16 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
                 </label>
               )}
               <input
-                type={type}
+                type={name === 'email' ? 'email' : type}
                 name={name}
                 id={name}
                 autocomplete={autocomplete}
                 placeholder={placeholder}
                 class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                data-required={true}
+                required={name === 'email'}
               />
+              <div class="text-red-600 text-xs mt-1 hidden" id={`error-${name}`} />
             </div>
           )
       )
@@ -42,7 +59,9 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
           rows={textarea.rows ? textarea.rows : 4}
           placeholder={textarea.placeholder}
           class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+          data-required={true}
         />
+        <div class="text-red-600 text-xs mt-1 hidden" id={`error-${textarea.name ? textarea.name : 'message'}`} />
       </div>
     )
   }
@@ -85,3 +104,73 @@ const { inputs, textarea, disclaimer, button = 'Contact us', description = '' } 
     )
   }
 </form>
+
+<script type="module">
+  document.getElementById('contact-form')?.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const form = e.target;
+    let valid = true;
+    // Inline validation for required fields and email
+    form.querySelectorAll('[data-required]')?.forEach((el) => {
+      const errorDiv = document.getElementById(`error-${el.name}`);
+      // Remove all token-based border classes first
+      el.style.borderColor = '';
+      if (el.value.trim() === '') {
+        errorDiv.textContent = 'This field is required.';
+        errorDiv.classList.remove('hidden');
+        errorDiv.style.color = 'var(--color-destructive)';
+        el.style.borderColor = 'var(--color-destructive)';
+        valid = false;
+      } else if (el.type === 'email') {
+        if (!el.checkValidity()) {
+          errorDiv.textContent = 'Please enter a valid email address.';
+          errorDiv.classList.remove('hidden');
+          errorDiv.style.color = 'var(--color-warning)';
+          el.style.borderColor = 'var(--color-warning)';
+          valid = false;
+        } else {
+          errorDiv.textContent = '';
+          errorDiv.classList.add('hidden');
+          el.style.borderColor = 'var(--color-success)';
+        }
+      } else {
+        errorDiv.textContent = '';
+        errorDiv.classList.add('hidden');
+        el.style.borderColor = 'var(--color-success)';
+      }
+    });
+    if (!valid) return;
+    const data = new FormData(form);
+    // If honeypot is filled, silently fail
+    if (data.get('website')) return;
+    const payload = Object.fromEntries(data.entries());
+    const endpoint = form.getAttribute('action');
+    const container = document.getElementById('contact-form').parentElement;
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok) {
+      container.innerHTML = `<div class='p-6 rounded-md text-center animate-fade-in' style='background-color: var(--color-success); color: var(--color-success-foreground)'>Thank you! Your message was sent.</div>`;
+    } else {
+      container.innerHTML = `<div class='p-6 rounded-md text-center animate-fade-in' style='background-color: var(--color-destructive); color: var(--color-destructive-foreground)'>There was an error. Please try again later.</div>`;
+    }
+  });
+</script>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease;
+  }
+</style>

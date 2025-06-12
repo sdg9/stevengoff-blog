@@ -34,6 +34,18 @@
             }
           },
           "additionalProperties": false
+        },
+        "contactForm": {
+          "type": "object",
+          "properties": {
+            "formEndpoint": {
+              "type": "string"
+            },
+            "formId": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "required": ["name", "site", "base", "trailingSlash"],

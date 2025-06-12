@@ -12,6 +12,11 @@ site:
     phone: ""
     email: ""
 
+  # Contact form configuration
+  contactForm:
+    formEndpoint: "https://forms.webtownhero.com/contact"
+    formId: ""
+
 # Default SEO metadata
 metadata:
   title:

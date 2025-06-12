@@ -24,6 +24,10 @@ export interface SiteConfig {
     phone?: string;
     email?: string;
   };
+  contactForm?: {
+    formEndpoint?: string;
+    formId?: string;
+  };
 }
 export interface MetaDataConfig extends Omit<MetaData, 'title'> {
   title?: {
@@ -101,6 +105,10 @@ const getSite = (config: Config) => {
       address: '',
       phone: '',
       email: '',
+    },
+    contactForm: {
+      formEndpoint: config.site?.contactForm?.formEndpoint || '',
+      formId: config.site?.contactForm?.formId || '',
     },
   };
 
