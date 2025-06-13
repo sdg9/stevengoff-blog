@@ -26,6 +26,7 @@ import IconListItem from '~/components/ui/IconListItem.astro';
 import IconListItemSlot from '~/components/ui/IconListItemSlot.astro';
 import IconListItemWithSubBullets from '~/components/ui/IconListItemWithSubBullets.astro';
 import IconListWithSubBullets from '~/components/ui/IconListWithSubBullets.astro';
+import AdvancedColorCustomizer from '~/components/ui/AdvancedColorCustomizer.astro';
 
 const metadata = {
   title: 'Component Library - UI Components & Widgets',
@@ -256,10 +257,25 @@ const samplePricing = [
       <!-- Page Header -->
       <div class="text-center mb-16">
         <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Component Library</h1>
-        <p class="text-xl text-muted dark:text-slate-400 max-w-3xl mx-auto">
+        <p class="text-xl text-muted dark:text-slate-400 max-w-3xl mx-auto mb-6">
           Complete reference and live demonstrations of all available UI components and widgets. Use these building
           blocks to create beautiful, consistent interfaces throughout your site.
         </p>
+
+        <!-- Color Customizer Notice -->
+        <div
+          class="inline-flex items-center space-x-2 bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900 dark:to-blue-900 px-4 py-2 rounded-full text-sm text-purple-700 dark:text-purple-300 border border-purple-200 dark:border-purple-700"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"
+            ></path>
+          </svg>
+          <span>Click the design tool button (top-right) to customize colors in real-time!</span>
+        </div>
       </div>
 
       <!-- Table of Contents -->
@@ -1426,4 +1442,7 @@ const samplePricing = [
       </section>
     </div>
   </main>
+
+  <!-- Advanced Color Customizer for dynamic token editing -->
+  <AdvancedColorCustomizer />
 </Layout>

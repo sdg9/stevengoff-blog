@@ -1,0 +1,210 @@
+---
+// Color Customizer Component for dynamically changing CSS custom properties
+---
+
+<div class="color-customizer fixed top-4 right-4 z-50 bg-white dark:bg-slate-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-w-sm">
+  <div class="flex items-center justify-between mb-4">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Color Customizer</h3>
+    <button id="toggle-customizer" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
+  </div>
+  
+  <div id="customizer-content" class="space-y-4">
+    <div class="color-control">
+      <label for="color-primary" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Primary Color
+      </label>
+      <div class="flex items-center space-x-2">
+        <input type="color" id="color-primary" value="#818cf9" class="w-8 h-8 rounded border">
+        <input type="text" id="color-primary-hex" value="#818cf9" class="flex-1 px-2 py-1 text-sm border rounded dark:bg-slate-700 dark:border-slate-600">
+      </div>
+    </div>
+
+    <div class="color-control">
+      <label for="color-secondary" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Secondary Color
+      </label>
+      <div class="flex items-center space-x-2">
+        <input type="color" id="color-secondary" value="#2f3848" class="w-8 h-8 rounded border">
+        <input type="text" id="color-secondary-hex" value="#2f3848" class="flex-1 px-2 py-1 text-sm border rounded dark:bg-slate-700 dark:border-slate-600">
+      </div>
+    </div>
+
+    <div class="color-control">
+      <label for="color-accent" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Accent Color
+      </label>
+      <div class="flex items-center space-x-2">
+        <input type="color" id="color-accent" value="#f14444" class="w-8 h-8 rounded border">
+        <input type="text" id="color-accent-hex" value="#f14444" class="flex-1 px-2 py-1 text-sm border rounded dark:bg-slate-700 dark:border-slate-600">
+      </div>
+    </div>
+
+    <div class="color-control">
+      <label for="color-background" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Background Color
+      </label>
+      <div class="flex items-center space-x-2">
+        <input type="color" id="color-background" value="#ffffff" class="w-8 h-8 rounded border">
+        <input type="text" id="color-background-hex" value="#ffffff" class="flex-1 px-2 py-1 text-sm border rounded dark:bg-slate-700 dark:border-slate-600">
+      </div>
+    </div>
+
+    <div class="color-control">
+      <label for="color-foreground" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        Foreground Color
+      </label>
+      <div class="flex items-center space-x-2">
+        <input type="color" id="color-foreground" value="#0f172a" class="w-8 h-8 rounded border">
+        <input type="text" id="color-foreground-hex" value="#0f172a" class="flex-1 px-2 py-1 text-sm border rounded dark:bg-slate-700 dark:border-slate-600">
+      </div>
+    </div>
+
+    <div class="pt-3 border-t border-gray-200 dark:border-gray-600">
+      <button id="reset-colors" class="w-full px-3 py-2 text-sm bg-gray-100 hover:bg-gray-200 dark:bg-slate-700 dark:hover:bg-slate-600 rounded transition-colors">
+        Reset to Default
+      </button>
+    </div>
+
+    <div class="pt-2">
+      <button id="export-colors" class="w-full px-3 py-2 text-sm bg-blue-100 hover:bg-blue-200 dark:bg-blue-900 dark:hover:bg-blue-800 rounded transition-colors">
+        Export CSS Variables
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .color-customizer {
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .color-customizer.collapsed #customizer-content {
+    display: none;
+  }
+  
+  input[type="color"] {
+    -webkit-appearance: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  input[type="color"]::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  
+  input[type="color"]::-webkit-color-swatch {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+</style>
+
+<script>
+  // Color customizer functionality
+  const colorControls = [
+    { id: 'color-primary', cssVar: '--color-primary', default: '#818cf9' },
+    { id: 'color-secondary', cssVar: '--color-secondary', default: '#2f3848' },
+    { id: 'color-accent', cssVar: '--color-accent', default: '#f14444' },
+    { id: 'color-background', cssVar: '--color-background', default: '#ffffff' },
+    { id: 'color-foreground', cssVar: '--color-foreground', default: '#0f172a' }
+  ];
+
+  function updateCSSVariable(cssVar: string, value: string) {
+    document.documentElement.style.setProperty(cssVar, value);
+  }
+
+  function initColorCustomizer() {
+    colorControls.forEach(control => {
+      const colorInput = document.getElementById(control.id) as HTMLInputElement;
+      const hexInput = document.getElementById(`${control.id}-hex`) as HTMLInputElement;
+      
+      if (colorInput && hexInput) {
+        // Update CSS variable when color picker changes
+        colorInput.addEventListener('input', (e) => {
+          const value = (e.target as HTMLInputElement).value;
+          hexInput.value = value;
+          updateCSSVariable(control.cssVar, value);
+        });
+
+        // Update CSS variable when hex input changes
+        hexInput.addEventListener('input', (e) => {
+          const value = (e.target as HTMLInputElement).value;
+          if (/^#[0-9A-F]{6}$/i.test(value)) {
+            colorInput.value = value;
+            updateCSSVariable(control.cssVar, value);
+          }
+        });
+
+        // Sync color picker when hex input loses focus
+        hexInput.addEventListener('blur', (e) => {
+          const value = (e.target as HTMLInputElement).value;
+          if (/^#[0-9A-F]{6}$/i.test(value)) {
+            colorInput.value = value;
+          } else {
+            hexInput.value = colorInput.value;
+          }
+        });
+      }
+    });
+
+    // Toggle customizer visibility
+    const toggleButton = document.getElementById('toggle-customizer');
+    const customizer = document.querySelector('.color-customizer');
+    
+    if (toggleButton && customizer) {
+      toggleButton.addEventListener('click', () => {
+        customizer.classList.toggle('collapsed');
+      });
+    }
+
+    // Reset colors to default
+    const resetButton = document.getElementById('reset-colors');
+    if (resetButton) {
+      resetButton.addEventListener('click', () => {
+        colorControls.forEach(control => {
+          const colorInput = document.getElementById(control.id) as HTMLInputElement;
+          const hexInput = document.getElementById(`${control.id}-hex`) as HTMLInputElement;
+          
+          if (colorInput && hexInput) {
+            colorInput.value = control.default;
+            hexInput.value = control.default;
+            updateCSSVariable(control.cssVar, control.default);
+          }
+        });
+      });
+    }
+
+    // Export CSS variables
+    const exportButton = document.getElementById('export-colors');
+    if (exportButton) {
+      exportButton.addEventListener('click', () => {
+        const cssVariables = colorControls.map(control => {
+          const hexInput = document.getElementById(`${control.id}-hex`) as HTMLInputElement;
+          return `    ${control.cssVar}: ${hexInput?.value || control.default};`;
+        }).join('\n');
+
+        const cssOutput = `:root {\n${cssVariables}\n}`;
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(cssOutput).then(() => {
+          const originalText = exportButton.textContent;
+          exportButton.textContent = 'Copied!';
+          setTimeout(() => {
+            exportButton.textContent = originalText;
+          }, 2000);
+        });
+      });
+    }
+  }
+
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initColorCustomizer);
+  } else {
+    initColorCustomizer();
+  }
+</script>
