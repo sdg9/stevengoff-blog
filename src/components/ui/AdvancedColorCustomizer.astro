@@ -171,6 +171,25 @@
       </div>
     </div>
 
+    <!-- Coolors Import -->
+    <div class="mt-6">
+      <h4 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Import from Coolors</h4>
+      <div class="space-y-3">
+        <input
+          type="url"
+          id="coolors-url"
+          placeholder="https://coolors.co/palette/606c38-283618-fefae0-dda15e-bc6c25"
+          class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        />
+        <button
+          id="import-coolors"
+          class="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-md transition-colors text-sm"
+        >
+          Import from Coolors
+        </button>
+      </div>
+    </div>
+
     <!-- Action Buttons -->
     <div class="mt-6 space-y-3">
       <button
@@ -346,6 +365,118 @@
     });
   }
 
+  function parseCoolorsUrl(url: string): string[] | null {
+    try {
+      // Handle different Coolors URL formats
+      // https://coolors.co/palette/606c38-283618-fefae0-dda15e-bc6c25
+      // https://coolors.co/606c38-283618-fefae0-dda15e-bc6c25
+      
+      const urlObj = new URL(url);
+      
+      if (!urlObj.hostname.includes('coolors.co')) {
+        return null;
+      }
+      
+      let colorString = '';
+      
+      // Extract colors from path
+      const pathParts = urlObj.pathname.split('/');
+      
+      // Find the part that contains colors (hex codes separated by dashes)
+      for (const part of pathParts) {
+        if (part && part.match(/^[a-fA-F0-9-]+$/)) {
+          colorString = part;
+          break;
+        }
+      }
+      
+      if (!colorString) {
+        return null;
+      }
+      
+      // Split by dashes and validate hex codes
+      const colors = colorString.split('-')
+        .filter(color => color.match(/^[a-fA-F0-9]{6}$/))
+        .map(color => `#${color}`);
+      
+      return colors.length >= 3 ? colors : null;
+    } catch (error) {
+      console.error('Error parsing Coolors URL:', error);
+      return null;
+    }
+  }
+
+  function importFromCoolors(): void {
+    const urlInput = document.getElementById('coolors-url') as HTMLInputElement;
+    const importButton = document.getElementById('import-coolors');
+    
+    if (!urlInput || !importButton) {
+      return;
+    }
+    
+    const url = urlInput.value.trim();
+    
+    if (!url) {
+      showImportFeedback(importButton, 'Please enter a Coolors URL', 'error');
+      return;
+    }
+    
+    const colors = parseCoolorsUrl(url);
+    
+    if (!colors || colors.length < 3) {
+      showImportFeedback(importButton, 'Invalid Coolors URL or not enough colors', 'error');
+      return;
+    }
+    
+    // Map the imported colors to our theme structure
+    // Use the first 5 colors, or repeat/modify if fewer available
+    const importedTheme: ColorTheme = {
+      primary: colors[0] || defaultColors.primary,
+      secondary: colors[1] || defaultColors.secondary,
+      accent: colors[2] || defaultColors.accent,
+      background: colors[3] || '#ffffff', // Default to white if not provided
+      foreground: colors[4] || '#1f2937'  // Default to dark gray if not provided
+    };
+    
+    // If we only have 3 colors, use smart defaults for background/foreground
+    if (colors.length === 3) {
+      importedTheme.background = '#ffffff';
+      importedTheme.foreground = '#1f2937';
+    } else if (colors.length === 4) {
+      // Use the 4th color as background, keep default foreground
+      importedTheme.background = colors[3];
+      importedTheme.foreground = '#1f2937';
+    }
+    
+    // Apply the imported theme
+    applyColors(importedTheme);
+    saveToLocalStorage();
+    
+    showImportFeedback(importButton, 'Colors imported successfully!', 'success');
+    
+    console.log('Imported colors from Coolors:', colors);
+    console.log('Applied theme:', importedTheme);
+  }
+
+  function showImportFeedback(button: HTMLElement, message: string, type: 'success' | 'error'): void {
+    const originalText = button.textContent;
+    button.textContent = message;
+    
+    if (type === 'success') {
+      button.classList.add('bg-green-600', 'hover:bg-green-700');
+      button.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+    } else {
+      button.classList.add('bg-red-600', 'hover:bg-red-700');
+      button.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+    }
+    
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('bg-green-600', 'hover:bg-green-700', 'bg-red-600', 'hover:bg-red-700');
+      button.classList.add('bg-purple-600', 'hover:bg-purple-700');
+    }, 3000);
+  }
+
   function openPanel(): void {
     console.log('Opening color panel...');
     const panel = document.getElementById('advanced-color-panel');
@@ -423,6 +554,7 @@
     const overlay = document.getElementById('advanced-color-overlay');
     const resetButton = document.getElementById('reset-colors');
     const exportButton = document.getElementById('export-colors');
+    const importButton = document.getElementById('import-coolors');
 
     console.log('Toggle button found:', !!toggleButton);
 
@@ -453,6 +585,10 @@
 
     if (exportButton) {
       exportButton.addEventListener('click', exportCSS);
+    }
+
+    if (importButton) {
+      importButton.addEventListener('click', importFromCoolors);
     }
 
     // Preset theme buttons
