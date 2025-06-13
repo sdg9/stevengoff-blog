@@ -85,6 +85,169 @@ const sampleTimelineItems = [
     icon: 'tabler:rocket',
   },
 ];
+
+// Sample data for widget components
+const sampleFeatures = [
+  {
+    title: 'Responsive Design',
+    description: 'Built mobile-first with responsive layouts that work on all devices.',
+    icon: 'tabler:device-mobile',
+  },
+  {
+    title: 'Performance Optimized',
+    description: 'Fast loading times with optimized images and minimal JavaScript.',
+    icon: 'tabler:rocket',
+  },
+  {
+    title: 'SEO Ready',
+    description: 'Built-in SEO best practices and structured data support.',
+    icon: 'tabler:search',
+  },
+  {
+    title: 'Dark Mode',
+    description: 'Beautiful dark and light themes with automatic switching.',
+    icon: 'tabler:moon',
+  },
+];
+
+const sampleSteps = [
+  {
+    title: 'Planning',
+    description: 'Define project scope, requirements, and create a roadmap for success.',
+    icon: 'tabler:clipboard-list',
+  },
+  {
+    title: 'Development',
+    description: 'Build your application using modern tools and best practices.',
+    icon: 'tabler:code',
+  },
+  {
+    title: 'Testing',
+    description: 'Comprehensive testing to ensure quality and reliability.',
+    icon: 'tabler:check',
+  },
+  {
+    title: 'Deployment',
+    description: 'Launch your application and monitor its performance.',
+    icon: 'tabler:rocket',
+  },
+];
+
+const sampleTestimonials = [
+  {
+    testimonial:
+      'This component library saved us weeks of development time. The documentation is excellent and the components are well-designed.',
+    name: 'Sarah Johnson',
+    job: 'Frontend Developer',
+    image: {
+      src: 'https://images.unsplash.com/photo-1494790108755-2616b612b176?ixlib=rb-4.0.3&w=150&h=150&fit=crop&crop=face',
+      alt: 'Sarah Johnson',
+    },
+  },
+  {
+    testimonial:
+      'The responsiveness and accessibility features are top-notch. Highly recommend for any serious project.',
+    name: 'Mike Chen',
+    job: 'UX Designer',
+    image: {
+      src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&w=150&h=150&fit=crop&crop=face',
+      alt: 'Mike Chen',
+    },
+  },
+];
+
+const sampleStats = [
+  {
+    amount: '50+',
+    title: 'Components',
+    icon: 'tabler:components',
+  },
+  {
+    amount: '99%',
+    title: 'Uptime',
+    icon: 'tabler:chart-line',
+  },
+  {
+    amount: '10k+',
+    title: 'Downloads',
+    icon: 'tabler:download',
+  },
+  {
+    amount: '24/7',
+    title: 'Support',
+    icon: 'tabler:headset',
+  },
+];
+
+const sampleFAQs = [
+  {
+    title: 'How do I get started with the components?',
+    description:
+      'Simply import the components you need and start building. Each component includes detailed documentation and examples.',
+  },
+  {
+    title: 'Are the components customizable?',
+    description:
+      'Yes! All components support extensive customization through props and CSS classes. You can modify colors, sizes, spacing, and more.',
+  },
+  {
+    title: 'Do you support TypeScript?',
+    description:
+      'Absolutely! All components are built with TypeScript and include full type definitions for better development experience.',
+  },
+];
+
+const samplePricing = [
+  {
+    title: 'Starter',
+    subtitle: 'Perfect for small projects',
+    price: 0,
+    period: 'per month',
+    items: [
+      {
+        description: 'Basic components',
+      },
+      {
+        description: 'Documentation access',
+      },
+      {
+        description: 'Community support',
+      },
+    ],
+    callToAction: {
+      target: '_blank',
+      text: 'Get started',
+      href: '#',
+    },
+  },
+  {
+    title: 'Professional',
+    subtitle: 'For growing businesses',
+    price: 29,
+    period: 'per month',
+    items: [
+      {
+        description: 'All components',
+      },
+      {
+        description: 'Premium templates',
+      },
+      {
+        description: 'Priority support',
+      },
+      {
+        description: 'Advanced examples',
+      },
+    ],
+    callToAction: {
+      target: '_blank',
+      text: 'Start trial',
+      href: '#',
+    },
+    hasRibbon: true,
+    ribbonTitle: 'Popular',
+  },
+];
 ---
 
 <Layout metadata={metadata}>
@@ -138,7 +301,9 @@ const sampleTimelineItems = [
       <section id="ui-components" class="mb-20">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">UI Components</h2>
         <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">
-          Foundational building blocks from <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">src/components/ui</code> 
+          Foundational building blocks from <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded"
+            >src/components/ui</code
+          >
           used throughout the site for consistent styling and behavior.
         </p>
 
@@ -146,9 +311,10 @@ const sampleTimelineItems = [
         <div id="button" class="mb-12">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Button</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Versatile button component with multiple variants, sizes, and states. Supports icons, different styles, and accessibility features.
+            Versatile button component with multiple variants, sizes, and states. Supports icons, different styles, and
+            accessibility features.
           </p>
-          
+
           <div class="grid lg:grid-cols-2 gap-8">
             <div>
               <h4 class="text-lg font-medium mb-4">Examples</h4>
@@ -166,7 +332,7 @@ const sampleTimelineItems = [
                 </div>
               </div>
             </div>
-            
+
             <div>
               <h4 class="text-lg font-medium mb-4">Code Example</h4>
               <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
@@ -189,7 +355,7 @@ const sampleTimelineItems = [
               </div>
             </div>
           </div>
-          
+
           <div class="mt-6 bg-gray-50 dark:bg-slate-800 rounded-lg p-4">
             <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Available Props</h4>
             <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
@@ -206,17 +372,22 @@ const sampleTimelineItems = [
         <div id="background" class="mb-12">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Background</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Decorative background patterns and gradients for section styling. Adds visual interest without being distracting.
+            Decorative background patterns and gradients for section styling. Adds visual interest without being
+            distracting.
           </p>
-          
-          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 relative overflow-hidden">
+
+          <div
+            class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 relative overflow-hidden"
+          >
             <Background />
             <div class="relative z-10 text-center py-8">
               <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Section with Background</h4>
-              <p class="text-gray-600 dark:text-gray-400">This content appears over the decorative background pattern.</p>
+              <p class="text-gray-600 dark:text-gray-400">
+                This content appears over the decorative background pattern.
+              </p>
             </div>
           </div>
-          
+
           <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
             <pre><code>{`<!-- Basic Usage -->
 <section class="relative">
@@ -232,22 +403,30 @@ const sampleTimelineItems = [
         <div id="headline" class="mb-12">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Headline</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Consistent headline formatting for sections and cards. Supports subtitles, custom styling, and responsive text sizing.
+            Consistent headline formatting for sections and cards. Supports subtitles, custom styling, and responsive
+            text sizing.
           </p>
-          
+
           <div class="grid lg:grid-cols-2 gap-8">
             <div>
               <h4 class="text-lg font-medium mb-4">Examples</h4>
               <div class="space-y-6">
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                  <Headline title="Main Section Title" subtitle="Supporting subtitle text that provides additional context" />
+                  <Headline
+                    title="Main Section Title"
+                    subtitle="Supporting subtitle text that provides additional context"
+                  />
                 </div>
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                  <Headline title="Centered Headline" subtitle="Perfect for hero sections" classes={{ container: 'text-center' }} />
+                  <Headline
+                    title="Centered Headline"
+                    subtitle="Perfect for hero sections"
+                    classes={{ container: 'text-center' }}
+                  />
                 </div>
               </div>
             </div>
-            
+
             <div>
               <h4 class="text-lg font-medium mb-4">Code Example</h4>
               <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
@@ -272,13 +451,14 @@ const sampleTimelineItems = [
         <div id="timeline" class="mb-12">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Timeline</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Visual timeline component perfect for showing processes, steps, or chronological events with icons and descriptions.
+            Visual timeline component perfect for showing processes, steps, or chronological events with icons and
+            descriptions.
           </p>
-          
+
           <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
             <Timeline items={sampleTimelineItems} />
           </div>
-          
+
           <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
             <pre><code>{`const timelineItems = [
   {
@@ -303,7 +483,7 @@ const sampleTimelineItems = [
           <p class="text-gray-600 dark:text-gray-400 mb-6">
             Form components and description list items for structured data display and user input.
           </p>
-          
+
           <div class="grid lg:grid-cols-2 gap-8">
             <div>
               <h4 class="text-lg font-medium mb-4">Form Container</h4>
@@ -311,7 +491,7 @@ const sampleTimelineItems = [
                 <Form />
               </div>
             </div>
-            
+
             <div>
               <h4 class="text-lg font-medium mb-4">Description List Items</h4>
               <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -330,7 +510,7 @@ const sampleTimelineItems = [
       <section id="icon-list-components" class="mb-20">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Icon List Components</h2>
         <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">
-          Specialized components for displaying lists with icons, titles, and descriptions. Perfect for features, 
+          Specialized components for displaying lists with icons, titles, and descriptions. Perfect for features,
           services, process steps, and any content that benefits from visual icons and structured layout.
         </p>
 
@@ -338,7 +518,7 @@ const sampleTimelineItems = [
         <div id="icon-list-item" class="mb-16">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">IconListItem</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Single list item component with icon, title, and description. Highly customizable with different sizes, 
+            Single list item component with icon, title, and description. Highly customizable with different sizes,
             colors, and styling options.
           </p>
 
@@ -357,7 +537,7 @@ const sampleTimelineItems = [
                     iconColor="primary"
                   />
                 </div>
-                
+
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
                   <h5 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Medium (Default)</h5>
                   <IconListItem
@@ -368,7 +548,7 @@ const sampleTimelineItems = [
                     iconColor="accent"
                   />
                 </div>
-                
+
                 <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
                   <h5 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Large</h5>
                   <IconListItem
@@ -469,8 +649,8 @@ const sampleTimelineItems = [
         <div id="icon-list" class="mb-16">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">IconList</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Container component that renders multiple IconListItem components in a responsive grid layout. 
-            Perfect for feature lists, service offerings, and benefit summaries.
+            Container component that renders multiple IconListItem components in a responsive grid layout. Perfect for
+            feature lists, service offerings, and benefit summaries.
           </p>
 
           <div class="space-y-8">
@@ -530,8 +710,8 @@ const sampleTimelineItems = [
         <div id="icon-list-slots" class="mb-16">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">IconListItemSlot</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Flexible version using slots for custom content. When you need more control over the content structure 
-            than the standard IconListItem provides.
+            Flexible version using slots for custom content. When you need more control over the content structure than
+            the standard IconListItem provides.
           </p>
 
           <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
@@ -575,8 +755,8 @@ const sampleTimelineItems = [
         <div id="icon-list-sub-bullets" class="mb-16">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Components with Sub-bullets</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Specialized components for hierarchical content with main points and supporting sub-points. 
-            Available in multiple bullet styles for different design needs.
+            Specialized components for hierarchical content with main points and supporting sub-points. Available in
+            multiple bullet styles for different design needs.
           </p>
 
           <div class="space-y-8">
@@ -612,10 +792,7 @@ const sampleTimelineItems = [
                     iconColor="primary"
                     size="sm"
                     subBulletStyle="bullet"
-                    subBullets={[
-                      { text: 'Standard bullet point' },
-                      { text: 'Another bullet point' },
-                    ]}
+                    subBullets={[{ text: 'Standard bullet point' }, { text: 'Another bullet point' }]}
                   />
                 </div>
 
@@ -644,10 +821,7 @@ const sampleTimelineItems = [
                     iconColor="secondary"
                     size="sm"
                     subBulletStyle="dash"
-                    subBullets={[
-                      { text: 'Dash bullet point' },
-                      { text: 'Another dash point' },
-                    ]}
+                    subBullets={[{ text: 'Dash bullet point' }, { text: 'Another dash point' }]}
                   />
                 </div>
               </div>
@@ -698,7 +872,7 @@ const sampleTimelineItems = [
         <!-- Configuration Options -->
         <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-8">
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Configuration Options</h3>
-          
+
           <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="bg-white dark:bg-slate-700 p-4 rounded-lg">
               <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Sizes</h4>
@@ -744,7 +918,9 @@ const sampleTimelineItems = [
       <section id="widgets" class="mb-20">
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Widget Components</h2>
         <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">
-          High-level layout components from <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">src/components/widgets</code> 
+          High-level layout components from <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded"
+            >src/components/widgets</code
+          >
           that combine multiple UI elements for common page sections and functionality.
         </p>
 
@@ -759,12 +935,12 @@ const sampleTimelineItems = [
             <div>
               <h4 class="text-lg font-medium mb-4">Standard Hero</h4>
               <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <Hero 
-                  title="Welcome to Our Platform" 
+                <Hero
+                  title="Welcome to Our Platform"
                   subtitle="Build amazing experiences with our comprehensive component library and design system."
                   actions={[
                     { text: 'Get Started', href: '/start', variant: 'primary' },
-                    { text: 'Learn More', href: '/about', variant: 'secondary' }
+                    { text: 'Learn More', href: '/about', variant: 'secondary' },
                   ]}
                 />
               </div>
@@ -773,8 +949,8 @@ const sampleTimelineItems = [
             <div>
               <h4 class="text-lg font-medium mb-4">Text-Focused Hero</h4>
               <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <HeroText 
-                  title="Simple & Powerful" 
+                <HeroText
+                  title="Simple & Powerful"
                   subtitle="Sometimes less is more. This hero focuses on clear messaging without distractions."
                 />
               </div>
@@ -810,16 +986,43 @@ const sampleTimelineItems = [
             <div>
               <h4 class="text-lg font-medium mb-4">Standard Features</h4>
               <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <Features />
+                <Features
+                  title="Why Choose Our Platform?"
+                  subtitle="Powerful features designed to help you build better experiences"
+                  items={sampleFeatures}
+                  columns={2}
+                />
               </div>
             </div>
 
             <div>
               <h4 class="text-lg font-medium mb-4">Alternative Feature Layout</h4>
               <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <Features2 />
+                <Features2
+                  title="Advanced Capabilities"
+                  subtitle="Enterprise-grade features for demanding applications"
+                  items={sampleFeatures.slice(0, 3)}
+                />
               </div>
             </div>
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`const features = [
+  {
+    title: 'Responsive Design',
+    description: 'Built mobile-first with responsive layouts.',
+    icon: 'tabler:device-mobile',
+  },
+  // ... more features
+];
+
+<Features 
+  title="Feature Title"
+  subtitle="Feature subtitle"
+  items={features}
+  columns={2}
+/>`}</code></pre>
           </div>
         </div>
 
@@ -831,12 +1034,12 @@ const sampleTimelineItems = [
           </p>
 
           <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-            <CallToAction 
-              title="Ready to Get Started?" 
+            <CallToAction
+              title="Ready to Get Started?"
               subtitle="Join thousands of users who are already building amazing experiences"
               actions={[
                 { text: 'Start Free Trial', href: '/signup', variant: 'primary' },
-                { text: 'View Pricing', href: '/pricing', variant: 'secondary' }
+                { text: 'View Pricing', href: '/pricing', variant: 'secondary' },
               ]}
             />
           </div>
@@ -856,11 +1059,64 @@ const sampleTimelineItems = [
         <div id="contact" class="mb-16">
           <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Contact Form</h3>
           <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Complete contact form widget with validation and customizable fields.
+            Complete contact form widget with validation and customizable fields for user inquiries.
           </p>
 
           <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-            <Contact />
+            <Contact
+              title="Get in Touch"
+              subtitle="We'd love to hear from you. Send us a message and we'll respond as soon as possible."
+              inputs={[
+                {
+                  type: 'text',
+                  name: 'name',
+                  label: 'Name',
+                  autocomplete: 'name',
+                  placeholder: 'Your name',
+                },
+                {
+                  type: 'email',
+                  name: 'email',
+                  label: 'Email',
+                  autocomplete: 'email',
+                  placeholder: 'your.email@example.com',
+                },
+              ]}
+              textarea={{
+                label: 'Message',
+                name: 'message',
+                placeholder: 'Write your message here...',
+                rows: 4,
+              }}
+              button="Send Message"
+            />
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<Contact 
+  title="Contact Us"
+  subtitle="Get in touch description"
+  inputs={[
+    {
+      type: 'text',
+      name: 'name',
+      label: 'Name',
+      placeholder: 'Your name',
+    },
+    {
+      type: 'email', 
+      name: 'email',
+      label: 'Email',
+      placeholder: 'your@email.com',
+    },
+  ]}
+  textarea={{
+    label: 'Message',
+    name: 'message',
+    rows: 4,
+  }}
+  button="Send Message"
+/>`}</code></pre>
           </div>
         </div>
 
@@ -875,16 +1131,41 @@ const sampleTimelineItems = [
             <div>
               <h4 class="text-lg font-medium mb-4">Standard Steps</h4>
               <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <Steps />
+                <Steps
+                  title="Our Development Process"
+                  subtitle="A proven methodology for delivering successful projects"
+                  items={sampleSteps}
+                />
               </div>
             </div>
 
             <div>
               <h4 class="text-lg font-medium mb-4">Alternative Steps Layout</h4>
               <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <Steps2 />
+                <Steps2
+                  title="Getting Started Guide"
+                  subtitle="Follow these steps to begin your journey"
+                  items={sampleSteps.slice(0, 3)}
+                />
               </div>
             </div>
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`const steps = [
+  {
+    title: 'Planning',
+    description: 'Define scope and requirements.',
+    icon: 'tabler:clipboard-list',
+  },
+  // ... more steps
+];
+
+<Steps 
+  title="Process Title"
+  subtitle="Process description"
+  items={steps}
+/>`}</code></pre>
           </div>
         </div>
 
@@ -896,7 +1177,28 @@ const sampleTimelineItems = [
           </p>
 
           <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-            <Testimonials />
+            <Testimonials
+              title="What Our Users Say"
+              subtitle="Real feedback from developers and designers who use our components"
+              testimonials={sampleTestimonials}
+            />
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`const testimonials = [
+  {
+    testimonial: 'Great component library!',
+    name: 'John Doe',
+    job: 'Developer',
+    image: { src: '/path/to/image.jpg', alt: 'John' },
+  },
+  // ... more testimonials
+];
+
+<Testimonials 
+  title="Customer Reviews"
+  testimonials={testimonials}
+/>`}</code></pre>
           </div>
         </div>
 
@@ -908,10 +1210,40 @@ const sampleTimelineItems = [
           </p>
 
           <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-            <Content 
-              title="About Our Platform" 
-              content="This is a flexible content block that can accommodate text, images, and call-to-action elements. Perfect for about sections, feature explanations, or any content that needs a structured layout."
+            <Content
+              title="About Our Platform"
+              subtitle="Building the future of web development"
+              content="This is a flexible content block that can accommodate text, images, and call-to-action elements. Perfect for about sections, feature explanations, or any content that needs a structured layout with visual appeal."
+              image={{
+                src: 'https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&w=500&h=300&fit=crop',
+                alt: 'Platform illustration',
+              }}
+              items={[
+                {
+                  title: 'Modern Architecture',
+                  description: 'Built with the latest web technologies and best practices.',
+                },
+                {
+                  title: 'Developer Experience',
+                  description: 'Focused on making development fast and enjoyable.',
+                },
+              ]}
             />
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<Content 
+  title="Section Title"
+  subtitle="Optional subtitle"
+  content="Main content text..."
+  image={{
+    src: '/path/to/image.jpg',
+    alt: 'Descriptive alt text'
+  }}
+  items={[
+    { title: 'Feature 1', description: 'Details...' }
+  ]}
+/>`}</code></pre>
           </div>
         </div>
 
@@ -920,27 +1252,97 @@ const sampleTimelineItems = [
           <!-- Stats -->
           <div>
             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Statistics</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-6">Display key metrics and achievements.</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+              Display key metrics and achievements with visual impact.
+            </p>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-              <Stats />
+              <Stats
+                title="Platform Statistics"
+                subtitle="Numbers that showcase our impact and growth"
+                stats={sampleStats}
+              />
+            </div>
+            <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              <pre><code>{`const stats = [
+  {
+    amount: '50+',
+    title: 'Components',
+    icon: 'tabler:components',
+  },
+  // ... more stats
+];
+
+<Stats 
+  title="Our Impact"
+  stats={stats}
+/>`}</code></pre>
             </div>
           </div>
 
           <!-- FAQs -->
           <div>
             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">FAQ Section</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-6">Frequently asked questions with expandable answers.</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+              Frequently asked questions with expandable answers for better user experience.
+            </p>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-              <FAQs />
+              <FAQs
+                title="Frequently Asked Questions"
+                subtitle="Everything you need to know about our component library"
+                items={sampleFAQs}
+              />
+            </div>
+            <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              <pre><code>{`const faqs = [
+  {
+    title: 'Question here?',
+    description: 'Detailed answer explanation...',
+  },
+  // ... more FAQs
+];
+
+<FAQs 
+  title="FAQ Title"
+  items={faqs}
+/>`}</code></pre>
             </div>
           </div>
 
           <!-- Pricing -->
           <div>
             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Pricing Tables</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-6">Product pricing and plan comparison tables.</p>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+              Product pricing and plan comparison tables with clear call-to-action buttons.
+            </p>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-              <Pricing />
+              <Pricing
+                title="Choose Your Plan"
+                subtitle="Flexible pricing options for teams of all sizes"
+                prices={samplePricing}
+              />
+            </div>
+            <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              <pre><code>{`const pricing = [
+  {
+    title: 'Basic',
+    price: 0,
+    period: 'per month',
+    items: [
+      { description: 'Feature 1' },
+      { description: 'Feature 2' },
+    ],
+    callToAction: {
+      text: 'Get started',
+      href: '#',
+    },
+  },
+  // ... more plans
+];
+
+<Pricing 
+  title="Pricing Plans"
+  prices={pricing}
+/>`}</code></pre>
             </div>
           </div>
 
@@ -949,8 +1351,8 @@ const sampleTimelineItems = [
             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Informational Notes</h3>
             <p class="text-gray-600 dark:text-gray-400 mb-6">Highlighted information boxes and alerts.</p>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-              <Note 
-                title="Important Information" 
+              <Note
+                title="Important Information"
                 description="This is an example of an informational note that can be used to highlight important details or provide additional context."
               />
             </div>
@@ -974,7 +1376,7 @@ const sampleTimelineItems = [
       <section class="mb-20">
         <div class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg p-8">
           <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Best Practices & Tips</h2>
-          
+
           <div class="grid md:grid-cols-2 gap-8">
             <div>
               <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Component Usage</h3>
@@ -997,7 +1399,7 @@ const sampleTimelineItems = [
                 </li>
               </ul>
             </div>
-            
+
             <div>
               <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Performance</h3>
               <ul class="space-y-3 text-gray-600 dark:text-gray-400">
