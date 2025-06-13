@@ -1,0 +1,75 @@
+---
+import IconListItem from './IconListItem.astro';
+import { twMerge } from 'tailwind-merge';
+
+export interface IconListItemData {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+export interface Props {
+  items: IconListItemData[];
+  columns?: 1 | 2 | 3;
+  iconColor?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'custom';
+  iconBg?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  spacing?: 'tight' | 'normal' | 'loose';
+  classes?: {
+    container?: string;
+    grid?: string;
+    item?: {
+      container?: string;
+      iconWrapper?: string;
+      icon?: string;
+      content?: string;
+      title?: string;
+      description?: string;
+    };
+  };
+}
+
+const {
+  items = [],
+  columns = 1,
+  iconColor = 'primary',
+  iconBg = true,
+  size = 'md',
+  spacing = 'normal',
+  classes = {},
+} = Astro.props;
+
+// Spacing configurations
+const spacingConfig = {
+  tight: 'gap-4 md:gap-6',
+  normal: 'gap-6 md:gap-8',
+  loose: 'gap-8 md:gap-12',
+};
+
+// Grid configurations
+const gridConfig = {
+  1: '',
+  2: 'md:grid-cols-2',
+  3: 'md:grid-cols-2 lg:grid-cols-3',
+};
+---
+
+{
+  items && items.length > 0 && (
+    <div class={twMerge('w-full', classes?.container)}>
+      <div class={twMerge('grid', gridConfig[columns], spacingConfig[spacing], classes?.grid)}>
+        {items.map((item) => (
+          <IconListItem
+            icon={item.icon}
+            title={item.title}
+            description={item.description}
+            iconColor={iconColor}
+            iconBg={iconBg}
+            size={size}
+            classes={classes?.item}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}

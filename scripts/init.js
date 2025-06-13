@@ -654,6 +654,10 @@ async function main() {
       { name: 'Contact', value: 'contact' },
       { name: 'Pricing', value: 'pricing' },
       { name: 'Services', value: 'services' },
+      { name: 'Physiotherapy Option 1', value: 'physio1' },
+      { name: 'Physiotherapy Option 2', value: 'physio2' },
+      { name: 'Physiotherapy Option 3', value: 'physio3' },
+      { name: 'Alternative Therapy', value: 'alt-therapy' },
     ];
 
     const { selectedPages } = await promptWithDefaults(

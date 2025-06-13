@@ -1,0 +1,221 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import IconListItem from '~/components/ui/IconListItem.astro';
+import IconList from '~/components/ui/IconList.astro';
+
+const therapyItems = [
+  {
+    title: 'Explore your present and your potential',
+    description:
+      'Understand where you are now, clarify where you want to go, and identify what might be holding you back.',
+    icon: 'tabler:compass',
+  },
+  {
+    title: 'Process and reframe your story',
+    description: 'Gently revisit past experiences, reframe your narrative, and create space for healing.',
+    icon: 'tabler:heart',
+  },
+  {
+    title: 'Tune into your body',
+    description:
+      "Learn to listen to your body's wisdom through somatic (body-based) practices, even if you're new to this approach.",
+    icon: 'tabler:user-heart',
+  },
+  {
+    title: 'Blend science and intuition',
+    description:
+      'I integrate somatic attachment therapy with Human Design—a modern tool for self-understanding and decision-making—to support you in finding more ease and flow in your life.',
+    icon: 'tabler:brain',
+  },
+  {
+    title: 'Take actionable steps',
+    description: "Together, we'll create practical, personalized steps to help you reach your goals.",
+    icon: 'tabler:target',
+  },
+];
+
+const metadata = {
+  title: 'Icon List Components Demo',
+  description: 'Demonstration of reusable icon list components with various configurations.',
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+---
+
+<Layout metadata={metadata}>
+  <main class="py-12 md:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <!-- Page Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Icon List Components</h1>
+        <p class="text-xl text-muted dark:text-slate-400 max-w-3xl mx-auto">
+          Reusable components for displaying lists with icons, titles, and descriptions. Perfect for therapy services,
+          features, benefits, and more.
+        </p>
+      </div>
+
+      <!-- Single Item Examples -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Single Icon List Items</h2>
+
+        <div class="space-y-8">
+          <!-- Default Medium Size -->
+          <div>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Default (Medium)</h3>
+            <IconListItem
+              icon="tabler:compass"
+              title="Explore your present and your potential"
+              description="Understand where you are now, clarify where you want to go, and identify what might be holding you back."
+            />
+          </div>
+
+          <!-- Small Size -->
+          <div>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Small Size</h3>
+            <IconListItem
+              icon="tabler:heart"
+              title="Process and reframe your story"
+              description="Gently revisit past experiences, reframe your narrative, and create space for healing."
+              size="sm"
+            />
+          </div>
+
+          <!-- Large Size -->
+          <div>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Large Size</h3>
+            <IconListItem
+              icon="tabler:brain"
+              title="Blend science and intuition"
+              description="I integrate somatic attachment therapy with Human Design—a modern tool for self-understanding and decision-making—to support you in finding more ease and flow in your life."
+              size="lg"
+            />
+          </div>
+
+          <!-- Different Colors -->
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Success Color</h3>
+              <IconListItem
+                icon="tabler:check"
+                title="Success Example"
+                description="This uses the success color scheme with green background."
+                iconColor="success"
+              />
+            </div>
+
+            <div>
+              <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Accent Color</h3>
+              <IconListItem
+                icon="tabler:star"
+                title="Accent Example"
+                description="This uses the accent color for emphasis and highlights."
+                iconColor="accent"
+              />
+            </div>
+          </div>
+
+          <!-- No Background -->
+          <div>
+            <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">No Icon Background</h3>
+            <IconListItem
+              icon="tabler:user-heart"
+              title="Tune into your body"
+              description="Learn to listen to your body's wisdom through somatic practices."
+              iconBg={false}
+            />
+          </div>
+        </div>
+      </section>
+
+      <!-- List Examples -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Icon Lists</h2>
+
+        <!-- Single Column List -->
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200">Single Column Layout</h3>
+          <IconList items={therapyItems} columns={1} iconColor="primary" size="md" spacing="normal" />
+        </div>
+
+        <!-- Two Column List -->
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200">Two Column Layout</h3>
+          <IconList items={therapyItems} columns={2} iconColor="secondary" size="md" spacing="loose" />
+        </div>
+
+        <!-- Three Column List (on larger screens) -->
+        <div class="mb-12">
+          <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200">
+            Three Column Layout (Large Screens)
+          </h3>
+          <IconList items={therapyItems.slice(0, 3)} columns={3} iconColor="success" size="sm" spacing="normal" />
+        </div>
+      </section>
+
+      <!-- Usage Examples -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Usage Examples</h2>
+
+        <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-6 md:p-8">
+          <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-200">Code Example</h3>
+          <pre
+            class="bg-gray-900 text-green-400 p-4 rounded overflow-x-auto text-sm"><code>{`<!-- Single Item -->
+<IconListItem
+  icon="tabler:compass"
+  title="Explore your present and your potential"
+  description="Understand where you are now..."
+  iconColor="primary"
+  size="md"
+/>
+
+<!-- List of Items -->
+<IconList
+  items={therapyItems}
+  columns={2}
+  iconColor="primary"
+  size="md"
+  spacing="normal"
+/>`}</code></pre>
+        </div>
+      </section>
+
+      <!-- Styling Options -->
+      <section>
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Styling Options</h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-3">Sizes</h3>
+            <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <li>• <code>sm</code> - Small icons and text</li>
+              <li>• <code>md</code> - Medium (default)</li>
+              <li>• <code>lg</code> - Large icons and text</li>
+            </ul>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-3">Icon Colors</h3>
+            <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <li>• <code>primary</code> - Brand primary</li>
+              <li>• <code>secondary</code> - Secondary</li>
+              <li>• <code>accent</code> - Accent color</li>
+              <li>• <code>success</code> - Green</li>
+              <li>• <code>warning</code> - Yellow</li>
+            </ul>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+            <h3 class="font-semibold text-gray-900 dark:text-white mb-3">Layout Options</h3>
+            <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <li>• <code>columns</code> - 1, 2, or 3</li>
+              <li>• <code>spacing</code> - tight, normal, loose</li>
+              <li>• <code>iconBg</code> - true/false</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,91 @@
+---
+import { Icon } from 'astro-icon/components';
+import { twMerge } from 'tailwind-merge';
+
+export interface Props {
+  icon?: string;
+  title: string;
+  iconColor?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'custom';
+  iconBg?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  classes?: {
+    container?: string;
+    iconWrapper?: string;
+    icon?: string;
+    content?: string;
+    title?: string;
+    description?: string;
+  };
+}
+
+const { icon = 'tabler:check', title, iconColor = 'primary', iconBg = true, size = 'md', classes = {} } = Astro.props;
+
+// Size configurations
+const sizeConfig = {
+  sm: {
+    iconSize: 'w-5 h-5',
+    iconWrapper: 'w-8 h-8',
+    titleSize: 'text-base',
+    spacing: 'gap-3',
+  },
+  md: {
+    iconSize: 'w-6 h-6',
+    iconWrapper: 'w-10 h-10',
+    titleSize: 'text-lg',
+    spacing: 'gap-4',
+  },
+  lg: {
+    iconSize: 'w-7 h-7',
+    iconWrapper: 'w-12 h-12',
+    titleSize: 'text-xl',
+    spacing: 'gap-5',
+  },
+};
+
+// Icon color configurations
+const iconColorConfig = {
+  primary: iconBg ? 'text-white bg-primary' : 'text-primary',
+  secondary: iconBg ? 'text-white bg-secondary' : 'text-secondary',
+  accent: iconBg ? 'text-white bg-accent' : 'text-accent',
+  success: iconBg ? 'text-white bg-green-600 dark:bg-green-700' : 'text-green-600 dark:text-green-500',
+  warning: iconBg ? 'text-white bg-yellow-600 dark:bg-yellow-700' : 'text-yellow-600 dark:text-yellow-500',
+  custom: '', // Allow full custom styling via classes
+};
+
+const config = sizeConfig[size];
+---
+
+<div class={twMerge('flex items-start', config.spacing, classes?.container)}>
+  <div
+    class={twMerge(
+      'flex items-center justify-center flex-shrink-0',
+      iconBg ? `${config.iconWrapper} rounded-full` : '',
+      iconColorConfig[iconColor],
+      classes?.iconWrapper
+    )}
+  >
+    <Icon
+      name={icon}
+      class={twMerge(
+        config.iconSize,
+        iconColor === 'custom' ? 'text-primary' : '', // fallback for custom
+        classes?.icon
+      )}
+    />
+  </div>
+
+  <div class={twMerge('flex-1 min-w-0', classes?.content)}>
+    <h3
+      class={twMerge(
+        config.titleSize,
+        'font-semibold text-gray-900 dark:text-white leading-tight mb-2',
+        classes?.title
+      )}
+    >
+      {title}
+    </h3>
+    <div class={twMerge('text-base text-muted dark:text-slate-400 leading-relaxed', classes?.description)}>
+      <slot />
+    </div>
+  </div>
+</div>

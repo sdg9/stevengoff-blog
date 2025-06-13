@@ -135,6 +135,31 @@ export const headerData = {
       ],
     },
     {
+      text: 'Components',
+      links: [
+        {
+          text: 'Components',
+          href: getPermalink('components'),
+        },
+        {
+          text: 'Icon List Demo',
+          href: getPermalink('icon-list-demo'),
+        },
+        {
+          text: 'Sub-Bullets Demo',
+          href: getPermalink('sub-bullets-demo'),
+        },
+        {
+          text: 'Therapy Example',
+          href: getPermalink('therapy-example'),
+        },
+        {
+          text: 'Beginner Session Example',
+          href: getPermalink('beginner-session-example'),
+        },
+      ],
+    },
+    {
       text: 'Widgets',
       href: '#',
     },

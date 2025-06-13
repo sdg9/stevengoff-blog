@@ -282,3 +282,108 @@ export interface Content extends Omit<Headline, 'classes'>, Widget {
 }
 
 export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {}
+
+// Icon List Component Types
+export interface IconListItemData {
+  icon?: string;
+  title: string;
+  description: string;
+}
+
+export interface IconListItemClasses {
+  container?: string;
+  iconWrapper?: string;
+  icon?: string;
+  content?: string;
+  title?: string;
+  description?: string;
+}
+
+export interface IconListClasses {
+  container?: string;
+  grid?: string;
+  item?: IconListItemClasses;
+}
+
+export interface IconListItem {
+  icon?: string;
+  title: string;
+  description: string;
+  iconColor?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'custom';
+  iconBg?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  classes?: IconListItemClasses;
+}
+
+export interface IconList {
+  items: IconListItemData[];
+  columns?: 1 | 2 | 3;
+  iconColor?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'custom';
+  iconBg?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  spacing?: 'tight' | 'normal' | 'loose';
+  classes?: IconListClasses;
+}
+
+// Sub-bullet list component types
+export interface SubBullet {
+  text: string;
+  icon?: string;
+}
+
+export interface IconListItemWithSubBulletsData {
+  icon?: string;
+  title: string;
+  description?: string;
+  subBullets?: SubBullet[];
+}
+
+export interface IconListItemWithSubBulletsClasses {
+  container?: string;
+  iconWrapper?: string;
+  icon?: string;
+  content?: string;
+  title?: string;
+  description?: string;
+  subList?: string;
+  subItem?: string;
+}
+
+export interface IconListWithSubBulletsClasses {
+  container?: string;
+  grid?: string;
+  item?: IconListItemWithSubBulletsClasses;
+}
+
+export interface IconListItemWithSubBullets {
+  icon?: string;
+  title: string;
+  description?: string;
+  subBullets?: SubBullet[];
+  iconColor?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'custom';
+  iconBg?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  subBulletStyle?: 'bullet' | 'icon' | 'dash';
+  classes?: IconListItemWithSubBulletsClasses;
+}
+
+export interface IconListWithSubBullets {
+  items: IconListItemWithSubBulletsData[];
+  columns?: 1 | 2 | 3;
+  iconColor?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'custom';
+  iconBg?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  spacing?: 'tight' | 'normal' | 'loose';
+  subBulletStyle?: 'bullet' | 'icon' | 'dash';
+  classes?: IconListWithSubBulletsClasses;
+}
+
+// Slot-based component types
+export interface IconListItemSlot {
+  icon?: string;
+  title: string;
+  iconColor?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'custom';
+  iconBg?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  classes?: IconListItemClasses;
+}

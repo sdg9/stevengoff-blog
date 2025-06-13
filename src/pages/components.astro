@@ -1,19 +1,12 @@
 ---
-import Announcement from '~/components/widgets/Announcement.astro';
-import BlogHighlightedPosts from '~/components/widgets/BlogHighlightedPosts.astro';
 import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import Brands from '~/components/widgets/Brands.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import Contact from '~/components/widgets/Contact.astro';
 import Content from '~/components/widgets/Content.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import Features from '~/components/widgets/Features.astro';
 import Features2 from '~/components/widgets/Features2.astro';
-import Features3 from '~/components/widgets/Features3.astro';
-import Footer from '~/components/widgets/Footer.astro';
-import Header from '~/components/widgets/Header.astro';
 import Hero from '~/components/widgets/Hero.astro';
-import Hero2 from '~/components/widgets/Hero2.astro';
 import HeroText from '~/components/widgets/HeroText.astro';
 import Note from '~/components/widgets/Note.astro';
 import Pricing from '~/components/widgets/Pricing.astro';
@@ -27,204 +20,1008 @@ import Button from '~/components/ui/Button.astro';
 import DListItem from '~/components/ui/DListItem.astro';
 import Form from '~/components/ui/Form.astro';
 import Headline from '~/components/ui/Headline.astro';
-import ItemGrid from '~/components/ui/ItemGrid.astro';
-import ItemGrid2 from '~/components/ui/ItemGrid2.astro';
 import Timeline from '~/components/ui/Timeline.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import IconList from '~/components/ui/IconList.astro';
+import IconListItem from '~/components/ui/IconListItem.astro';
+import IconListItemSlot from '~/components/ui/IconListItemSlot.astro';
+import IconListItemWithSubBullets from '~/components/ui/IconListItemWithSubBullets.astro';
+import IconListWithSubBullets from '~/components/ui/IconListWithSubBullets.astro';
 
 const metadata = {
-  title: 'Components',
+  title: 'Component Library - UI Components & Widgets',
+  description: 'Complete reference and demonstration of all available UI components and widgets in the Astro theme.',
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
+
+// Sample data for demonstrations
+const sampleIconItems = [
+  {
+    icon: 'tabler:heart',
+    title: 'User Experience',
+    description: 'Create delightful and intuitive user experiences with thoughtful design.',
+  },
+  {
+    icon: 'tabler:star',
+    title: 'Performance',
+    description: 'Optimized components built for speed and efficiency.',
+  },
+  {
+    icon: 'tabler:palette',
+    title: 'Customizable',
+    description: 'Flexible styling options to match your brand and design needs.',
+  },
+];
+
+const sampleSubBulletItems = [
+  {
+    icon: 'tabler:seedling',
+    title: 'Growing Your Business',
+    description: 'Comprehensive tools and strategies for business development:',
+    subBullets: [
+      { text: 'Market research and competitive analysis' },
+      { text: 'Customer acquisition and retention strategies' },
+      { text: 'Revenue optimization and growth metrics' },
+    ],
+  },
+];
+
+const sampleTimelineItems = [
+  {
+    title: 'Discovery Phase',
+    description: 'Research and planning stage',
+    icon: 'tabler:search',
+  },
+  {
+    title: 'Design & Development',
+    description: 'Creating the solution',
+    icon: 'tabler:code',
+  },
+  {
+    title: 'Launch & Optimize',
+    description: 'Deploy and refine',
+    icon: 'tabler:rocket',
+  },
+];
 ---
 
 <Layout metadata={metadata}>
-  <section class="prose max-w-4xl mx-auto my-8">
-    <h1>Component Library</h1>
-    <p>
-      This page demonstrates all available UI widgets in <code>src/components/widgets</code> and <code
-        >src/components/ui</code
-      >. Each section includes a live example and usage notes.
-    </p>
-  </section>
+  <main class="py-12 md:py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6">
+      <!-- Page Header -->
+      <div class="text-center mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">Component Library</h1>
+        <p class="text-xl text-muted dark:text-slate-400 max-w-3xl mx-auto">
+          Complete reference and live demonstrations of all available UI components and widgets. Use these building
+          blocks to create beautiful, consistent interfaces throughout your site.
+        </p>
+      </div>
 
-  <section>
-    <h2>UI Components</h2>
-    <p>These are foundational UI building blocks from <code>src/components/ui</code> used throughout the site.</p>
-    <ul class="space-y-4">
-      <li>
-        <strong>Background</strong>: Decorative backgrounds for sections. <code>&lt;Background /&gt;</code>
-        <div class="mt-2"><Background /></div>
-      </li>
-      <li>
-        <strong>Button</strong>: Reusable button component. <code>&lt;Button /&gt;</code>
-        <div class="mt-2"><Button label="Button" /></div>
-      </li>
-      <li>
-        <strong>DListItem</strong>: Description list item for key-value pairs. <code>&lt;DListItem /&gt;</code>
-        <dl class="mt-2"><DListItem label="Key" value="Value" /></dl>
-      </li>
-      <li>
-        <strong>Form</strong>: Form container for consistent styling. <code>&lt;Form /&gt;</code>
-        <div class="mt-2"><Form /></div>
-      </li>
-      <li>
-        <strong>Headline</strong>: Section or card headline. <code>&lt;Headline /&gt;</code>
-        <div class="mt-2"><Headline title="Headline Example" /></div>
-      </li>
-      <li>
-        <strong>ItemGrid</strong>: Grid layout for items. <code>&lt;ItemGrid /&gt;</code>
-        <div class="mt-2"><ItemGrid items={[{ title: 'Item 1' }, { title: 'Item 2' }]} /></div>
-      </li>
-      <li>
-        <strong>ItemGrid2</strong>: Alternate grid layout. <code>&lt;ItemGrid2 /&gt;</code>
-        <div class="mt-2"><ItemGrid2 items={[{ title: 'Item A' }, { title: 'Item B' }]} /></div>
-      </li>
-      <li>
-        <strong>Timeline</strong>: Timeline/stepper for processes. <code>&lt;Timeline /&gt;</code>
-        <div class="mt-2"><Timeline items={[{ title: 'Step 1' }, { title: 'Step 2' }]} /></div>
-      </li>
-      <li>
-        <strong>WidgetWrapper</strong>: Wrapper for widget sections. <code>&lt;WidgetWrapper /&gt;</code>
-        <div class="mt-2"><WidgetWrapper>Wrapped content</WidgetWrapper></div>
-      </li>
-    </ul>
-  </section>
+      <!-- Table of Contents -->
+      <nav class="mb-16 bg-gray-50 dark:bg-slate-800 rounded-lg p-6">
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Quick Navigation</h2>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+          <div>
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">UI Components</h3>
+            <ul class="space-y-1 text-gray-600 dark:text-gray-400">
+              <li><a href="#button" class="hover:text-primary">Button</a></li>
+              <li><a href="#background" class="hover:text-primary">Background</a></li>
+              <li><a href="#headline" class="hover:text-primary">Headline</a></li>
+              <li><a href="#timeline" class="hover:text-primary">Timeline</a></li>
+              <li><a href="#forms" class="hover:text-primary">Forms</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Icon Lists</h3>
+            <ul class="space-y-1 text-gray-600 dark:text-gray-400">
+              <li><a href="#icon-list-item" class="hover:text-primary">IconListItem</a></li>
+              <li><a href="#icon-list" class="hover:text-primary">IconList</a></li>
+              <li><a href="#icon-list-slots" class="hover:text-primary">IconListItemSlot</a></li>
+              <li><a href="#icon-list-sub-bullets" class="hover:text-primary">Sub-bullets</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Widgets</h3>
+            <ul class="space-y-1 text-gray-600 dark:text-gray-400">
+              <li><a href="#hero" class="hover:text-primary">Hero Sections</a></li>
+              <li><a href="#features" class="hover:text-primary">Features</a></li>
+              <li><a href="#testimonials" class="hover:text-primary">Testimonials</a></li>
+              <li><a href="#contact" class="hover:text-primary">Contact Forms</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
 
-  <section>
-    <h2>Announcement</h2>
-    <p>Displays a site-wide announcement bar. Useful for news, updates, or promotions.</p>
-    <Announcement />
-  </section>
+      <!-- UI Components Section -->
+      <section id="ui-components" class="mb-20">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">UI Components</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">
+          Foundational building blocks from <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">src/components/ui</code> 
+          used throughout the site for consistent styling and behavior.
+        </p>
 
-  <section>
-    <h2>BlogHighlightedPosts</h2>
-    <p>Showcases selected blog posts by ID. Props: <code>postIds</code> (array of post slugs).</p>
-    <BlogHighlightedPosts postIds={['example-post-1', 'example-post-2']} />
-  </section>
+        <!-- Button Component -->
+        <div id="button" class="mb-12">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Button</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Versatile button component with multiple variants, sizes, and states. Supports icons, different styles, and accessibility features.
+          </p>
+          
+          <div class="grid lg:grid-cols-2 gap-8">
+            <div>
+              <h4 class="text-lg font-medium mb-4">Examples</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="space-y-4">
+                  <div class="flex flex-wrap gap-3">
+                    <Button text="Primary" variant="primary" />
+                    <Button text="Secondary" variant="secondary" />
+                    <Button text="Tertiary" variant="tertiary" />
+                  </div>
+                  <div class="flex flex-wrap gap-3">
+                    <Button text="With Icon" variant="primary" icon="tabler:rocket" />
+                    <Button text="Link Style" variant="link" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h4 class="text-lg font-medium mb-4">Code Example</h4>
+              <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre><code>{`<!-- Basic Usage -->
+<Button text="Click Me" variant="primary" />
 
-  <section>
-    <h2>BlogLatestPosts</h2>
-    <p>Displays the latest blog posts. Props: <code>count</code> (number of posts).</p>
-    <BlogLatestPosts count={3} />
-  </section>
+<!-- With Icon -->
+<Button 
+  text="Get Started" 
+  variant="primary" 
+  icon="tabler:rocket" 
+/>
 
-  <section>
-    <h2>Brands</h2>
-    <p>Show partner or client logos. Props: <code>icons</code>, <code>images</code>.</p>
-    <Brands />
-  </section>
+<!-- Link Button -->
+<Button 
+  text="Learn More" 
+  variant="link" 
+  href="/about" 
+/>`}</code></pre>
+              </div>
+            </div>
+          </div>
+          
+          <div class="mt-6 bg-gray-50 dark:bg-slate-800 rounded-lg p-4">
+            <h4 class="font-semibold text-gray-900 dark:text-white mb-2">Available Props</h4>
+            <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+              <li><code>text</code> - Button label text</li>
+              <li><code>variant</code> - Style variant: primary, secondary, tertiary, link</li>
+              <li><code>icon</code> - Optional Tabler icon name</li>
+              <li><code>href</code> - Makes button a link</li>
+              <li><code>class</code> - Additional CSS classes</li>
+            </ul>
+          </div>
+        </div>
 
-  <section>
-    <h2>CallToAction</h2>
-    <p>Prominent call-to-action section. Props: <code>title</code>, <code>subtitle</code>, <code>actions</code>.</p>
-    <CallToAction title="Ready to start?" actions={[{ label: 'Sign Up', href: '/signup' }]} />
-  </section>
+        <!-- Background Component -->
+        <div id="background" class="mb-12">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Background</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Decorative background patterns and gradients for section styling. Adds visual interest without being distracting.
+          </p>
+          
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 relative overflow-hidden">
+            <Background />
+            <div class="relative z-10 text-center py-8">
+              <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Section with Background</h4>
+              <p class="text-gray-600 dark:text-gray-400">This content appears over the decorative background pattern.</p>
+            </div>
+          </div>
+          
+          <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<!-- Basic Usage -->
+<section class="relative">
+  <Background />
+  <div class="relative z-10">
+    <!-- Your content here -->
+  </div>
+</section>`}</code></pre>
+          </div>
+        </div>
 
-  <section>
-    <h2>Contact</h2>
-    <p>Contact form widget. Props: <code>inputs</code>, <code>textarea</code>, <code>button</code>.</p>
-    <Contact />
-  </section>
+        <!-- Headline Component -->
+        <div id="headline" class="mb-12">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Headline</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Consistent headline formatting for sections and cards. Supports subtitles, custom styling, and responsive text sizing.
+          </p>
+          
+          <div class="grid lg:grid-cols-2 gap-8">
+            <div>
+              <h4 class="text-lg font-medium mb-4">Examples</h4>
+              <div class="space-y-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <Headline title="Main Section Title" subtitle="Supporting subtitle text that provides additional context" />
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <Headline title="Centered Headline" subtitle="Perfect for hero sections" classes={{ container: 'text-center' }} />
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <h4 class="text-lg font-medium mb-4">Code Example</h4>
+              <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre><code>{`<!-- Basic Headline -->
+<Headline 
+  title="Section Title" 
+  subtitle="Optional subtitle" 
+/>
 
-  <section>
-    <h2>Content</h2>
-    <p>
-      Flexible content block with image, text, and call-to-action. Props: <code>title</code>, <code>content</code>, <code
-        >image</code
-      >.
-    </p>
-    <Content title="Content Block" content="This is a content block." />
-  </section>
+<!-- Centered Headline -->
+<Headline 
+  title="Hero Title" 
+  subtitle="Hero subtitle"
+  classes={{ container: 'text-center' }}
+/>`}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <section>
-    <h2>FAQs</h2>
-    <p>Frequently asked questions. Props: <code>items</code> (array of Q&A).</p>
-    <FAQs />
-  </section>
+        <!-- Timeline Component -->
+        <div id="timeline" class="mb-12">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Timeline</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Visual timeline component perfect for showing processes, steps, or chronological events with icons and descriptions.
+          </p>
+          
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Timeline items={sampleTimelineItems} />
+          </div>
+          
+          <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`const timelineItems = [
+  {
+    title: 'Discovery Phase',
+    description: 'Research and planning stage',
+    icon: 'tabler:search',
+  },
+  {
+    title: 'Design & Development', 
+    description: 'Creating the solution',
+    icon: 'tabler:code',
+  }
+];
 
-  <section>
-    <h2>Features</h2>
-    <p>Feature list with icons. Props: <code>items</code> (array), <code>columns</code>.</p>
-    <Features />
-  </section>
+<Timeline items={timelineItems} />`}</code></pre>
+          </div>
+        </div>
 
-  <section>
-    <h2>Features2</h2>
-    <p>Alternate feature layout.</p>
-    <Features2 />
-  </section>
+        <!-- Forms Section -->
+        <div id="forms" class="mb-12">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Forms & Inputs</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Form components and description list items for structured data display and user input.
+          </p>
+          
+          <div class="grid lg:grid-cols-2 gap-8">
+            <div>
+              <h4 class="text-lg font-medium mb-4">Form Container</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <Form />
+              </div>
+            </div>
+            
+            <div>
+              <h4 class="text-lg font-medium mb-4">Description List Items</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <dl class="space-y-3">
+                  <DListItem dt="Name">John Doe</DListItem>
+                  <DListItem dt="Email">john@example.com</DListItem>
+                  <DListItem dt="Status">Active</DListItem>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-  <section>
-    <h2>Features3</h2>
-    <p>Another feature layout variant.</p>
-    <Features3 />
-  </section>
+      <!-- Icon List Components Section -->
+      <section id="icon-list-components" class="mb-20">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Icon List Components</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">
+          Specialized components for displaying lists with icons, titles, and descriptions. Perfect for features, 
+          services, process steps, and any content that benefits from visual icons and structured layout.
+        </p>
 
-  <section>
-    <h2>Footer</h2>
-    <p>Site footer with links and info.</p>
-    <Footer />
-  </section>
+        <!-- IconListItem -->
+        <div id="icon-list-item" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">IconListItem</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Single list item component with icon, title, and description. Highly customizable with different sizes, 
+            colors, and styling options.
+          </p>
 
-  <section>
-    <h2>Header</h2>
-    <p>Site header/navigation bar.</p>
-    <Header />
-  </section>
+          <div class="space-y-8">
+            <!-- Size Examples -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Different Sizes</h4>
+              <div class="grid gap-6">
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h5 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Small</h5>
+                  <IconListItem
+                    icon="tabler:heart"
+                    title="Small Size Example"
+                    description="Compact version perfect for sidebars or dense layouts."
+                    size="sm"
+                    iconColor="primary"
+                  />
+                </div>
+                
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h5 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Medium (Default)</h5>
+                  <IconListItem
+                    icon="tabler:star"
+                    title="Medium Size Example"
+                    description="Standard size that works well in most contexts and provides good balance."
+                    size="md"
+                    iconColor="accent"
+                  />
+                </div>
+                
+                <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h5 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Large</h5>
+                  <IconListItem
+                    icon="tabler:rocket"
+                    title="Large Size Example"
+                    description="Prominent version ideal for hero sections, landing pages, or when you want to draw attention to key features."
+                    size="lg"
+                    iconColor="success"
+                  />
+                </div>
+              </div>
+            </div>
 
-  <section>
-    <h2>Hero</h2>
-    <p>
-      Primary hero section. Props: <code>title</code>, <code>subtitle</code>, <code>image</code>, <code>actions</code>.
-    </p>
-    <Hero title="Welcome!" subtitle="This is the hero section." />
-  </section>
+            <!-- Color Examples -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Icon Colors</h4>
+              <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <IconListItem
+                    icon="tabler:palette"
+                    title="Primary Color"
+                    description="Main brand color"
+                    iconColor="primary"
+                    size="sm"
+                  />
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <IconListItem
+                    icon="tabler:check"
+                    title="Success Color"
+                    description="Green for positive actions"
+                    iconColor="success"
+                    size="sm"
+                  />
+                </div>
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <IconListItem
+                    icon="tabler:star"
+                    title="Accent Color"
+                    description="Highlight and emphasis"
+                    iconColor="accent"
+                    size="sm"
+                  />
+                </div>
+              </div>
+            </div>
 
-  <section>
-    <h2>Hero2</h2>
-    <p>Alternate hero layout.</p>
-    <Hero2 title="Welcome!" subtitle="Alternate hero." />
-  </section>
+            <!-- Code Example -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Usage Examples</h4>
+              <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre><code>{`<!-- Basic Usage -->
+<IconListItem
+  icon="tabler:heart"
+  title="Feature Title"
+  description="Description of the feature"
+/>
 
-  <section>
-    <h2>HeroText</h2>
-    <p>Text-focused hero section.</p>
-    <HeroText title="Text Hero" subtitle="For text-heavy intros." />
-  </section>
+<!-- With Custom Styling -->
+<IconListItem
+  icon="tabler:rocket"
+  title="Advanced Feature"
+  description="Detailed description with custom styling"
+  iconColor="success"
+  size="lg"
+  iconBg={false}
+/>`}</code></pre>
+              </div>
+            </div>
 
-  <section>
-    <h2>Note</h2>
-    <p>Info or alert note. Props: <code>icon</code>, <code>title</code>, <code>description</code>.</p>
-    <Note title="Note Title" description="This is a note." />
-  </section>
+            <!-- Props Reference -->
+            <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-6">
+              <h4 class="font-semibold text-gray-900 dark:text-white mb-4">Available Props</h4>
+              <div class="grid md:grid-cols-2 gap-6 text-sm">
+                <div>
+                  <h5 class="font-medium text-gray-800 dark:text-gray-200 mb-2">Required</h5>
+                  <ul class="space-y-1 text-gray-600 dark:text-gray-400">
+                    <li><code>icon</code> - Tabler icon name (e.g., "tabler:heart")</li>
+                    <li><code>title</code> - Main heading text</li>
+                    <li><code>description</code> - Supporting description text</li>
+                  </ul>
+                </div>
+                <div>
+                  <h5 class="font-medium text-gray-800 dark:text-gray-200 mb-2">Optional</h5>
+                  <ul class="space-y-1 text-gray-600 dark:text-gray-400">
+                    <li><code>iconColor</code> - primary, secondary, accent, success, warning</li>
+                    <li><code>size</code> - sm, md, lg</li>
+                    <li><code>iconBg</code> - true/false (show icon background)</li>
+                    <li><code>class</code> - Additional CSS classes</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-  <section>
-    <h2>Pricing</h2>
-    <p>Pricing table. Props: <code>prices</code> (array).</p>
-    <Pricing />
-  </section>
+        <!-- IconList -->
+        <div id="icon-list" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">IconList</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Container component that renders multiple IconListItem components in a responsive grid layout. 
+            Perfect for feature lists, service offerings, and benefit summaries.
+          </p>
 
-  <section>
-    <h2>Stats</h2>
-    <p>Key statistics. Props: <code>stats</code> (array).</p>
-    <Stats />
-  </section>
+          <div class="space-y-8">
+            <!-- Single Column -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Single Column Layout</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <IconList items={sampleIconItems} columns={1} iconColor="primary" spacing="normal" />
+              </div>
+            </div>
 
-  <section>
-    <h2>Steps</h2>
-    <p>Step-by-step process. Props: <code>items</code> (array).</p>
-    <Steps />
-  </section>
+            <!-- Two Columns -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Two Column Layout</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <IconList items={sampleIconItems} columns={2} iconColor="secondary" spacing="loose" />
+              </div>
+            </div>
 
-  <section>
-    <h2>Steps2</h2>
-    <p>Alternate steps layout.</p>
-    <Steps2 />
-  </section>
+            <!-- Three Columns -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Three Column Layout (Large Screens)</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <IconList items={sampleIconItems} columns={3} iconColor="success" size="sm" spacing="normal" />
+              </div>
+            </div>
 
-  <section>
-    <h2>Testimonials</h2>
-    <p>Customer testimonials. Props: <code>testimonials</code> (array).</p>
-    <Testimonials />
-  </section>
+            <!-- Code Example -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Code Example</h4>
+              <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre><code>{`const items = [
+  {
+    icon: 'tabler:heart',
+    title: 'User Experience',
+    description: 'Create delightful user experiences...',
+  },
+  {
+    icon: 'tabler:star', 
+    title: 'Performance',
+    description: 'Optimized for speed...',
+  }
+];
+
+<IconList 
+  items={items}
+  columns={2}
+  iconColor="primary"
+  spacing="normal"
+/>`}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- IconListItemSlot -->
+        <div id="icon-list-slots" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">IconListItemSlot</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Flexible version using slots for custom content. When you need more control over the content structure 
+            than the standard IconListItem provides.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
+            <IconListItemSlot icon="tabler:code" title="Custom Content with Slots" iconColor="accent">
+              <p class="mb-3 text-gray-600 dark:text-gray-400">
+                This component uses slots for maximum flexibility in content structure.
+              </p>
+              <div class="space-y-2">
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-2 h-2 bg-accent rounded-full"></span>
+                  <span>Custom HTML content</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-2 h-2 bg-accent rounded-full"></span>
+                  <span>Complex layouts and styling</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <span class="w-2 h-2 bg-accent rounded-full"></span>
+                  <span>Interactive elements</span>
+                </div>
+              </div>
+            </IconListItemSlot>
+          </div>
+
+          <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<IconListItemSlot 
+  icon="tabler:code" 
+  title="Custom Content" 
+  iconColor="accent"
+>
+  <p>Your custom content here...</p>
+  <ul class="space-y-2">
+    <li>• Custom bullet points</li>
+    <li>• Complex layouts</li>
+  </ul>
+</IconListItemSlot>`}</code></pre>
+          </div>
+        </div>
+
+        <!-- Sub-bullets Components -->
+        <div id="icon-list-sub-bullets" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Components with Sub-bullets</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Specialized components for hierarchical content with main points and supporting sub-points. 
+            Available in multiple bullet styles for different design needs.
+          </p>
+
+          <div class="space-y-8">
+            <!-- Single Item with Sub-bullets -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">IconListItemWithSubBullets</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <IconListItemWithSubBullets
+                  icon="tabler:seedling"
+                  title="Business Growth Strategy"
+                  description="Comprehensive approach to scaling your business:"
+                  iconColor="primary"
+                  subBulletStyle="bullet"
+                  subBullets={[
+                    { text: 'Market research and competitive analysis to identify opportunities' },
+                    { text: 'Customer acquisition strategies tailored to your target audience' },
+                    { text: 'Revenue optimization and growth metrics tracking' },
+                  ]}
+                />
+              </div>
+            </div>
+
+            <!-- Different Bullet Styles -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Bullet Style Variations</h4>
+              <div class="grid lg:grid-cols-3 gap-6">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h5 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Bullet Style</h5>
+                  <IconListItemWithSubBullets
+                    icon="tabler:list"
+                    title="Traditional Bullets"
+                    description="Standard bullet points:"
+                    iconColor="primary"
+                    size="sm"
+                    subBulletStyle="bullet"
+                    subBullets={[
+                      { text: 'Standard bullet point' },
+                      { text: 'Another bullet point' },
+                    ]}
+                  />
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h5 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Icon Style</h5>
+                  <IconListItemWithSubBullets
+                    icon="tabler:palette"
+                    title="Icon Bullets"
+                    description="Custom icon bullets:"
+                    iconColor="accent"
+                    size="sm"
+                    subBulletStyle="icon"
+                    subBullets={[
+                      { text: 'Check mark bullet', icon: 'tabler:check' },
+                      { text: 'Star bullet point', icon: 'tabler:star' },
+                    ]}
+                  />
+                </div>
+
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
+                  <h5 class="text-sm font-semibold mb-3 text-gray-700 dark:text-gray-300">Dash Style</h5>
+                  <IconListItemWithSubBullets
+                    icon="tabler:minus"
+                    title="Dash Bullets"
+                    description="Em-dash bullets:"
+                    iconColor="secondary"
+                    size="sm"
+                    subBulletStyle="dash"
+                    subBullets={[
+                      { text: 'Dash bullet point' },
+                      { text: 'Another dash point' },
+                    ]}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <!-- List with Sub-bullets -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">IconListWithSubBullets</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <IconListWithSubBullets
+                  items={sampleSubBulletItems}
+                  columns={1}
+                  iconColor="success"
+                  subBulletStyle="bullet"
+                />
+              </div>
+            </div>
+
+            <!-- Code Example -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Code Example</h4>
+              <div class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+                <pre><code>{`<!-- Single Item with Sub-bullets -->
+<IconListItemWithSubBullets
+  icon="tabler:seedling"
+  title="Main Feature"
+  description="Description of the main feature:"
+  iconColor="primary"
+  subBulletStyle="bullet"
+  subBullets={[
+    { text: 'First sub-point' },
+    { text: 'Second sub-point' }
+  ]}
+/>
+
+<!-- Icon Style Sub-bullets -->
+<IconListItemWithSubBullets
+  subBulletStyle="icon"
+  subBullets={[
+    { text: 'Custom icon', icon: 'tabler:check' }
+  ]}
+/>`}</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration Options -->
+        <div class="bg-gray-50 dark:bg-slate-800 rounded-lg p-8">
+          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-6">Configuration Options</h3>
+          
+          <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white dark:bg-slate-700 p-4 rounded-lg">
+              <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Sizes</h4>
+              <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <li>• <code>sm</code> - Compact layout</li>
+                <li>• <code>md</code> - Standard (default)</li>
+                <li>• <code>lg</code> - Prominent display</li>
+              </ul>
+            </div>
+
+            <div class="bg-white dark:bg-slate-700 p-4 rounded-lg">
+              <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Icon Colors</h4>
+              <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <li>• <code>primary</code> - Brand primary</li>
+                <li>• <code>secondary</code> - Secondary theme</li>
+                <li>• <code>accent</code> - Accent highlights</li>
+                <li>• <code>success</code> - Green positive</li>
+                <li>• <code>warning</code> - Yellow caution</li>
+              </ul>
+            </div>
+
+            <div class="bg-white dark:bg-slate-700 p-4 rounded-lg">
+              <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Layout</h4>
+              <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <li>• <code>columns</code> - 1, 2, or 3</li>
+                <li>• <code>spacing</code> - tight, normal, loose</li>
+                <li>• <code>iconBg</code> - Background visibility</li>
+              </ul>
+            </div>
+
+            <div class="bg-white dark:bg-slate-700 p-4 rounded-lg">
+              <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Sub-bullets</h4>
+              <ul class="text-sm text-gray-600 dark:text-gray-400 space-y-1">
+                <li>• <code>bullet</code> - Standard bullets</li>
+                <li>• <code>icon</code> - Custom icons</li>
+                <li>• <code>dash</code> - Em-dash style</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Widgets Section -->
+      <section id="widgets" class="mb-20">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-8">Widget Components</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-12">
+          High-level layout components from <code class="bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded">src/components/widgets</code> 
+          that combine multiple UI elements for common page sections and functionality.
+        </p>
+
+        <!-- Hero Sections -->
+        <div id="hero" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Hero Sections</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Landing page hero components with different layouts and styles for various use cases.
+          </p>
+
+          <div class="space-y-8">
+            <div>
+              <h4 class="text-lg font-medium mb-4">Standard Hero</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <Hero 
+                  title="Welcome to Our Platform" 
+                  subtitle="Build amazing experiences with our comprehensive component library and design system."
+                  actions={[
+                    { text: 'Get Started', href: '/start', variant: 'primary' },
+                    { text: 'Learn More', href: '/about', variant: 'secondary' }
+                  ]}
+                />
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-medium mb-4">Text-Focused Hero</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <HeroText 
+                  title="Simple & Powerful" 
+                  subtitle="Sometimes less is more. This hero focuses on clear messaging without distractions."
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<!-- Standard Hero -->
+<Hero 
+  title="Hero Title" 
+  subtitle="Supporting subtitle text"
+  actions={[
+    { text: 'Primary Action', href: '/action', variant: 'primary' }
+  ]}
+/>
+
+<!-- Text-Only Hero -->
+<HeroText 
+  title="Clean Title" 
+  subtitle="Focused messaging"
+/>`}</code></pre>
+          </div>
+        </div>
+
+        <!-- Features -->
+        <div id="features" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Feature Sections</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Showcase product features, services, or benefits with various layouts and presentation styles.
+          </p>
+
+          <div class="space-y-8">
+            <div>
+              <h4 class="text-lg font-medium mb-4">Standard Features</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <Features />
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-medium mb-4">Alternative Feature Layout</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <Features2 />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div id="cta" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Call to Action</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Prominent sections designed to drive user engagement and conversions.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <CallToAction 
+              title="Ready to Get Started?" 
+              subtitle="Join thousands of users who are already building amazing experiences"
+              actions={[
+                { text: 'Start Free Trial', href: '/signup', variant: 'primary' },
+                { text: 'View Pricing', href: '/pricing', variant: 'secondary' }
+              ]}
+            />
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<CallToAction 
+  title="Ready to Get Started?" 
+  subtitle="Compelling subtitle message"
+  actions={[
+    { text: 'Primary Action', href: '/action', variant: 'primary' }
+  ]}
+/>`}</code></pre>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div id="contact" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Contact Form</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Complete contact form widget with validation and customizable fields.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Contact />
+          </div>
+        </div>
+
+        <!-- Steps & Processes -->
+        <div id="steps" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Process Steps</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Step-by-step process visualizations for onboarding, tutorials, or workflow explanations.
+          </p>
+
+          <div class="space-y-8">
+            <div>
+              <h4 class="text-lg font-medium mb-4">Standard Steps</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <Steps />
+              </div>
+            </div>
+
+            <div>
+              <h4 class="text-lg font-medium mb-4">Alternative Steps Layout</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <Steps2 />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonials -->
+        <div id="testimonials" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Testimonials</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Customer testimonials and social proof sections to build trust and credibility.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Testimonials />
+          </div>
+        </div>
+
+        <!-- Content Blocks -->
+        <div id="content" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Content Sections</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Flexible content blocks for text, images, and mixed media presentations.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Content 
+              title="About Our Platform" 
+              content="This is a flexible content block that can accommodate text, images, and call-to-action elements. Perfect for about sections, feature explanations, or any content that needs a structured layout."
+            />
+          </div>
+        </div>
+
+        <!-- Additional Components -->
+        <div class="space-y-12">
+          <!-- Stats -->
+          <div>
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Statistics</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Display key metrics and achievements.</p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <Stats />
+            </div>
+          </div>
+
+          <!-- FAQs -->
+          <div>
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">FAQ Section</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Frequently asked questions with expandable answers.</p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <FAQs />
+            </div>
+          </div>
+
+          <!-- Pricing -->
+          <div>
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Pricing Tables</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Product pricing and plan comparison tables.</p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <Pricing />
+            </div>
+          </div>
+
+          <!-- Notes -->
+          <div>
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Informational Notes</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Highlighted information boxes and alerts.</p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <Note 
+                title="Important Information" 
+                description="This is an example of an informational note that can be used to highlight important details or provide additional context."
+              />
+            </div>
+          </div>
+
+          <!-- Blog Components -->
+          <div>
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Blog Components</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Components for blog listings and content presentation.</p>
+            <div class="space-y-6">
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <h4 class="text-lg font-medium mb-3">Latest Posts</h4>
+                <BlogLatestPosts count={3} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Best Practices Section -->
+      <section class="mb-20">
+        <div class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg p-8">
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Best Practices & Tips</h2>
+          
+          <div class="grid md:grid-cols-2 gap-8">
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Component Usage</h3>
+              <ul class="space-y-3 text-gray-600 dark:text-gray-400">
+                <li class="flex items-start gap-3">
+                  <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Use semantic HTML and proper heading hierarchy</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Maintain consistent spacing and sizing across components</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Test components in both light and dark themes</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Ensure all interactive elements are keyboard accessible</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Performance</h3>
+              <ul class="space-y-3 text-gray-600 dark:text-gray-400">
+                <li class="flex items-start gap-3">
+                  <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Optimize images and use appropriate formats</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Use lazy loading for below-the-fold content</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Minimize JavaScript for static components</span>
+                </li>
+                <li class="flex items-start gap-3">
+                  <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                  <span>Test loading performance on slower connections</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
 </Layout>

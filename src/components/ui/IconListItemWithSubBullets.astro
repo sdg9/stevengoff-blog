@@ -1,0 +1,164 @@
+---
+import { Icon } from 'astro-icon/components';
+import { twMerge } from 'tailwind-merge';
+
+export interface SubBullet {
+  text: string;
+  icon?: string;
+}
+
+export interface Props {
+  icon?: string;
+  title: string;
+  description?: string;
+  subBullets?: SubBullet[];
+  iconColor?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'custom';
+  iconBg?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  subBulletStyle?: 'bullet' | 'icon' | 'dash';
+  classes?: {
+    container?: string;
+    iconWrapper?: string;
+    icon?: string;
+    content?: string;
+    title?: string;
+    description?: string;
+    subList?: string;
+    subItem?: string;
+  };
+}
+
+const {
+  icon = 'tabler:check',
+  title,
+  description,
+  subBullets = [],
+  iconColor = 'primary',
+  iconBg = true,
+  size = 'md',
+  subBulletStyle = 'bullet',
+  classes = {},
+} = Astro.props;
+
+// Size configurations
+const sizeConfig = {
+  sm: {
+    iconSize: 'w-5 h-5',
+    iconWrapper: 'w-8 h-8',
+    titleSize: 'text-base',
+    descriptionSize: 'text-sm',
+    subBulletSize: 'text-sm',
+    spacing: 'gap-3',
+    subSpacing: 'mt-2',
+  },
+  md: {
+    iconSize: 'w-6 h-6',
+    iconWrapper: 'w-10 h-10',
+    titleSize: 'text-lg',
+    descriptionSize: 'text-base',
+    subBulletSize: 'text-base',
+    spacing: 'gap-4',
+    subSpacing: 'mt-3',
+  },
+  lg: {
+    iconSize: 'w-7 h-7',
+    iconWrapper: 'w-12 h-12',
+    titleSize: 'text-xl',
+    descriptionSize: 'text-lg',
+    subBulletSize: 'text-lg',
+    spacing: 'gap-5',
+    subSpacing: 'mt-4',
+  },
+};
+
+// Icon color configurations
+const iconColorConfig = {
+  primary: iconBg ? 'text-white bg-primary' : 'text-primary',
+  secondary: iconBg ? 'text-white bg-secondary' : 'text-secondary',
+  accent: iconBg ? 'text-white bg-accent' : 'text-accent',
+  success: iconBg ? 'text-white bg-green-600 dark:bg-green-700' : 'text-green-600 dark:text-green-500',
+  warning: iconBg ? 'text-white bg-yellow-600 dark:bg-yellow-700' : 'text-yellow-600 dark:text-yellow-500',
+  custom: '', // Allow full custom styling via classes
+};
+
+const config = sizeConfig[size];
+
+// Sub-bullet prefix based on style
+const getSubBulletPrefix = (style: string, subIcon?: string) => {
+  switch (style) {
+    case 'icon':
+      return subIcon ? subIcon : 'tabler:point-filled';
+    case 'dash':
+      return '—';
+    case 'bullet':
+    default:
+      return '•';
+  }
+};
+---
+
+<div class={twMerge('flex items-start', config.spacing, classes?.container)}>
+  <div
+    class={twMerge(
+      'flex items-center justify-center flex-shrink-0',
+      iconBg ? `${config.iconWrapper} rounded-full` : '',
+      iconColorConfig[iconColor],
+      classes?.iconWrapper
+    )}
+  >
+    <Icon
+      name={icon}
+      class={twMerge(
+        config.iconSize,
+        iconColor === 'custom' ? 'text-primary' : '', // fallback for custom
+        classes?.icon
+      )}
+    />
+  </div>
+
+  <div class={twMerge('flex-1 min-w-0', classes?.content)}>
+    <h3 class={twMerge(config.titleSize, 'font-semibold text-gray-900 dark:text-white leading-tight', classes?.title)}>
+      {title}
+    </h3>
+
+    {
+      description && (
+        <p
+          class={twMerge(
+            config.descriptionSize,
+            'text-muted dark:text-slate-400 mt-1 leading-relaxed',
+            classes?.description
+          )}
+          set:html={description}
+        />
+      )
+    }
+
+    {
+      subBullets && subBullets.length > 0 && (
+        <ul class={twMerge('space-y-2', config.subSpacing, classes?.subList)}>
+          {subBullets.map((subBullet) => {
+            const prefix = getSubBulletPrefix(subBulletStyle, subBullet.icon);
+            return (
+              <li
+                class={twMerge(
+                  'flex items-start gap-2',
+                  config.subBulletSize,
+                  'text-muted dark:text-slate-400',
+                  classes?.subItem
+                )}
+              >
+                {subBulletStyle === 'icon' ? (
+                  <Icon name={prefix as string} class="w-4 h-4 mt-0.5 flex-shrink-0 text-muted dark:text-slate-500" />
+                ) : (
+                  <span class="text-muted dark:text-slate-500 font-medium mt-0.5 leading-none">{prefix}</span>
+                )}
+                <span class="leading-relaxed" set:html={subBullet.text} />
+              </li>
+            );
+          })}
+        </ul>
+      )
+    }
+  </div>
+</div>
