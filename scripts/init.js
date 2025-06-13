@@ -125,9 +125,9 @@ async function main() {
       // .git directory doesn't exist, which is fine
     }
 
+    // Do not remove existing git history. If a git repo exists, keep it.
     if (gitExists) {
-      console.log('Removing existing git history...');
-      deleteRecursively(join(process.cwd(), '.git'));
+      console.log('Git repository already exists. Keeping existing git history.');
     }
 
     // Initialize new git repo
