@@ -114,8 +114,8 @@ async function main() {
   }
 
   try {
-    // 1. Git Initialization
-    console.log('🔄 Initializing Git Repository');
+    // 1. Git Repository Setup
+    console.log('🔄 Setting up Git Repository');
 
     // Check if we're in a git repo and if .git exists
     let gitExists = false;
@@ -125,27 +125,28 @@ async function main() {
       // .git directory doesn't exist, which is fine
     }
 
-    // Do not remove existing git history. If a git repo exists, keep it.
     if (gitExists) {
       console.log('Git repository already exists. Keeping existing git history.');
+      
+      // Rename origin remote to template if it exists
+      if (runGitCommand('git remote get-url origin', '🔍 Checking for origin remote')) {
+        if (runGitCommand('git remote rename origin template', '🔄 Renaming origin remote to template')) {
+          console.log('✅ Renamed origin remote to template');
+        } else {
+          console.log('⚠️ Warning: Could not rename origin remote to template');
+        }
+      } else {
+        console.log('ℹ️ No origin remote found to rename');
+      }
+    } else {
+      // Initialize new git repo if none exists
+      if (!runGitCommand('git init', '📦 Initializing new git repository')) {
+        throw new Error('Failed to initialize git repository');
+      }
+      console.log('✅ Git repository initialized');
     }
 
-    // Initialize new git repo
-    if (!runGitCommand('git init', '📦 Initializing new git repository')) {
-      throw new Error('Failed to initialize git repository');
-    }
-
-    // Add all files for initial commit
-    if (!runGitCommand('git add .', '📁 Adding all files to git')) {
-      throw new Error('Failed to add files to git');
-    }
-
-    // Create initial commit
-    if (!runGitCommand('git commit -m "Initial commit: AstroWind template"', '💾 Creating initial commit')) {
-      throw new Error('Failed to create initial commit');
-    }
-
-    console.log('✅ Git repository initialized with initial commit\n');
+    console.log('✅ Git repository setup complete\n');
 
     // 1. Site Configuration
     console.log('🌐 Site Configuration');
