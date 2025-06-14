@@ -16,6 +16,7 @@ Use Prettier for code formatting.
 Use ESLint for linting.
 Use Tailwind CSS or Astro components for layout and styling
 Reuse CSS tokens from CustomStyles.astro for consistent design, where possible, especially with colors. 
+Use getPermalink when linking to pages.
 
 ### Content & SEO Best Practices
 Ensure sites follow content best practices and are SEO optimized.

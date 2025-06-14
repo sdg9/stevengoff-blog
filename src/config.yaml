@@ -15,7 +15,7 @@ site:
   # Contact form configuration
   contactForm:
     formEndpoint: "https://forms.webtownhero.com/contact"
-    formId: ""
+    formId: "bluerainlily"
 
 # Default SEO metadata
 metadata:

@@ -127,7 +127,7 @@ async function main() {
 
     if (gitExists) {
       console.log('Git repository already exists. Keeping existing git history.');
-      
+
       // Rename origin remote to template if it exists
       if (runGitCommand('git remote get-url origin', '🔍 Checking for origin remote')) {
         if (runGitCommand('git remote rename origin template', '🔄 Renaming origin remote to template')) {
