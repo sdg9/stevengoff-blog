@@ -45,6 +45,10 @@ export const headerData = {
           text: 'Alt Therapy',
           href: getPermalink('/homes/alternative-therapy'),
         },
+        {
+          text: 'Painter',
+          href: getPermalink('/homes/painter'),
+        },
       ],
     },
     {

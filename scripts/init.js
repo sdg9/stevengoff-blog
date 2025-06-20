@@ -659,6 +659,7 @@ async function main() {
       { name: 'Physiotherapy Option 2', value: 'physio2' },
       { name: 'Physiotherapy Option 3', value: 'physio3' },
       { name: 'Alternative Therapy', value: 'alt-therapy' },
+      { name: 'Painter', value: 'painter' },
     ];
 
     const { selectedPages } = await promptWithDefaults(
