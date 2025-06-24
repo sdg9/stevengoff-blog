@@ -8,6 +8,7 @@ import {
   type ColorRecommendation
 } from '../../utils/contrast';
 import type { ColorPalette } from '../../utils/palettes';
+import AccessibleColorWheel from './AccessibleColorWheel.astro';
 
 export interface Props {
   palette: ColorPalette;
@@ -21,6 +22,12 @@ const colorKeys = [
   'foreground', 'primary', 'secondary', 'accent', 
   // 'muted', 
   'mutedForeground', 'destructive', 'success', 'warning'
+];
+
+// Background types to test against
+const backgroundTypes = [
+  { key: 'background', label: 'Main Background' },
+  { key: 'muted', label: 'Muted Background' }
 ];
 
 // Color labels for display
@@ -38,30 +45,39 @@ const colorLabels: Record<string, string> = {
 
 // Get colors for current mode
 const colors = palette[mode];
-const backgroundColor = colors.background;
 
-// Calculate contrast for each color against background
-const contrastResults = colorKeys
-  .filter(key => colors[key])
-  .map(key => {
-    const color = colors[key];
-    const ratio = calculateContrastRatio(backgroundColor, color);
-    const result = getAccessibilityLevel(ratio);
-    
-    // Generate recommendation if contrast is failing AAA
-    let recommendation: ColorRecommendation | null = null;
-    if (ratio < 7.0) {
-      recommendation = generateColorRecommendations(backgroundColor, color);
-    }
-    
-    return {
-      key,
-      color,
-      label: colorLabels[key] || key,
-      recommendation,
-      ...result
-    };
-  });
+// Calculate contrast for each color against each background type
+const contrastResultsByBackground = backgroundTypes.map(bgType => {
+  const backgroundColor = colors[bgType.key];
+  
+  const contrastResults = colorKeys
+    .filter(key => colors[key])
+    .map(key => {
+      const color = colors[key];
+      const ratio = calculateContrastRatio(backgroundColor, color);
+      const result = getAccessibilityLevel(ratio);
+      
+      // Generate recommendation if contrast is failing AAA
+      let recommendation: ColorRecommendation | null = null;
+      if (ratio < 7.0) {
+        recommendation = generateColorRecommendations(backgroundColor, color);
+      }
+      
+      return {
+        key,
+        color,
+        label: colorLabels[key] || key,
+        recommendation,
+        ...result
+      };
+    });
+
+  return {
+    backgroundType: bgType,
+    backgroundColor,
+    contrastResults
+  };
+});
 
 // Get ADA compliance icon
 function getADAIcon(rating: string): string {
@@ -76,86 +92,93 @@ function getADAIcon(rating: string): string {
 ---
 
 <div class="contrast-grid">
-  <div class="grid-header">
-    <h4 class="grid-title">{mode} Mode - Colors on Background</h4>
-    <div class="background-swatch">
-      <div class="color-swatch" style={`background-color: ${backgroundColor}`}></div>
-      <span class="background-label">Background: {backgroundColor}</span>
-    </div>
-  </div>
-
-  <div class="contrast-list">
-    {contrastResults.map(result => (
-      <div 
-        class={`contrast-item ${result.key === 'foreground' ? 'main-text-item' : ''}`}
-        style={`
-          background-color: ${getContrastRatioBackground(result.ratio)};
-          border-color: ${getContrastRatioColor(result.ratio)};
-        `}
-      >
-        <div class="color-info">
-          <div class="color-swatch" style={`background-color: ${result.color}`}></div>
-          <div class="color-details">
-            <span class="color-name">{result.label}</span>
-            <code class="color-hex">{result.color}</code>
-          </div>
+  {contrastResultsByBackground.map(bgData => (
+    <div class="background-section">
+      <div class="grid-header">
+        <h4 class="grid-title">{mode} Mode - Colors on {bgData.backgroundType.label}</h4>
+        <div class="background-swatch">
+          <div class="color-swatch" style={`background-color: ${bgData.backgroundColor}`}></div>
+          <span class="background-label">{bgData.backgroundType.label}: {bgData.backgroundColor}</span>
         </div>
-        
-        <div class="contrast-info">
-          <div class="ada-compliance">
-            <span class="ada-icon">{getADAIcon(result.rating)}</span>
-            <span class="ada-level">{result.level}</span>
-          </div>
-          <div class="contrast-ratio" style={`color: ${getContrastRatioColor(result.ratio)}`}>
-            {result.ratio}:1
-          </div>
-          <div class="rating-text" style={`color: ${getContrastRatioColor(result.ratio)}`}>
-            {result.rating}
-          </div>
-        </div>
+      </div>
 
-        <!-- Preview text sample -->
-        <div 
-          class="text-preview"
-          style={`background-color: ${backgroundColor}; color: ${result.color}`}
-        >
-          <span class="preview-normal">Sample text</span>
-          <span class="preview-large">Large text</span>
-        </div>
-
-        <!-- Show recommendation if contrast is failing AAA -->
-        {result.recommendation && (
-          <div class="recommendation-section">
-            <div class="recommendation-header">
-              <span class="recommendation-label">💡 AAA Recommendation:</span>
+      <div class="contrast-list">
+        {bgData.contrastResults.map(result => (
+          <div 
+            class={`contrast-item ${result.key === 'foreground' ? 'main-text-item' : ''}`}
+            style={`
+              background-color: ${getContrastRatioBackground(result.ratio)};
+              border-color: ${getContrastRatioColor(result.ratio)};
+            `}
+          >
+            <div class="color-info">
+              <div class="color-swatch" style={`background-color: ${result.color}`}></div>
+              <div class="color-details">
+                <span class="color-name">{result.label}</span>
+                <code class="color-hex">{result.color}</code>
+              </div>
             </div>
-            <div class="recommendation-content">
-              <div class="recommended-color">
-                <div class="color-swatch" style={`background-color: ${result.recommendation.recommendedColor}`}></div>
-                <div class="recommendation-details">
-                  <code class="color-hex">{result.recommendation.recommendedColor}</code>
-                  <span class="improvement-text">{result.recommendation.improvement}</span>
+            
+            <div class="contrast-info">
+              <div class="ada-compliance">
+                <span class="ada-icon">{getADAIcon(result.rating)}</span>
+                <span class="ada-level">{result.level}</span>
+              </div>
+              <div class="contrast-ratio" style={`color: ${getContrastRatioColor(result.ratio)}`}>
+                {result.ratio}:1
+              </div>
+              <div class="rating-text" style={`color: ${getContrastRatioColor(result.ratio)}`}>
+                {result.rating}
+              </div>
+            </div>
+
+            <!-- Preview text sample -->
+            <div 
+              class="text-preview"
+              style={`background-color: ${bgData.backgroundColor}; color: ${result.color}`}
+            >
+              <span class="preview-normal">Sample text</span>
+              <span class="preview-large">Large text</span>
+            </div>
+
+            <!-- Show recommendation if contrast is failing AAA -->
+            {result.recommendation && (
+              <div class="recommendation-section">
+                <div class="recommendation-header">
+                  <span class="recommendation-label">💡 AAA Recommendation:</span>
+                </div>
+                <div class="recommendation-content">
+                  <div class="recommended-color">
+                    <div class="color-swatch" style={`background-color: ${result.recommendation.recommendedColor}`}></div>
+                    <div class="recommendation-details">
+                      <code class="color-hex">{result.recommendation.recommendedColor}</code>
+                      <span class="improvement-text">{result.recommendation.improvement}</span>
+                    </div>
+                  </div>
+                  <div class="contrast-comparison">
+                    <span class="current-ratio">Current: {result.recommendation.originalRatio.toFixed(2)}:1</span>
+                    <span class="arrow">→</span>
+                    <span class="new-ratio">Recommended: {result.recommendation.newRatio.toFixed(2)}:1</span>
+                  </div>
+                  <!-- Preview with recommended color -->
+                  <div 
+                    class="text-preview recommended-preview"
+                    style={`background-color: ${bgData.backgroundColor}; color: ${result.recommendation.recommendedColor}`}
+                  >
+                    <span class="preview-normal">Sample text</span>
+                    <span class="preview-large">Large text</span>
+                  </div>
+                  
+                  <!-- Show accessible color wheel for exploration -->
+                  <AccessibleColorWheel backgroundColor={bgData.backgroundColor} targetRatio={7.0} />
                 </div>
               </div>
-              <div class="contrast-comparison">
-                <span class="current-ratio">Current: {result.recommendation.originalRatio.toFixed(2)}:1</span>
-                <span class="arrow">→</span>
-                <span class="new-ratio">Recommended: {result.recommendation.newRatio.toFixed(2)}:1</span>
-              </div>
-              <!-- Preview with recommended color -->
-              <div 
-                class="text-preview recommended-preview"
-                style={`background-color: ${backgroundColor}; color: ${result.recommendation.recommendedColor}`}
-              >
-                <span class="preview-normal">Sample text</span>
-                <span class="preview-large">Large text</span>
-              </div>
-            </div>
+            )}
           </div>
-        )}
+        ))}
       </div>
-    ))}
-  </div>
+    </div>
+  ))}
 
   <!-- Legend -->
   <div class="contrast-legend">
@@ -198,6 +221,15 @@ function getADAIcon(rating: string): string {
     padding: 1rem;
     background: white;
     margin-bottom: 1rem;
+  }
+
+  .background-section {
+    margin-bottom: 2rem;
+  }
+
+  .background-section:not(:last-of-type) {
+    padding-bottom: 2rem;
+    border-bottom: 2px solid #e5e7eb;
   }
 
   .grid-header {

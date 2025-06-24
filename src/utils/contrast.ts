@@ -531,3 +531,126 @@ export function generateColorRecommendations(
     improvement,
   };
 }
+
+/**
+ * Generate AAA-compliant colors across the full hue spectrum for a given background
+ */
+export interface AccessibleColorOption {
+  hue: number;
+  saturation: number;
+  lightness: number;
+  hex: string;
+  contrastRatio: number;
+}
+
+export function generateAccessibleColorWheel(
+  backgroundColor: string,
+  targetRatio: number = 7.0,
+  hueSteps: number = 24,
+  saturationLevels: number[] = [100, 80, 60, 40, 20]
+): AccessibleColorOption[] {
+  const accessibleColors: AccessibleColorOption[] = [];
+  
+  // First, add grayscale options (hue doesn't matter, saturation = 0)
+  const grayscaleLightness = generateLightnessRange();
+  for (const l of grayscaleLightness) {
+    const testColor = hslToHex(0, 0, l); // Hue and saturation don't matter for grayscale
+    const ratio = calculateContrastRatio(backgroundColor, testColor);
+    
+    if (ratio >= targetRatio) {
+      accessibleColors.push({
+        hue: -1, // Special value to indicate grayscale
+        saturation: 0,
+        lightness: l,
+        hex: testColor,
+        contrastRatio: ratio
+      });
+    }
+  }
+  
+  // Then add colored options across the hue spectrum
+  for (let h = 0; h < 360; h += 360 / hueSteps) {
+    for (const s of saturationLevels) {
+      // Skip very low saturation for colored section since we have grayscale
+      if (s < 15) continue;
+      
+      const lightnessAttempts = generateLightnessRange();
+      
+      for (const l of lightnessAttempts) {
+        const testColor = hslToHex(h, s, l);
+        const ratio = calculateContrastRatio(backgroundColor, testColor);
+        
+        if (ratio >= targetRatio) {
+          accessibleColors.push({
+            hue: h,
+            saturation: s,
+            lightness: l,
+            hex: testColor,
+            contrastRatio: ratio
+          });
+          break; // Found a good lightness for this hue/saturation combo
+        }
+      }
+    }
+  }
+  
+  return accessibleColors;
+}
+
+/**
+ * Generate a range of lightness values to test, prioritizing mid-range values
+ */
+function generateLightnessRange(): number[] {
+  const values: number[] = [];
+  
+  // Start with mid-range values that are most likely to work
+  for (let l = 30; l <= 70; l += 5) {
+    values.push(l);
+  }
+  
+  // Add darker values
+  for (let l = 25; l >= 5; l -= 5) {
+    values.push(l);
+  }
+  
+  // Add lighter values
+  for (let l = 75; l <= 95; l += 5) {
+    values.push(l);
+  }
+  
+  return values;
+}
+
+/**
+ * Find the closest accessible color to a given target color
+ */
+export function findClosestAccessibleColor(
+  targetColor: string,
+  backgroundColor: string,
+  targetRatio: number = 7.0
+): AccessibleColorOption | null {
+  const targetHsl = hexToHsl(targetColor);
+  if (!targetHsl) return null;
+  
+  const accessibleColors = generateAccessibleColorWheel(backgroundColor, targetRatio);
+  
+  if (accessibleColors.length === 0) return null;
+  
+  // Find the color with the closest hue to the target
+  let closestColor = accessibleColors[0];
+  let smallestHueDifference = Math.abs(targetHsl.h - accessibleColors[0].hue);
+  
+  for (const color of accessibleColors) {
+    const hueDifference = Math.min(
+      Math.abs(targetHsl.h - color.hue),
+      360 - Math.abs(targetHsl.h - color.hue) // Account for hue wrapping around
+    );
+    
+    if (hueDifference < smallestHueDifference) {
+      smallestHueDifference = hueDifference;
+      closestColor = color;
+    }
+  }
+  
+  return closestColor;
+}

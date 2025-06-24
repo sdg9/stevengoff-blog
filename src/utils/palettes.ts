@@ -72,8 +72,8 @@ const darkDefaults = {
 
 export const colorPalettes: Record<string, ColorPalette> = {
   test: {
-    name: 'a',
-    description: 'b',
+    name: 'test',
+    description: 'test palette',
     light: {
       ...lightDefaults,
       primary: '#6e4e00',
