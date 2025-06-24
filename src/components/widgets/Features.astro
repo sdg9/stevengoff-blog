@@ -3,6 +3,7 @@ import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import ItemGrid from '~/components/ui/ItemGrid.astro';
 import Headline from '~/components/ui/Headline.astro';
 import type { Features as Props } from '~/types';
+import { separateBackgroundClasses } from '~/utils/widget-classes';
 
 const {
   title = await Astro.slots.render('title'),
@@ -17,10 +18,15 @@ const {
   isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
-} = Astro.props;
+  bgClass = '',
+} = Astro.props as Props & { bgClass?: string };
+
+// Separate background classes from container classes for proper full-width backgrounds
+const { bgClasses, nonBgClasses } = separateBackgroundClasses(classes?.container as string, bgClass);
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl ${classes?.container ?? ''}`} bg={bg}>
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl ${nonBgClasses}`} bg={bg}>
+  {bgClasses && <div slot="bg" class={`absolute inset-0 ${bgClasses}`} />}
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
   <ItemGrid
     items={items}
