@@ -76,10 +76,13 @@ export const colorPalettes: Record<string, ColorPalette> = {
     description: 'b',
     light: {
       ...lightDefaults,
-      primary: '#f4b400',
-      secondary: '#9aa000',
-      accent: '#daa520',
+      primary: '#6e4e00',
+      secondary: '#3e4300',
+      accent: '#725410',
       muted: '#ffffff',
+      destructive: '#8e0c0c',
+      success: '#086144',
+      warning: '#634004',
     },
     dark: {
       ...darkDefaults,

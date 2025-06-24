@@ -10,6 +10,14 @@ export interface ContrastResult {
   score: number; // 0-100 accessibility score
 }
 
+export interface ColorRecommendation {
+  originalColor: string;
+  recommendedColor: string;
+  originalRatio: number;
+  newRatio: number;
+  improvement: string;
+}
+
 export interface PaletteAccessibility {
   overallScore: number;
   rating: 'Excellent' | 'Good' | 'Fair' | 'Poor' | 'Critical';
@@ -228,4 +236,298 @@ export function getContrastRatioBackground(ratio: number): string {
   if (ratio >= 4.5) return '#dbeafe'; // Light blue
   if (ratio >= 3) return '#fed7aa'; // Light orange
   return '#fecaca'; // Light red
+}
+
+/**
+ * Convert RGB to hex
+ */
+function rgbToHex(r: number, g: number, b: number): string {
+  return `#${Math.round(r).toString(16).padStart(2, '0')}${Math.round(g).toString(16).padStart(2, '0')}${Math.round(b).toString(16).padStart(2, '0')}`;
+}
+
+/**
+ * Convert RGB to HSL
+ */
+function rgbToHsl(r: number, g: number, b: number): { h: number; s: number; l: number } {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  let h: number, s: number;
+  const l = (max + min) / 2;
+
+  if (max === min) {
+    h = s = 0; // achromatic
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+    switch (max) {
+      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+      case g: h = (b - r) / d + 2; break;
+      case b: h = (r - g) / d + 4; break;
+      default: h = 0;
+    }
+    h /= 6;
+  }
+
+  return { h: h * 360, s: s * 100, l: l * 100 };
+}
+
+/**
+ * Convert HSL to RGB
+ */
+function hslToRgb(h: number, s: number, l: number): { r: number; g: number; b: number } {
+  h /= 360;
+  s /= 100;
+  l /= 100;
+
+  const hue2rgb = (p: number, q: number, t: number) => {
+    if (t < 0) t += 1;
+    if (t > 1) t -= 1;
+    if (t < 1/6) return p + (q - p) * 6 * t;
+    if (t < 1/2) return q;
+    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+    return p;
+  };
+
+  let r: number, g: number, b: number;
+
+  if (s === 0) {
+    r = g = b = l; // achromatic
+  } else {
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
+
+  return { r: r * 255, g: g * 255, b: b * 255 };
+}
+
+/**
+ * Convert hex to HSL
+ */
+function hexToHsl(hex: string): { h: number; s: number; l: number } | null {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return null;
+  return rgbToHsl(rgb.r, rgb.g, rgb.b);
+}
+
+/**
+ * Convert HSL to hex
+ */
+function hslToHex(h: number, s: number, l: number): string {
+  const rgb = hslToRgb(h, s, l);
+  return rgbToHex(rgb.r, rgb.g, rgb.b);
+}
+
+/**
+ * Adjust a color's lightness to achieve the target contrast ratio while preserving hue and saturation
+ */
+function adjustColorForContrast(
+  foregroundColor: string,
+  backgroundColor: string,
+  targetRatio: number = 7.0
+): string {
+  const fgHsl = hexToHsl(foregroundColor);
+  const bgLuminance = getLuminance(backgroundColor);
+  
+  if (!fgHsl) return foregroundColor;
+
+  // Keep original hue and saturation, adjust lightness
+  const { h, s, l: originalL } = fgHsl;
+  
+  // Start with more conservative adjustments - try to stay closer to original
+  const attempts: Array<{ s: number; lMin: number; lMax: number; priority: number }> = [
+    // First priority: keep original saturation, small lightness adjustments
+    { s: s, lMin: Math.max(0, originalL - 20), lMax: Math.min(100, originalL + 20), priority: 1 },
+    // Second priority: keep original saturation, moderate adjustments  
+    { s: s, lMin: Math.max(0, originalL - 40), lMax: Math.min(100, originalL + 40), priority: 2 },
+    // Third priority: slight saturation reduction, broader lightness range
+    { s: Math.max(0, s - 15), lMin: 0, lMax: 100, priority: 3 },
+    // Fourth priority: more saturation reduction
+    { s: Math.max(0, s - 30), lMin: 0, lMax: 100, priority: 4 },
+    // Last resort: any saturation
+    { s: 0, lMin: 0, lMax: 100, priority: 5 }
+  ];
+
+  let bestColor = foregroundColor;
+  let bestRatio = calculateContrastRatio(backgroundColor, foregroundColor);
+  let bestPriority = 10;
+
+  for (const attempt of attempts) {
+    // Binary search for the right lightness value within this attempt's range
+    let minL = attempt.lMin;
+    let maxL = attempt.lMax;
+    
+    for (let i = 0; i < 30; i++) { // 30 iterations for good precision
+      const testL = (minL + maxL) / 2;
+      const testColor = hslToHex(h, attempt.s, testL);
+      const ratio = calculateContrastRatio(backgroundColor, testColor);
+      
+      // If we achieve the target ratio with better priority, use it
+      if (ratio >= targetRatio && attempt.priority < bestPriority) {
+        bestColor = testColor;
+        bestRatio = ratio;
+        bestPriority = attempt.priority;
+        break; // Found a good solution, move to next attempt for potentially better one
+      }
+      
+      // Update best even if we don't hit target, for fallback
+      if (ratio > bestRatio || (ratio === bestRatio && attempt.priority < bestPriority)) {
+        bestColor = testColor;
+        bestRatio = ratio;
+        bestPriority = attempt.priority;
+      }
+      
+      // Adjust search range based on contrast direction needed
+      if (ratio < targetRatio) {
+        // Need more contrast
+        if (bgLuminance > 0.5) {
+          // Light background, make foreground darker
+          maxL = testL;
+        } else {
+          // Dark background, make foreground lighter  
+          minL = testL;
+        }
+      } else {
+        // Already have enough contrast, could go closer to original
+        if (bgLuminance > 0.5) {
+          // Light background, could be slightly lighter
+          minL = testL;
+        } else {
+          // Dark background, could be slightly darker
+          maxL = testL;
+        }
+      }
+      
+      // Early termination if we're very close to target
+      if (Math.abs(ratio - targetRatio) < 0.05) {
+        break;
+      }
+    }
+    
+    // If we found a good solution with this priority level, we can stop
+    if (bestRatio >= targetRatio && attempt.priority <= 2) {
+      break;
+    }
+  }
+  
+  return bestColor;
+}
+
+/**
+ * Generate a foreground color recommendation that achieves AAA contrast while preserving the original color character
+ */
+export function generateAAAForegroundColor(backgroundColor: string, originalForeground?: string): { light: string; dark: string } {
+  if (originalForeground) {
+    // Try to preserve the original color character
+    const adjustedColor = adjustColorForContrast(originalForeground, backgroundColor, 7.0);
+    const ratio = calculateContrastRatio(backgroundColor, adjustedColor);
+    
+    if (ratio >= 7.0) {
+      // Success! Return the adjusted color
+      const bgLuminance = getLuminance(backgroundColor);
+      if (bgLuminance > 0.5) {
+        return { light: '#ffffff', dark: adjustedColor };
+      } else {
+        return { light: adjustedColor, dark: '#000000' };
+      }
+    }
+  }
+  
+  // Fallback to high contrast colors if adjustment fails
+  const bgLuminance = getLuminance(backgroundColor);
+  const targetRatio = 7.0;
+
+  // Calculate required luminance for AAA contrast
+  const lightFgLuminance = Math.min(1, targetRatio * (bgLuminance + 0.05) - 0.05);
+  const darkFgLuminance = Math.max(0, (bgLuminance + 0.05) / targetRatio - 0.05);
+
+  // Convert luminance back to RGB (simplified approach)
+  let lightColor = '#ffffff';
+  if (lightFgLuminance >= 0 && lightFgLuminance <= 1) {
+    const lightValue = Math.pow(lightFgLuminance / 0.2126, 1 / 2.4) * 255;
+    lightColor = rgbToHex(lightValue, lightValue, lightValue);
+  }
+
+  let darkColor = '#000000';
+  if (darkFgLuminance >= 0 && darkFgLuminance <= 1) {
+    const darkValue = Math.pow(darkFgLuminance / 0.2126, 1 / 2.4) * 255;
+    darkColor = rgbToHex(darkValue, darkValue, darkValue);
+  }
+
+  return { light: lightColor, dark: darkColor };
+}
+
+/**
+ * Generate color recommendations for failing contrast combinations
+ */
+export interface ColorRecommendation {
+  originalColor: string;
+  recommendedColor: string;
+  originalRatio: number;
+  newRatio: number;
+  improvement: string;
+}
+
+export function generateColorRecommendations(
+  backgroundColor: string,
+  foregroundColor: string,
+  _targetRatio: number = 7.0
+): ColorRecommendation {
+  const originalRatio = calculateContrastRatio(backgroundColor, foregroundColor);
+  
+  // Try to adjust the original color to achieve AAA contrast
+  const adjustedColor = adjustColorForContrast(foregroundColor, backgroundColor, 7.0);
+  const adjustedRatio = calculateContrastRatio(backgroundColor, adjustedColor);
+  
+  // If adjustment worked well, use it; otherwise fall back to high contrast alternatives
+  let recommendedColor = adjustedColor;
+  let newRatio = adjustedRatio;
+  
+  if (adjustedRatio < 7.0) {
+    // If we still can't achieve AAA, try a fallback approach
+    const bgLuminance = getLuminance(backgroundColor);
+    const fgHsl = hexToHsl(foregroundColor);
+    
+    if (fgHsl) {
+      // Try with reduced saturation but same hue
+      const { h } = fgHsl;
+      const fallbackColor = hslToHex(h, 20, bgLuminance > 0.5 ? 15 : 85);
+      const fallbackRatio = calculateContrastRatio(backgroundColor, fallbackColor);
+      
+      if (fallbackRatio > newRatio) {
+        recommendedColor = fallbackColor;
+        newRatio = fallbackRatio;
+      }
+    }
+    
+    // Final fallback to high contrast if still not good enough
+    if (newRatio < 4.5) {
+      recommendedColor = bgLuminance > 0.5 ? '#1a1a1a' : '#f5f5f5';
+      newRatio = calculateContrastRatio(backgroundColor, recommendedColor);
+    }
+  }
+
+  let improvement: string;
+  if (newRatio >= 7) {
+    improvement = 'Achieves AAA compliance';
+  } else if (newRatio >= 4.5) {
+    improvement = 'Achieves AA compliance';
+  } else {
+    improvement = 'Partial improvement';
+  }
+
+  return {
+    originalColor: foregroundColor,
+    recommendedColor,
+    originalRatio,
+    newRatio,
+    improvement,
+  };
 }
