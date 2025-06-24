@@ -102,7 +102,75 @@ function getRatingSymbol(rating: string): string {
 ---
 
 <div class="compact-contrast-grid">
-  <h3 class="palette-title">{palette.name}</h3>
+  <div class="palette-header">
+    <h3 class="palette-title">{palette.name}</h3>
+    <p class="palette-description">{palette.description}</p>
+    
+    <!-- Palette Color Preview -->
+    <div class="palette-colors">
+      <div class="color-mode-section">
+        <h4 class="mode-title">Light Mode</h4>
+        <div class="color-swatches">
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.light.primary}`}></div>
+            <span class="swatch-label">Primary</span>
+            <code class="swatch-hex">{palette.light.primary}</code>
+          </div>
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.light.secondary}`}></div>
+            <span class="swatch-label">Secondary</span>
+            <code class="swatch-hex">{palette.light.secondary}</code>
+          </div>
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.light.accent}`}></div>
+            <span class="swatch-label">Accent</span>
+            <code class="swatch-hex">{palette.light.accent}</code>
+          </div>
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.light.background}`}></div>
+            <span class="swatch-label">Background</span>
+            <code class="swatch-hex">{palette.light.background}</code>
+          </div>
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.light.foreground}`}></div>
+            <span class="swatch-label">Foreground</span>
+            <code class="swatch-hex">{palette.light.foreground}</code>
+          </div>
+        </div>
+      </div>
+      
+      <div class="color-mode-section">
+        <h4 class="mode-title">Dark Mode</h4>
+        <div class="color-swatches">
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.dark.primary}`}></div>
+            <span class="swatch-label">Primary</span>
+            <code class="swatch-hex">{palette.dark.primary}</code>
+          </div>
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.dark.secondary}`}></div>
+            <span class="swatch-label">Secondary</span>
+            <code class="swatch-hex">{palette.dark.secondary}</code>
+          </div>
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.dark.accent}`}></div>
+            <span class="swatch-label">Accent</span>
+            <code class="swatch-hex">{palette.dark.accent}</code>
+          </div>
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.dark.background}`}></div>
+            <span class="swatch-label">Background</span>
+            <code class="swatch-hex">{palette.dark.background}</code>
+          </div>
+          <div class="color-swatch-item">
+            <div class="swatch" style={`background-color: ${palette.dark.foreground}`}></div>
+            <span class="swatch-label">Foreground</span>
+            <code class="swatch-hex">{palette.dark.foreground}</code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   
   <div class="grid-container">
     <!-- Header row -->
@@ -193,13 +261,82 @@ function getRatingSymbol(rating: string): string {
     background: white;
   }
 
-  .palette-title {
-    padding: 1rem;
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
+  .palette-header {
+    padding: 1.5rem;
     background: #f9fafb;
     border-bottom: 1px solid #e5e7eb;
+  }
+
+  .palette-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+  }
+
+  .palette-description {
+    margin: 0 0 1.5rem 0;
+    color: #6b7280;
+    font-size: 0.875rem;
+  }
+
+  .palette-colors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .color-mode-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .mode-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #374151;
+  }
+
+  .color-swatches {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .color-swatch-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+    border: 2px solid #e5e7eb;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .swatch-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #374151;
+    text-align: center;
+  }
+
+  .swatch-hex {
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 0.625rem;
+    color: #6b7280;
+    background: #f3f4f6;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    text-align: center;
   }
 
   .grid-container {
@@ -409,6 +546,24 @@ function getRatingSymbol(rating: string): string {
     .rating-badge {
       font-size: 0.625rem;
       padding: 0.125rem 0.25rem;
+    }
+
+    .palette-colors {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .color-swatches {
+      gap: 0.75rem;
+    }
+
+    .swatch {
+      width: 32px;
+      height: 32px;
+    }
+
+    .swatch-hex {
+      font-size: 0.5rem;
     }
   }
 </style>
