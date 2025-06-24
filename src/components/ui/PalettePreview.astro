@@ -55,19 +55,53 @@ function getRatingColor(rating: string): string {
             </div>
 
             <div class="color-swatches">
-              <div class="swatch-row">
-                <div class="swatch" style={`background-color: ${palette.light.primary}`} title="Primary" />
-                <div class="swatch" style={`background-color: ${palette.light.secondary}`} title="Secondary" />
-                <div class="swatch" style={`background-color: ${palette.light.accent}`} title="Accent" />
-                <div class="swatch" style={`background-color: ${palette.light.background}`} title="Background" />
-                <div class="swatch" style={`background-color: ${palette.light.foreground}`} title="Foreground" />
+              {/* Main Colors */}
+              <div class="swatch-section">
+                <div class="swatch-label">Main Colors</div>
+                <div class="swatch-row">
+                  <div class="swatch" style={`background-color: ${palette.light.primary}`} title="Primary" />
+                  <div class="swatch" style={`background-color: ${palette.light.secondary}`} title="Secondary" />
+                  <div class="swatch" style={`background-color: ${palette.light.accent}`} title="Accent" />
+                  <div class="swatch" style={`background-color: ${palette.light.background}`} title="Background" />
+                  <div class="swatch" style={`background-color: ${palette.light.foreground}`} title="Foreground" />
+                </div>
+                <div class="swatch-row dark-mode">
+                  <div class="swatch" style={`background-color: ${palette.dark.primary}`} title="Primary (Dark)" />
+                  <div class="swatch" style={`background-color: ${palette.dark.secondary}`} title="Secondary (Dark)" />
+                  <div class="swatch" style={`background-color: ${palette.dark.accent}`} title="Accent (Dark)" />
+                  <div class="swatch" style={`background-color: ${palette.dark.background}`} title="Background (Dark)" />
+                  <div class="swatch" style={`background-color: ${palette.dark.foreground}`} title="Foreground (Dark)" />
+                </div>
               </div>
-              <div class="swatch-row dark-mode">
-                <div class="swatch" style={`background-color: ${palette.dark.primary}`} title="Primary (Dark)" />
-                <div class="swatch" style={`background-color: ${palette.dark.secondary}`} title="Secondary (Dark)" />
-                <div class="swatch" style={`background-color: ${palette.dark.accent}`} title="Accent (Dark)" />
-                <div class="swatch" style={`background-color: ${palette.dark.background}`} title="Background (Dark)" />
-                <div class="swatch" style={`background-color: ${palette.dark.foreground}`} title="Foreground (Dark)" />
+
+              {/* Supporting Colors */}
+              <div class="swatch-section">
+                <div class="swatch-label">Supporting</div>
+                <div class="swatch-row">
+                  <div class="swatch" style={`background-color: ${palette.light.muted}`} title="Muted Background" />
+                  <div class="swatch" style={`background-color: ${palette.light.mutedForeground}`} title="Muted Text" />
+                  <div class="swatch" style={`background-color: ${palette.light.border}`} title="Border" />
+                </div>
+                <div class="swatch-row dark-mode">
+                  <div class="swatch" style={`background-color: ${palette.dark.muted}`} title="Muted Background (Dark)" />
+                  <div class="swatch" style={`background-color: ${palette.dark.mutedForeground}`} title="Muted Text (Dark)" />
+                  <div class="swatch" style={`background-color: ${palette.dark.border}`} title="Border (Dark)" />
+                </div>
+              </div>
+
+              {/* System Colors */}
+              <div class="swatch-section">
+                <div class="swatch-label">System</div>
+                <div class="swatch-row">
+                  <div class="swatch" style={`background-color: ${palette.light.success}`} title="Success" />
+                  <div class="swatch" style={`background-color: ${palette.light.warning}`} title="Warning" />
+                  <div class="swatch" style={`background-color: ${palette.light.destructive}`} title="Error" />
+                </div>
+                <div class="swatch-row dark-mode">
+                  <div class="swatch" style={`background-color: ${palette.dark.success}`} title="Success (Dark)" />
+                  <div class="swatch" style={`background-color: ${palette.dark.warning}`} title="Warning (Dark)" />
+                  <div class="swatch" style={`background-color: ${palette.dark.destructive}`} title="Error (Dark)" />
+                </div>
               </div>
             </div>
 
@@ -97,6 +131,27 @@ function getRatingColor(rating: string): string {
     transition: all 0.2s ease;
     cursor: pointer;
     position: relative;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Dark mode styles */
+  .dark .palette-card {
+    background: #1f2937;
+    border-color: #4b5563;
+  }
+
+  .dark .swatch-label {
+    color: #9ca3af;
+  }
+
+  .dark .usage-example {
+    background: #374151;
+  }
+
+  .dark .usage-example code {
+    color: #d1d5db;
   }
 
   .palette-card::after {
@@ -178,22 +233,47 @@ function getRatingColor(rating: string): string {
     margin-bottom: 1rem;
   }
 
+  .swatch-section {
+    margin-bottom: 0.75rem;
+  }
+
+  .swatch-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .swatch-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #6b7280;
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
   .swatch-row {
     display: flex;
-    gap: 4px;
-    margin-bottom: 4px;
+    gap: 3px;
+    margin-bottom: 3px;
   }
 
   .swatch-row.dark-mode {
-    opacity: 0.8;
+    opacity: 0.85;
   }
 
   .swatch {
     flex: 1;
-    height: 2rem;
-    border-radius: 4px;
+    height: 1.5rem;
+    border-radius: 3px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     cursor: help;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+
+  .swatch:hover {
+    transform: scale(1.1);
+    z-index: 2;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .usage-example {
