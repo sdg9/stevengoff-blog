@@ -132,16 +132,30 @@ export function analyzePaletteAccessibility(palette: {
   const recommendations: string[] = [];
   const contrastGrid: Record<string, Record<string, Record<string, ContrastResult>>> = {};
 
-  // Key color combinations to test
-  const criticalCombinations = [
-    { bg: 'background', fg: 'foreground', name: 'Main text on background' },
-    { bg: 'primary', fg: 'primaryForeground', name: 'Primary button text' },
-    { bg: 'secondary', fg: 'secondaryForeground', name: 'Secondary button text' },
-    { bg: 'background', fg: 'mutedForeground', name: 'Muted text on background' },
-    { bg: 'muted', fg: 'foreground', name: 'Text on muted background' },
+  // Key color combinations to test for scoring (only meaningful semantic combinations)
+  const meaningfulCombinations = [
+    // Text readability combinations
+    { bg: 'background', fg: 'foreground', name: 'Main text on background', weight: 3 },
+    { bg: 'background', fg: 'mutedForeground', name: 'Muted text on background', weight: 2 },
+    { bg: 'muted', fg: 'foreground', name: 'Text on muted background', weight: 2 },
+    { bg: 'muted', fg: 'mutedForeground', name: 'Muted text on muted background', weight: 1 },
+    
+    // Button combinations
+    { bg: 'primary', fg: 'primaryForeground', name: 'Primary button text', weight: 3 },
+    { bg: 'secondary', fg: 'secondaryForeground', name: 'Secondary button text', weight: 2 },
+    
+    // System colors
+    { bg: 'destructive', fg: 'destructiveForeground', name: 'Error text', weight: 2 },
+    { bg: 'success', fg: 'successForeground', name: 'Success text', weight: 2 },
+    { bg: 'warning', fg: 'warningForeground', name: 'Warning text', weight: 2 },
+    
+    // Cross-background text (important for UI flexibility)
+    { bg: 'background', fg: 'primary', name: 'Primary text on background', weight: 1 },
+    { bg: 'background', fg: 'secondary', name: 'Secondary text on background', weight: 1 },
+    { bg: 'muted', fg: 'primary', name: 'Primary text on muted', weight: 1 },
   ];
 
-  // All colors to test in grid
+  // All colors to test in grid (for detailed analysis, not scoring)
   const colorKeys = [
     'primary',
     'secondary',
@@ -154,15 +168,15 @@ export function analyzePaletteAccessibility(palette: {
     'warning',
   ];
 
-  let totalScore = 0;
-  let totalTests = 0;
+  let weightedScore = 0;
+  let totalWeight = 0;
 
   // Test both light and dark modes
   ['light', 'dark'].forEach((mode) => {
     const colors = palette[mode as keyof typeof palette];
     contrastGrid[mode] = {};
 
-    // Generate contrast grid
+    // Generate full contrast grid for detailed analysis
     colorKeys.forEach((bg) => {
       if (!colors[bg]) return;
       contrastGrid[mode][bg] = {};
@@ -172,19 +186,22 @@ export function analyzePaletteAccessibility(palette: {
 
         const result = getAccessibilityLevel(calculateContrastRatio(colors[bg], colors[fg]));
         contrastGrid[mode][bg][fg] = result;
-        totalScore += result.score;
-        totalTests++;
       });
     });
 
-    // Check critical combinations
-    criticalCombinations.forEach((combo) => {
+    // Score only meaningful combinations
+    meaningfulCombinations.forEach((combo) => {
       const bgColor = colors[combo.bg];
       const fgColor = colors[combo.fg];
 
       if (bgColor && fgColor) {
         const result = getAccessibilityLevel(calculateContrastRatio(bgColor, fgColor));
+        
+        // Add to weighted score
+        weightedScore += result.score * combo.weight;
+        totalWeight += combo.weight;
 
+        // Track critical issues
         if (!result.pass) {
           criticalIssues.push(`${combo.name} (${mode} mode): ${result.ratio}:1 - ${result.rating}`);
         }
@@ -198,8 +215,8 @@ export function analyzePaletteAccessibility(palette: {
     });
   });
 
-  // Calculate overall score
-  const overallScore = Math.round(totalScore / totalTests);
+  // Calculate overall score using weighted meaningful combinations
+  const overallScore = totalWeight > 0 ? Math.round(weightedScore / totalWeight) : 0;
 
   // Determine rating
   let rating: PaletteAccessibility['rating'];
