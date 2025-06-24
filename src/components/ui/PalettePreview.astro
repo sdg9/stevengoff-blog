@@ -1,0 +1,187 @@
+---
+import { colorPalettes } from '../../utils/palettes';
+import { analyzePaletteAccessibility } from '../../utils/contrast';
+
+export interface Props {
+  currentPalette?: string;
+  showAccessibility?: boolean;
+}
+
+const { currentPalette = 'default', showAccessibility = true } = Astro.props;
+
+// Get rating color helper
+function getRatingColor(rating: string): string {
+  switch (rating) {
+    case 'Excellent':
+      return '#16a34a';
+    case 'Good':
+      return '#2563eb';
+    case 'Fair':
+      return '#d97706';
+    case 'Poor':
+      return '#dc2626';
+    case 'Critical':
+      return '#991b1b';
+    default:
+      return '#6b7280';
+  }
+}
+---
+
+<div class="palette-preview-grid">
+  <h2 class="text-2xl font-bold mb-6">Available Color Palettes</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {
+      Object.entries(colorPalettes).map(([key, palette]) => {
+        const analysis = showAccessibility ? analyzePaletteAccessibility(palette) : null;
+
+        return (
+          <div class={`palette-card ${key === currentPalette ? 'current' : ''}`}>
+            <div class="palette-header">
+              <h3 class="font-semibold text-lg">{palette.name}</h3>
+              <p class="text-sm text-gray-600">{palette.description}</p>
+              {key === currentPalette && <span class="current-badge">Current</span>}
+              {showAccessibility && analysis && (
+                <div
+                  class="accessibility-badge"
+                  style={`
+                background-color: ${getRatingColor(analysis.rating)}20;
+                color: ${getRatingColor(analysis.rating)};
+                border-color: ${getRatingColor(analysis.rating)};
+              `}
+                >
+                  <span class="accessibility-score">{analysis.overallScore}</span>
+                  <span class="accessibility-rating">{analysis.rating}</span>
+                </div>
+              )}
+            </div>
+
+            <div class="color-swatches">
+              <div class="swatch-row">
+                <div class="swatch" style={`background-color: ${palette.light.primary}`} title="Primary" />
+                <div class="swatch" style={`background-color: ${palette.light.secondary}`} title="Secondary" />
+                <div class="swatch" style={`background-color: ${palette.light.accent}`} title="Accent" />
+                <div class="swatch" style={`background-color: ${palette.light.background}`} title="Background" />
+                <div class="swatch" style={`background-color: ${palette.light.foreground}`} title="Foreground" />
+              </div>
+              <div class="swatch-row dark-mode">
+                <div class="swatch" style={`background-color: ${palette.dark.primary}`} title="Primary (Dark)" />
+                <div class="swatch" style={`background-color: ${palette.dark.secondary}`} title="Secondary (Dark)" />
+                <div class="swatch" style={`background-color: ${palette.dark.accent}`} title="Accent (Dark)" />
+                <div class="swatch" style={`background-color: ${palette.dark.background}`} title="Background (Dark)" />
+                <div class="swatch" style={`background-color: ${palette.dark.foreground}`} title="Foreground (Dark)" />
+              </div>
+            </div>
+
+            <div class="usage-example">
+              <code class="text-xs">const ACTIVE_PALETTE = '{key}';</code>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</div>
+
+<style>
+  .palette-preview-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .palette-card {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1rem;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+  }
+
+  .palette-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .palette-card.current {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .palette-header {
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .current-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #3b82f6;
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+  }
+
+  .accessibility-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .accessibility-score {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .accessibility-rating {
+    font-size: 0.6rem;
+    opacity: 0.9;
+  }
+
+  .color-swatches {
+    margin-bottom: 1rem;
+  }
+
+  .swatch-row {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 4px;
+  }
+
+  .swatch-row.dark-mode {
+    opacity: 0.8;
+  }
+
+  .swatch {
+    flex: 1;
+    height: 2rem;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    cursor: help;
+  }
+
+  .usage-example {
+    background: #f8fafc;
+    border-radius: 6px;
+    padding: 0.5rem;
+  }
+
+  .usage-example code {
+    color: #475569;
+    font-family: 'Monaco', 'Consolas', monospace;
+  }
+</style>

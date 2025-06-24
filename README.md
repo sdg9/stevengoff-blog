@@ -149,3 +149,8 @@ analytics:
 ui:
   theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
 ```
+
+# Color Palette tools
+
+- <https://coolors.co/>
+- <https://contrast-grid.eightshapes.com/>
