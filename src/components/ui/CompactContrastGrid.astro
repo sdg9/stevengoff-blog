@@ -1,12 +1,11 @@
 ---
-import { 
+import {
   calculateContrastRatio,
   getAccessibilityLevel,
   generateColorRecommendations,
-  type ColorRecommendation
+  type ColorRecommendation,
 } from '../../utils/contrast';
 import type { ColorPalette } from '../../utils/palettes';
-import AccessibleColorWheel from './AccessibleColorWheel.astro';
 
 export interface Props {
   palette: ColorPalette;
@@ -16,8 +15,14 @@ const { palette } = Astro.props;
 
 // Colors to test
 const colorKeys = [
-  'foreground', 'primary', 'secondary', 'accent', 
-  'mutedForeground', 'destructive', 'success', 'warning'
+  'foreground',
+  'primary',
+  'secondary',
+  'accent',
+  'mutedForeground',
+  'destructive',
+  'success',
+  'warning',
 ];
 
 // Color labels for display
@@ -29,7 +34,7 @@ const colorLabels: Record<string, string> = {
   mutedForeground: 'Muted Text',
   destructive: 'Error',
   success: 'Success',
-  warning: 'Warning'
+  warning: 'Warning',
 };
 
 // Background types to test against
@@ -37,66 +42,80 @@ const backgrounds = [
   { key: 'background', label: 'Background', mode: 'light' },
   { key: 'muted', label: 'Muted', mode: 'light' },
   { key: 'background', label: 'Background', mode: 'dark' },
-  { key: 'muted', label: 'Muted', mode: 'dark' }
+  { key: 'muted', label: 'Muted', mode: 'dark' },
 ];
 
 // Generate contrast data for the grid
-const contrastData = colorKeys.map(colorKey => {
-  const row = {
-    colorKey,
-    label: colorLabels[colorKey] || colorKey,
-    results: backgrounds.map(bg => {
-      const colors = palette[bg.mode];
-      const backgroundColor = colors[bg.key];
-      const foregroundColor = colors[colorKey];
-      
-      if (!foregroundColor || !backgroundColor) {
-        return null;
-      }
-      
-      const ratio = calculateContrastRatio(backgroundColor, foregroundColor);
-      const result = getAccessibilityLevel(ratio);
-      
-      // Generate recommendation if contrast is failing AAA
-      let recommendation: ColorRecommendation | null = null;
-      if (ratio < 7.0) {
-        recommendation = generateColorRecommendations(backgroundColor, foregroundColor);
-      }
-      
-      return {
-        backgroundColor,
-        foregroundColor,
-        recommendation,
-        backgroundKey: bg.key,
-        mode: bg.mode,
-        ...result,
-        ratio
-      };
-    }).filter((result): result is NonNullable<typeof result> => result !== null)
-  };
-  
-  return row;
-}).filter(row => row.results.length > 0);
+const contrastData = colorKeys
+  .map((colorKey) => {
+    const row = {
+      colorKey,
+      label: colorLabels[colorKey] || colorKey,
+      results: backgrounds
+        .map((bg) => {
+          const colors = palette[bg.mode];
+          const backgroundColor = colors[bg.key];
+          const foregroundColor = colors[colorKey];
+
+          if (!foregroundColor || !backgroundColor) {
+            return null;
+          }
+
+          const ratio = calculateContrastRatio(backgroundColor, foregroundColor);
+          const result = getAccessibilityLevel(ratio);
+
+          // Generate recommendation if contrast is failing AAA
+          let recommendation: ColorRecommendation | null = null;
+          if (ratio < 7.0) {
+            recommendation = generateColorRecommendations(backgroundColor, foregroundColor);
+          }
+
+          return {
+            backgroundColor,
+            foregroundColor,
+            recommendation,
+            backgroundKey: bg.key,
+            mode: bg.mode,
+            ...result,
+            ratio,
+          };
+        })
+        .filter((result): result is NonNullable<typeof result> => result !== null),
+    };
+
+    return row;
+  })
+  .filter((row) => row.results.length > 0);
 
 // Get rating badge style
 function getRatingStyle(rating: string): string {
   switch (rating) {
-    case 'AAA': return 'background: #10b981; color: white;';
-    case 'AA': return 'background: #f59e0b; color: white;';
-    case 'Large Text Only': return 'background: #ef4444; color: white;';
-    case 'Fail': return 'background: #dc2626; color: white;';
-    default: return 'background: #6b7280; color: white;';
+    case 'AAA':
+      return 'background: #10b981; color: white;';
+    case 'AA':
+      return 'background: #f59e0b; color: white;';
+    case 'Large Text Only':
+      return 'background: #ef4444; color: white;';
+    case 'Fail':
+      return 'background: #dc2626; color: white;';
+    default:
+      return 'background: #6b7280; color: white;';
   }
 }
 
 // Get rating symbol
 function getRatingSymbol(rating: string): string {
   switch (rating) {
-    case 'AAA': return '✓✓✓';
-    case 'AA': return '✓✓';
-    case 'Large Text Only': return '⚠️';
-    case 'Fail': return '❌';
-    default: return '?';
+    case 'AAA':
+      return '✓✓✓';
+    case 'AA':
+      return '✓✓';
+    case 'Large Text Only':
+      return '⚠️';
+    case 'Fail':
+      return '❌';
+    default:
+      return '?';
   }
 }
 ---
@@ -105,7 +124,7 @@ function getRatingSymbol(rating: string): string {
   <div class="palette-header">
     <h3 class="palette-title">{palette.name}</h3>
     <p class="palette-description">{palette.description}</p>
-    
+
     <!-- Palette Color Preview -->
     <div class="palette-colors">
       <div class="color-mode-section">
@@ -138,7 +157,7 @@ function getRatingSymbol(rating: string): string {
           </div>
         </div>
       </div>
-      
+
       <div class="color-mode-section">
         <h4 class="mode-title">Dark Mode</h4>
         <div class="color-swatches">
@@ -171,84 +190,85 @@ function getRatingSymbol(rating: string): string {
       </div>
     </div>
   </div>
-  
+
   <div class="grid-container">
     <!-- Header row -->
     <div class="grid-header">
       <div class="color-label-header">Color</div>
-      {backgrounds.map(bg => (
-        <div class="bg-header">
-          <div class="bg-mode-label">{bg.mode}</div>
-          <div class="bg-type-label">{bg.label}</div>
-          <div 
-            class="bg-swatch" 
-            style={`background-color: ${palette[bg.mode][bg.key]}`}
-            title={palette[bg.mode][bg.key]}
-          ></div>
-        </div>
-      ))}
+      {
+        backgrounds.map((bg) => (
+          <div class="bg-header">
+            <div class="bg-mode-label">{bg.mode}</div>
+            <div class="bg-type-label">{bg.label}</div>
+            <div
+              class="bg-swatch"
+              style={`background-color: ${palette[bg.mode][bg.key]}`}
+              title={palette[bg.mode][bg.key]}
+            />
+          </div>
+        ))
+      }
     </div>
 
     <!-- Color rows -->
-    {contrastData.map(row => (
-      <div class="color-row">
-        <div class="color-label">
-          <span class="label-text">{row.label}</span>
-        </div>
-        {row.results.map((result) => (
-          <div 
-            class="contrast-cell" 
-            style={`background-color: ${result.backgroundColor}; color: ${result.foregroundColor}`}
-            data-bg-color={result.backgroundColor}
-            data-fg-color={result.foregroundColor}
-            data-ratio={result.ratio}
-            data-rating={result.rating}
-            data-recommendation={result.recommendation ? JSON.stringify(result.recommendation) : ''}
-          >
-            <div class="cell-content">
-              <div class="sample-text">Text</div>
-              <div class="rating-badge" style={getRatingStyle(result.rating)}>
-                <span class="rating-symbol">{getRatingSymbol(result.rating)}</span>
-                <span class="ratio-text">{result.ratio.toFixed(1)}</span>
-              </div>
-            </div>
-            
-            <!-- Hidden recommendation panel (shown on click) -->
-            {result.recommendation && (
-              <div class="recommendation-panel" style="display: none;">
-                <div class="rec-header">💡 AAA Recommendation</div>
-                <div class="rec-content">
-                  <div class="rec-color-preview">
-                    <div 
-                      class="rec-swatch" 
-                      style={`background-color: ${result.recommendation.recommendedColor}`}
-                    ></div>
-                    <code class="rec-hex">{result.recommendation.recommendedColor}</code>
-                  </div>
-                  <div class="rec-improvement">{result.recommendation.improvement}</div>
-                  <div class="rec-ratios">
-                    <span>Current: {result.recommendation.originalRatio.toFixed(1)}:1</span>
-                    <span>→</span>
-                    <span>Recommended: {result.recommendation.newRatio.toFixed(1)}:1</span>
-                  </div>
-                  <div 
-                    class="rec-preview"
-                    style={`background-color: ${result.backgroundColor}; color: ${result.recommendation.recommendedColor}`}
-                  >
-                    Sample text with recommended color
-                  </div>
-                  
-                  <!-- Color wheel for exploration -->
-                  <div class="color-wheel-container">
-                    <AccessibleColorWheel backgroundColor={result.backgroundColor} targetRatio={7.0} />
-                  </div>
+    {
+      contrastData.map((row) => (
+        <div class="color-row">
+          <div class="color-label">
+            <span class="label-text">{row.label}</span>
+          </div>
+          {row.results.map((result) => (
+            <div
+              class="contrast-cell"
+              style={`background-color: ${result.backgroundColor}; color: ${result.foregroundColor}`}
+              data-bg-color={result.backgroundColor}
+              data-fg-color={result.foregroundColor}
+              data-ratio={result.ratio}
+              data-rating={result.rating}
+              data-recommendation={result.recommendation ? JSON.stringify(result.recommendation) : ''}
+              data-has-recommendation={result.recommendation ? 'true' : 'false'}
+            >
+              <div class="cell-content">
+                <div class="sample-text">Text</div>
+                <div class="rating-badge" style={getRatingStyle(result.rating)}>
+                  <span class="rating-symbol">{getRatingSymbol(result.rating)}</span>
+                  <span class="ratio-text">{result.ratio.toFixed(1)}</span>
                 </div>
               </div>
-            )}
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<!-- Global recommendation modal - positioned at document level -->
+<div id="global-recommendation-modal" class="recommendation-modal" style="display: none;">
+  <div class="modal-backdrop"></div>
+  <div class="recommendation-panel">
+    <div class="rec-header-bar">
+      <div class="rec-header">💡 AAA Recommendation</div>
+      <button class="close-button" type="button">✕</button>
+    </div>
+    <div class="rec-content">
+      <div class="rec-color-preview">
+        <div class="rec-swatch"></div>
+        <code class="rec-hex"></code>
       </div>
-    ))}
+      <div class="rec-improvement"></div>
+      <div class="rec-ratios">
+        <span class="current-ratio"></span>
+        <span>→</span>
+        <span class="recommended-ratio"></span>
+      </div>
+      <div class="rec-preview">Sample text with recommended color</div>
+
+      <!-- Color wheel for exploration -->
+      <div class="color-wheel-container">
+        <div id="color-wheel-placeholder"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -343,6 +363,8 @@ function getRatingSymbol(rating: string): string {
     display: grid;
     grid-template-columns: 120px repeat(4, 1fr);
     min-width: 600px;
+    position: relative;
+    z-index: 1;
   }
 
   .grid-header {
@@ -414,13 +436,19 @@ function getRatingSymbol(rating: string): string {
     border-right: 1px solid #e5e7eb;
     position: relative;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .contrast-cell:hover {
     transform: scale(1.02);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    z-index: 10;
+  }
+
+  .contrast-cell[data-has-recommendation='true']:hover {
+    background-color: inherit !important;
+    color: inherit !important;
   }
 
   .contrast-cell:last-child {
@@ -455,23 +483,94 @@ function getRatingSymbol(rating: string): string {
     font-family: 'Monaco', 'Consolas', monospace;
   }
 
-  .recommendation-panel {
+  /* Ensure modal is always properly positioned and isolated */
+  #global-recommendation-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 9999 !important;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    transform: translateZ(0);
+  }
+
+  .recommendation-modal {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 9999 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-backdrop {
     position: absolute;
-    top: 100%;
+    top: 0;
     left: 0;
     right: 0;
+    bottom: 0;
+    background: transparent;
+    z-index: 1;
+  }
+
+  .recommendation-panel {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    max-height: calc(100vh - 2rem);
     background: white;
-    border: 1px solid #d1d5db;
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    z-index: 20;
-    padding: 1rem;
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+    z-index: 2;
+    padding: 1.5rem;
+    overflow-y: auto;
+    margin: auto;
+    transform: translateZ(0);
+  }
+
+  .rec-header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #e5e7eb;
   }
 
   .rec-header {
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    color: #374151;
+    font-size: 1.125rem;
+  }
+
+  .close-button {
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: #6b7280;
+    transition: all 0.2s ease;
+  }
+
+  .close-button:hover {
+    background: #e5e7eb;
     color: #374151;
   }
 
@@ -520,8 +619,119 @@ function getRatingSymbol(rating: string): string {
   }
 
   .color-wheel-container {
-    max-height: 200px;
+    max-height: 300px;
     overflow-y: auto;
+    margin-top: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.75rem;
+    background: #f9fafb;
+  }
+
+  .color-wheel-header h4 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #1e40af;
+    margin: 0 0 0.25rem 0;
+    text-align: center;
+  }
+
+  .color-wheel-header p {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin: 0 0 1rem 0;
+    text-align: center;
+  }
+
+  .color-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .grayscale-section h5,
+  .colored-section h5 {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #374151;
+    margin: 0 0 0.75rem 0;
+    text-align: center;
+  }
+
+  .color-grid {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  #grayscale-colors {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    max-width: 100%;
+  }
+
+  #colored-colors {
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    max-width: 100%;
+  }
+
+  .accessible-color-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.5rem;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: transparent;
+    min-height: 80px;
+    justify-content: center;
+    position: relative;
+  }
+
+  .accessible-color-option:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .accessible-color-option:focus {
+    outline: none;
+    border-color: #1d4ed8;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  .color-preview {
+    font-size: 1rem;
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  .color-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+  }
+
+  .color-hex {
+    font-size: 0.625rem;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.9);
+    color: #374151;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .color-ratio {
+    font-size: 0.5rem;
+    font-weight: 600;
+    background: rgba(16, 185, 129, 0.1);
+    color: #065f46;
+    padding: 0.125rem 0.25rem;
+    border-radius: 3px;
+    border: 1px solid rgba(16, 185, 129, 0.2);
   }
 
   /* Responsive adjustments */
@@ -530,19 +740,19 @@ function getRatingSymbol(rating: string): string {
       grid-template-columns: 100px repeat(4, 1fr);
       font-size: 0.8rem;
     }
-    
+
     .bg-header {
       padding: 0.25rem;
     }
-    
+
     .cell-content {
       min-height: 50px;
     }
-    
+
     .sample-text {
       font-size: 0.75rem;
     }
-    
+
     .rating-badge {
       font-size: 0.625rem;
       padding: 0.125rem 0.25rem;
@@ -570,37 +780,374 @@ function getRatingSymbol(rating: string): string {
 
 <script>
   // Handle click events for showing/hiding recommendations
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function () {
     const cells = document.querySelectorAll('.contrast-cell');
-    
-    cells.forEach(cell => {
-      const panel = cell.querySelector('.recommendation-panel') as HTMLElement;
-      if (panel) {
-        cell.addEventListener('click', function(e) {
+    const globalModal = document.getElementById('global-recommendation-modal') as HTMLElement;
+
+    if (!globalModal) return;
+
+    // Remove any existing hover or other event listeners that might interfere
+    cells.forEach((cell) => {
+      const hasRecommendation = cell.getAttribute('data-has-recommendation') === 'true';
+
+      if (hasRecommendation) {
+        (cell as HTMLElement).style.cursor = 'pointer';
+
+        // Only use click events, no hover
+        cell.addEventListener('click', function (e) {
+          e.preventDefault();
           e.stopPropagation();
-          
-          // Hide all other panels
-          document.querySelectorAll('.recommendation-panel').forEach((p: HTMLElement) => {
-            if (p !== panel) {
-              p.style.display = 'none';
+
+          // Get recommendation data
+          const recommendationData = cell.getAttribute('data-recommendation');
+          const bgColor = cell.getAttribute('data-bg-color');
+
+          if (recommendationData && bgColor) {
+            try {
+              const recommendation = JSON.parse(recommendationData);
+
+              // Populate modal content
+              const recSwatch = globalModal.querySelector('.rec-swatch') as HTMLElement;
+              const recHex = globalModal.querySelector('.rec-hex') as HTMLElement;
+              const recImprovement = globalModal.querySelector('.rec-improvement') as HTMLElement;
+              const currentRatio = globalModal.querySelector('.current-ratio') as HTMLElement;
+              const recommendedRatio = globalModal.querySelector('.recommended-ratio') as HTMLElement;
+              const recPreview = globalModal.querySelector('.rec-preview') as HTMLElement;
+
+              if (recSwatch) recSwatch.style.backgroundColor = recommendation.recommendedColor;
+              if (recHex) recHex.textContent = recommendation.recommendedColor;
+              if (recImprovement) recImprovement.textContent = recommendation.improvement;
+              if (currentRatio) currentRatio.textContent = `Current: ${recommendation.originalRatio.toFixed(1)}:1`;
+              if (recommendedRatio)
+                recommendedRatio.textContent = `Recommended: ${recommendation.newRatio.toFixed(1)}:1`;
+              if (recPreview) {
+                recPreview.style.backgroundColor = bgColor;
+                recPreview.style.color = recommendation.recommendedColor;
+              }
+
+              // Create color wheel dynamically
+              const colorWheelContainer = globalModal.querySelector('#color-wheel-placeholder') as HTMLElement;
+              if (colorWheelContainer) {
+                // Clear previous content
+                colorWheelContainer.innerHTML = '';
+
+                // Create AccessibleColorWheel component content
+                colorWheelContainer.innerHTML = `
+                  <div class="color-wheel-header">
+                    <h4>🎨 AAA-Accessible Color Options</h4>
+                    <p>All colors shown achieve 7:1+ contrast ratio against the background</p>
+                  </div>
+                  <div class="color-options">
+                    <div class="grayscale-section">
+                      <h5>Grayscale Options</h5>
+                      <div class="color-grid" id="grayscale-colors"></div>
+                    </div>
+                    <div class="colored-section">
+                      <h5>Colored Options</h5>
+                      <div class="color-grid" id="colored-colors"></div>
+                    </div>
+                  </div>
+                `;
+
+                // Generate accessible colors (simplified version)
+                generateAccessibleColors(bgColor, colorWheelContainer);
+              }
+
+              // Show modal with proper positioning
+              ensureModalPosition();
+              globalModal.style.display = 'flex';
+              document.body.style.overflow = 'hidden';
+            } catch (error) {
+              console.error('Error parsing recommendation data:', error);
             }
-          });
-          
-          // Toggle this panel
-          if (panel.style.display === 'none' || !panel.style.display) {
-            panel.style.display = 'block';
-          } else {
-            panel.style.display = 'none';
           }
         });
       }
     });
-    
-    // Hide panels when clicking outside
-    document.addEventListener('click', function() {
-      document.querySelectorAll('.recommendation-panel').forEach((panel: HTMLElement) => {
-        panel.style.display = 'none';
+
+    // Handle close button
+    const closeButton = globalModal.querySelector('.close-button') as HTMLElement;
+    if (closeButton) {
+      closeButton.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
       });
+    }
+
+    // Handle clicking on the backdrop
+    const backdrop = globalModal.querySelector('.modal-backdrop') as HTMLElement;
+    if (backdrop) {
+      backdrop.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeModal();
+      });
+    }
+
+    // Prevent panel clicks from closing modal
+    const panel = globalModal.querySelector('.recommendation-panel') as HTMLElement;
+    if (panel) {
+      panel.addEventListener('click', function (e) {
+        e.stopPropagation();
+      });
+    }
+
+    // Handle escape key to close modal
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
     });
+
+    // Centralized close modal function
+    function closeModal() {
+      globalModal.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Ensure modal is properly positioned at document level
+    function ensureModalPosition() {
+      globalModal.style.position = 'fixed';
+      globalModal.style.top = '0';
+      globalModal.style.left = '0';
+      globalModal.style.right = '0';
+      globalModal.style.bottom = '0';
+      globalModal.style.zIndex = '9999';
+      globalModal.style.transform = 'none';
+
+      // Ensure modal is attached to document body if it isn't already
+      if (globalModal.parentElement !== document.body) {
+        document.body.appendChild(globalModal);
+      }
+    }
   });
+
+  // Enhanced function to generate accessible color wheel
+  function generateAccessibleColors(backgroundColor: string, container: HTMLElement) {
+    const grayscaleContainer = container.querySelector('#grayscale-colors') as HTMLElement;
+    const coloredContainer = container.querySelector('#colored-colors') as HTMLElement;
+
+    if (!grayscaleContainer || !coloredContainer) return;
+
+    // Clear existing content
+    grayscaleContainer.innerHTML = '';
+    coloredContainer.innerHTML = '';
+
+    // Generate comprehensive accessible colors using client-side logic
+    const accessibleColors = generateClientSideAccessibleColors(backgroundColor, 7.0);
+
+    // Separate grayscale and colored options
+    const grayscaleColors = accessibleColors.filter((color) => color.isGrayscale);
+    const coloredOptions = accessibleColors.filter((color) => !color.isGrayscale);
+
+    // Populate grayscale options
+    grayscaleColors.slice(0, 8).forEach((color) => {
+      const colorButton = document.createElement('button');
+      colorButton.className = 'accessible-color-option grayscale-option';
+      colorButton.style.backgroundColor = color.hex;
+      colorButton.style.color = backgroundColor;
+      colorButton.setAttribute('data-color', color.hex);
+      colorButton.setAttribute('data-ratio', color.contrastRatio.toFixed(2));
+      colorButton.setAttribute('title', `${color.hex} • ${color.contrastRatio.toFixed(2)}:1 contrast`);
+      colorButton.innerHTML = `
+        <div class="color-preview">Aa</div>
+        <div class="color-info">
+          <code class="color-hex">${color.hex}</code>
+          <span class="color-ratio">${color.contrastRatio.toFixed(1)}:1</span>
+        </div>
+      `;
+      grayscaleContainer.appendChild(colorButton);
+    });
+
+    // Populate colored options
+    coloredOptions.slice(0, 12).forEach((color) => {
+      const colorButton = document.createElement('button');
+      colorButton.className = 'accessible-color-option colored-option';
+      colorButton.style.backgroundColor = color.hex;
+      colorButton.style.color = backgroundColor;
+      colorButton.setAttribute('data-color', color.hex);
+      colorButton.setAttribute('data-ratio', color.contrastRatio.toFixed(2));
+      colorButton.setAttribute('title', `${color.hex} • ${color.contrastRatio.toFixed(2)}:1 contrast`);
+      colorButton.innerHTML = `
+        <div class="color-preview">Aa</div>
+        <div class="color-info">
+          <code class="color-hex">${color.hex}</code>
+          <span class="color-ratio">${color.contrastRatio.toFixed(1)}:1</span>
+        </div>
+      `;
+      coloredContainer.appendChild(colorButton);
+    });
+
+    // Add click functionality for all color options
+    container.addEventListener('click', function (e) {
+      const target = e.target as HTMLElement;
+      const colorButton = target.closest('.accessible-color-option') as HTMLElement;
+
+      if (colorButton) {
+        const color = colorButton.getAttribute('data-color');
+
+        if (color) {
+          // Copy to clipboard
+          navigator.clipboard
+            .writeText(color)
+            .then(() => {
+              // Show feedback
+              const originalContent = colorButton.innerHTML;
+              colorButton.innerHTML = `
+              <div class="color-preview">✓</div>
+              <div class="color-info">
+                <strong>Copied!</strong>
+              </div>
+            `;
+              colorButton.style.transform = 'scale(1.1)';
+
+              setTimeout(() => {
+                colorButton.innerHTML = originalContent;
+                colorButton.style.transform = '';
+              }, 1500);
+            })
+            .catch(() => {
+              // Fallback notification
+              const originalContent = colorButton.innerHTML;
+              colorButton.innerHTML = `
+              <div class="color-preview">⚠️</div>
+              <div class="color-info">
+                <small>Copy failed</small>
+              </div>
+            `;
+
+              setTimeout(() => {
+                colorButton.innerHTML = originalContent;
+              }, 2000);
+            });
+        }
+      }
+    });
+  }
+
+  // Client-side color generation function
+  function generateClientSideAccessibleColors(backgroundColor: string, targetRatio: number) {
+    interface ColorOption {
+      hex: string;
+      contrastRatio: number;
+      isGrayscale: boolean;
+      hue?: number;
+    }
+
+    const colors: ColorOption[] = [];
+
+    // Parse background color to RGB
+    function hexToRgb(hex: string) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result
+        ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+          }
+        : null;
+    }
+
+    function rgbToHex(r: number, g: number, b: number) {
+      return (
+        '#' +
+        [r, g, b]
+          .map((x) => {
+            const hex = Math.round(x).toString(16);
+            return hex.length === 1 ? '0' + hex : hex;
+          })
+          .join('')
+      );
+    }
+
+    function calculateLuminance(r: number, g: number, b: number) {
+      const [rs, gs, bs] = [r, g, b].map((c) => {
+        c = c / 255;
+        return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+    }
+
+    function calculateContrastRatio(
+      rgb1: { r: number; g: number; b: number },
+      rgb2: { r: number; g: number; b: number }
+    ) {
+      const lum1 = calculateLuminance(rgb1.r, rgb1.g, rgb1.b);
+      const lum2 = calculateLuminance(rgb2.r, rgb2.g, rgb2.b);
+      const brightest = Math.max(lum1, lum2);
+      const darkest = Math.min(lum1, lum2);
+      return (brightest + 0.05) / (darkest + 0.05);
+    }
+
+    const bgRgb = hexToRgb(backgroundColor);
+    if (!bgRgb) return [];
+
+    // Generate grayscale colors
+    for (let lightness = 0; lightness <= 100; lightness += 5) {
+      const grayValue = Math.round((lightness / 100) * 255);
+      const grayRgb = { r: grayValue, g: grayValue, b: grayValue };
+      const ratio = calculateContrastRatio(bgRgb, grayRgb);
+
+      if (ratio >= targetRatio) {
+        colors.push({
+          hex: rgbToHex(grayValue, grayValue, grayValue),
+          contrastRatio: ratio,
+          isGrayscale: true,
+        });
+      }
+    }
+
+    // Generate colored options
+    for (let hue = 0; hue < 360; hue += 30) {
+      for (let saturation = 40; saturation <= 100; saturation += 20) {
+        for (let lightness = 10; lightness <= 90; lightness += 20) {
+          // Convert HSL to RGB
+          const h = hue / 360;
+          const s = saturation / 100;
+          const l = lightness / 100;
+
+          let r, g, b;
+          if (s === 0) {
+            r = g = b = l; // achromatic
+          } else {
+            const hue2rgb = (p: number, q: number, t: number) => {
+              if (t < 0) t += 1;
+              if (t > 1) t -= 1;
+              if (t < 1 / 6) return p + (q - p) * 6 * t;
+              if (t < 1 / 2) return q;
+              if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+              return p;
+            };
+
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+          }
+
+          const rgbColor = {
+            r: Math.round(r * 255),
+            g: Math.round(g * 255),
+            b: Math.round(b * 255),
+          };
+
+          const ratio = calculateContrastRatio(bgRgb, rgbColor);
+
+          if (ratio >= targetRatio) {
+            colors.push({
+              hex: rgbToHex(rgbColor.r, rgbColor.g, rgbColor.b),
+              contrastRatio: ratio,
+              isGrayscale: false,
+              hue: hue,
+            });
+          }
+        }
+      }
+    }
+
+    // Sort by contrast ratio (best first)
+    return colors.sort((a, b) => b.contrastRatio - a.contrastRatio);
+  }
 </script>

@@ -1,3 +1,67 @@
+/**
+ * Represents a complete color palette configuration for both light and dark themes.
+ * This interface defines all the semantic color tokens used throughout the application
+ * to ensure consistent theming and accessibility across different UI states.
+ *
+ * @interface ColorPalette
+ *
+ * @property {string} name - The display name of the color palette (e.g., "Ocean Blue", "Forest Green")
+ * @property {string} description - A brief description of the palette's visual characteristics and intended use
+ *
+ * @property {object} light - Color definitions for light theme mode
+ * @property {string} light.primary - Main brand color used for primary buttons, links, and key interactive elements
+ * @property {string} light.secondary - Secondary brand color used for less prominent interactive elements and accents
+ * @property {string} light.accent - Highlight color used for emphasis, hover states, and decorative elements
+ * @property {string} light.background - Main background color for pages and containers
+ * @property {string} light.foreground - Primary text color for body text and main content
+ * @property {string} light.primaryForeground - Text color that contrasts well with primary background (e.g., white text on primary button)
+ * @property {string} light.secondaryForeground - Text color that contrasts well with secondary background
+ * @property {string} light.muted - Subdued background color for cards, panels, and secondary containers
+ * @property {string} light.mutedForeground - Subdued text color for captions, labels, and less important text
+ * @property {string} light.border - Color for borders, dividers, and outline elements
+ * @property {string} light.destructive - Color for error states, danger buttons, and destructive actions
+ * @property {string} light.destructiveForeground - Text color that contrasts well with destructive background
+ * @property {string} light.success - Color for success states, confirmation messages, and positive feedback
+ * @property {string} light.successForeground - Text color that contrasts well with success background
+ * @property {string} light.warning - Color for warning states, caution messages, and attention-grabbing elements
+ * @property {string} light.warningForeground - Text color that contrasts well with warning background
+ *
+ * @property {object} dark - Color definitions for dark theme mode (mirrors light theme structure)
+ * @property {string} dark.primary - Main brand color adapted for dark backgrounds
+ * @property {string} dark.secondary - Secondary brand color adapted for dark backgrounds
+ * @property {string} dark.accent - Highlight color adapted for dark backgrounds
+ * @property {string} dark.background - Main background color for dark theme (typically dark gray or black)
+ * @property {string} dark.foreground - Primary text color for dark theme (typically light gray or white)
+ * @property {string} dark.primaryForeground - Text color that contrasts well with primary background in dark theme
+ * @property {string} dark.secondaryForeground - Text color that contrasts well with secondary background in dark theme
+ * @property {string} dark.muted - Subdued background color for dark theme containers
+ * @property {string} dark.mutedForeground - Subdued text color for dark theme secondary text
+ * @property {string} dark.border - Border color adapted for dark theme visibility
+ * @property {string} dark.destructive - Error/danger color adapted for dark backgrounds
+ * @property {string} dark.destructiveForeground - Text color that contrasts well with destructive background in dark theme
+ * @property {string} dark.success - Success color adapted for dark backgrounds
+ * @property {string} dark.successForeground - Text color that contrasts well with success background in dark theme
+ * @property {string} dark.warning - Warning color adapted for dark backgrounds
+ * @property {string} dark.warningForeground - Text color that contrasts well with warning background in dark theme
+ *
+ * @example
+ * ```typescript
+ * const oceanPalette: ColorPalette = {
+ *   name: "Ocean Blue",
+ *   description: "A calming blue palette inspired by ocean depths",
+ *   light: {
+ *     primary: "#0066cc",
+ *     secondary: "#4d94ff",
+ *     // ... other light theme colors
+ *   },
+ *   dark: {
+ *     primary: "#3399ff",
+ *     secondary: "#66b3ff",
+ *     // ... other dark theme colors
+ *   }
+ * };
+ * ```
+ */
 export interface ColorPalette {
   name: string;
   description: string;
@@ -56,7 +120,7 @@ const lightDefaults = {
 };
 const darkDefaults = {
   background: '#0f172a',
-  foreground: 'rgb(247 248 248)',
+  foreground: '#f7f8f8',
   primaryForeground: '#211717',
   secondaryForeground: '#5c3939',
   muted: '#1e293b',
@@ -80,18 +144,23 @@ export const colorPalettes: Record<string, ColorPalette> = {
       secondary: '#3e4300',
       accent: '#725410',
       muted: '#ffffff',
+      mutedForeground: '#595959',
       destructive: '#8e0c0c',
       success: '#086144',
       warning: '#634004',
     },
     dark: {
       ...darkDefaults,
+      primaryForeground: '#fff',
       primary: '#f4b400',
-      secondary: '#9aa000',
+      secondary: '#cbd300',
       accent: '#e6b646',
       foreground: '#f8fafc',
-      primaryForeground: '#0f172a',
-      muted: '#030508',
+      mutedForeground: '#b3bdcc',
+      destructive: '#f79c9c',
+      success: '#14e8a2',
+      warning: '#f7b13c',
+      // muted: '#030508',
     },
   },
 
@@ -106,9 +175,9 @@ export const colorPalettes: Record<string, ColorPalette> = {
     },
     dark: {
       ...darkDefaults,
-      primary: 'rgb(1 97 239)',
-      secondary: 'rgb(1 84 207)',
-      accent: 'rgb(109 40 217)',
+      primary: '#0161ef',
+      secondary: '#0154cf',
+      accent: '#6d28d9',
     },
   },
 
@@ -307,7 +376,7 @@ export function generatePaletteCSS(palette: ColorPalette): string {
 
     /* Page colors */
     --color-bg-page: var(--color-background);
-    --color-bg-page-dark: rgb(3 6 32);
+    --color-bg-page-dark: #030620;
 
     /* Simplified gradients */
     --gradient-hero: linear-gradient(
@@ -348,7 +417,7 @@ export function generatePaletteCSS(palette: ColorPalette): string {
 
     /* Page colors */
     --color-bg-page: var(--color-background);
-    --color-bg-page-dark: rgb(3 6 32);
+    --color-bg-page-dark: #030620;
 
     ::selection {
       background-color: color-mix(in srgb, var(--color-primary) 30%, transparent);
