@@ -111,12 +111,12 @@ const lightDefaults = {
   muted: '#f1f5f9',
   mutedForeground: '#64748b',
   border: '#e2e8f0',
-  destructive: '#ef4444',
   destructiveForeground: '#ffffff',
-  success: '#10b981',
   successForeground: '#ffffff',
-  warning: '#f59e0b',
   warningForeground: '#ffffff',
+  destructive: '#8e0c0c',
+  success: '#086144',
+  warning: '#634004',
 };
 const darkDefaults = {
   background: '#0f172a',
@@ -124,17 +124,40 @@ const darkDefaults = {
   primaryForeground: '#fff',
   secondaryForeground: '#fff',
   muted: '#1e293b',
-  mutedForeground: '#94a3b8',
+  // mutedForeground: '#94a3b8',
+  mutedForeground: '#b3bdcc',
   border: '#334155',
-  destructive: '#ef4444',
   destructiveForeground: '#ffffff',
-  success: '#10b981',
   successForeground: '#ffffff',
-  warning: '#f59e0b',
   warningForeground: '#ffffff',
+  destructive: '#f79c9c',
+  success: '#14e8a2',
+  warning: '#f7b13c',
 };
 
 export const colorPalettes: Record<string, ColorPalette> = {
+  blueRainLily: {
+    name: 'Blue Rain',
+    description: 'TBD',
+    light: {
+      ...lightDefaults,
+      primary: '#3c52f8da',
+      secondary: '#774c52',
+      accent: '#684c84',
+      mutedForeground: '#444f5f',
+    },
+    dark: {
+      ...darkDefaults,
+      primary: '#dee2ff',
+      secondary: '#efd3d7',
+      accent: '#cbc0d3',
+      foreground: '#f8fafc',
+      primaryForeground: '#0f172a',
+      secondaryForeground: '#',
+      muted: '#030508',
+    },
+  },
+
   sand: {
     name: 'sand',
     description: 'A warm, earthy palette inspired by desert sands and natural tones',
@@ -145,9 +168,6 @@ export const colorPalettes: Record<string, ColorPalette> = {
       accent: '#725410',
       muted: '#ffffff',
       mutedForeground: '#595959',
-      destructive: '#8e0c0c',
-      success: '#086144',
-      warning: '#634004',
     },
     dark: {
       ...darkDefaults,
@@ -157,11 +177,6 @@ export const colorPalettes: Record<string, ColorPalette> = {
       secondary: '#cbd300',
       accent: '#e6b646',
       foreground: '#f8fafc',
-      mutedForeground: '#b3bdcc',
-      destructive: '#f79c9c',
-      success: '#14e8a2',
-      warning: '#f7b13c',
-      // muted: '#030508',
     },
   },
 
