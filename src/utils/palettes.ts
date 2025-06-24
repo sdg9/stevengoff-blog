@@ -121,8 +121,8 @@ const lightDefaults = {
 const darkDefaults = {
   background: '#0f172a',
   foreground: '#f7f8f8',
-  primaryForeground: '#211717',
-  secondaryForeground: '#5c3939',
+  primaryForeground: '#fff',
+  secondaryForeground: '#fff',
   muted: '#1e293b',
   mutedForeground: '#94a3b8',
   border: '#334155',
@@ -151,7 +151,8 @@ export const colorPalettes: Record<string, ColorPalette> = {
     },
     dark: {
       ...darkDefaults,
-      primaryForeground: '#fff',
+      primaryForeground: '#211717',
+      secondaryForeground: '#3d2525',
       primary: '#f4b400',
       secondary: '#cbd300',
       accent: '#e6b646',

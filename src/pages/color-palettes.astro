@@ -12,9 +12,6 @@ const metadata = {
     follow: true,
   },
 };
-
-// Get the current active palette from CustomStyles.astro (this would need to be dynamic in a real implementation)
-const currentPalette = 'default';
 ---
 
 <Layout metadata={metadata}>
@@ -54,7 +51,13 @@ const currentPalette = 'default';
       </div>
 
       <!-- Available Palettes with Accessibility Ratings -->
-      <PalettePreview currentPalette={currentPalette} showAccessibility={true} />
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white">Available Color Palettes</h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-6">
+          Click any palette card to jump to its detailed accessibility analysis below.
+        </p>
+      </div>
+      <PalettePreview showAccessibility={true} />
 
       <!-- Detailed Accessibility Analysis -->
       <div class="mt-16">
@@ -65,7 +68,11 @@ const currentPalette = 'default';
         </p>
 
         <div class="space-y-6">
-          {Object.values(colorPalettes).map((palette) => <CompactContrastGrid palette={palette} />)}
+          {Object.entries(colorPalettes).map(([key, palette]) => (
+            <div data-palette-analysis={key}>
+              <CompactContrastGrid palette={palette} />
+            </div>
+          ))}
         </div>
       </div>
 

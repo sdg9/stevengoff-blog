@@ -3,11 +3,10 @@ import { colorPalettes } from '../../utils/palettes';
 import { analyzePaletteAccessibility } from '../../utils/contrast';
 
 export interface Props {
-  currentPalette?: string;
   showAccessibility?: boolean;
 }
 
-const { currentPalette = 'default', showAccessibility = true } = Astro.props;
+const { showAccessibility = true } = Astro.props;
 
 // Get rating color helper
 function getRatingColor(rating: string): string {
@@ -36,11 +35,10 @@ function getRatingColor(rating: string): string {
         const analysis = showAccessibility ? analyzePaletteAccessibility(palette) : null;
 
         return (
-          <div class={`palette-card ${key === currentPalette ? 'current' : ''}`}>
+          <div class="palette-card" data-palette-key={key}>
             <div class="palette-header">
               <h3 class="font-semibold text-lg">{palette.name}</h3>
               <p class="text-sm text-gray-600">{palette.description}</p>
-              {key === currentPalette && <span class="current-badge">Current</span>}
               {showAccessibility && analysis && (
                 <div
                   class="accessibility-badge"
@@ -97,33 +95,45 @@ function getRatingColor(rating: string): string {
     background: white;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: all 0.2s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .palette-card::after {
+    content: '👁️ View Analysis';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-primary);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    opacity: 0;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    z-index: 10;
   }
 
   .palette-card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
+    border-color: var(--color-primary);
   }
 
-  .palette-card.current {
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  .palette-card:hover::after {
+    opacity: 1;
+  }
+
+  .palette-card:hover > * {
+    opacity: 0.3;
   }
 
   .palette-header {
     margin-bottom: 1rem;
     position: relative;
-  }
-
-  .current-badge {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background: #3b82f6;
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 500;
   }
 
   .accessibility-badge {
@@ -185,3 +195,49 @@ function getRatingColor(rating: string): string {
     font-family: 'Monaco', 'Consolas', monospace;
   }
 </style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const paletteCards = document.querySelectorAll('.palette-card');
+
+    paletteCards.forEach((card) => {
+      card.addEventListener('click', function () {
+        const paletteKey = card.getAttribute('data-palette-key');
+        if (paletteKey) {
+          // Find the corresponding contrast grid for this palette
+          const targetElement = document.querySelector(`[data-palette-analysis="${paletteKey}"]`);
+          if (targetElement) {
+            // Scroll to the accessibility analysis section for this palette
+            targetElement.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+            
+            // Add a temporary highlight effect
+            const contrastGrid = targetElement.querySelector('.compact-contrast-grid');
+            if (contrastGrid) {
+              const gridElement = contrastGrid as HTMLElement;
+              gridElement.style.transition = 'all 0.5s ease';
+              gridElement.style.boxShadow = '0 0 0 3px var(--color-primary)';
+              gridElement.style.transform = 'scale(1.02)';
+              
+              setTimeout(() => {
+                gridElement.style.boxShadow = '';
+                gridElement.style.transform = '';
+              }, 1500);
+            }
+          } else {
+            // Fallback: scroll to the accessibility analysis section
+            const analysisSection = document.querySelector('.compact-contrast-grid');
+            if (analysisSection) {
+              analysisSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start',
+              });
+            }
+          }
+        }
+      });
+    });
+  });
+</script>
