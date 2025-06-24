@@ -135,9 +135,9 @@ const darkDefaults = {
 };
 
 export const colorPalettes: Record<string, ColorPalette> = {
-  test: {
-    name: 'test',
-    description: 'test palette',
+  sand: {
+    name: 'sand',
+    description: 'A warm, earthy palette inspired by desert sands and natural tones',
     light: {
       ...lightDefaults,
       primary: '#6e4e00',

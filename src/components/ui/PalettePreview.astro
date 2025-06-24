@@ -134,6 +134,17 @@ function getRatingColor(rating: string): string {
   .palette-header {
     margin-bottom: 1rem;
     position: relative;
+    padding-right: 5rem; /* Add space for the badge */
+  }
+
+  .palette-header h3 {
+    margin: 0 0 0.25rem 0;
+    max-width: calc(100% - 1rem); /* Ensure title doesn't overlap badge */
+  }
+
+  .palette-header p {
+    margin: 0;
+    max-width: calc(100% - 1rem); /* Ensure description doesn't overlap badge */
   }
 
   .accessibility-badge {
@@ -150,6 +161,7 @@ function getRatingColor(rating: string): string {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+    z-index: 5; /* Ensure it stays above other content */
   }
 
   .accessibility-score {
