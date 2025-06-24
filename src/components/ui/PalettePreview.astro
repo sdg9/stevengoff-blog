@@ -224,7 +224,7 @@ function getRatingColor(rating: string): string {
               behavior: 'smooth',
               block: 'start',
             });
-            
+
             // Add a temporary highlight effect
             const contrastGrid = targetElement.querySelector('.compact-contrast-grid');
             if (contrastGrid) {
@@ -232,7 +232,7 @@ function getRatingColor(rating: string): string {
               gridElement.style.transition = 'all 0.5s ease';
               gridElement.style.boxShadow = '0 0 0 3px var(--color-primary)';
               gridElement.style.transform = 'scale(1.02)';
-              
+
               setTimeout(() => {
                 gridElement.style.boxShadow = '';
                 gridElement.style.transform = '';

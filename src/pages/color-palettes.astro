@@ -68,11 +68,13 @@ const metadata = {
         </p>
 
         <div class="space-y-6">
-          {Object.entries(colorPalettes).map(([key, palette]) => (
-            <div data-palette-analysis={key}>
-              <CompactContrastGrid palette={palette} />
-            </div>
-          ))}
+          {
+            Object.entries(colorPalettes).map(([key, palette]) => (
+              <div data-palette-analysis={key}>
+                <CompactContrastGrid palette={palette} />
+              </div>
+            ))
+          }
         </div>
       </div>
 

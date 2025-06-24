@@ -139,16 +139,16 @@ export function analyzePaletteAccessibility(palette: {
     { bg: 'background', fg: 'mutedForeground', name: 'Muted text on background', weight: 2 },
     { bg: 'muted', fg: 'foreground', name: 'Text on muted background', weight: 2 },
     { bg: 'muted', fg: 'mutedForeground', name: 'Muted text on muted background', weight: 1 },
-    
+
     // Button combinations
     { bg: 'primary', fg: 'primaryForeground', name: 'Primary button text', weight: 3 },
     { bg: 'secondary', fg: 'secondaryForeground', name: 'Secondary button text', weight: 2 },
-    
+
     // System colors
     { bg: 'destructive', fg: 'destructiveForeground', name: 'Error text', weight: 2 },
     { bg: 'success', fg: 'successForeground', name: 'Success text', weight: 2 },
     { bg: 'warning', fg: 'warningForeground', name: 'Warning text', weight: 2 },
-    
+
     // Cross-background text (important for UI flexibility)
     { bg: 'background', fg: 'primary', name: 'Primary text on background', weight: 1 },
     { bg: 'background', fg: 'secondary', name: 'Secondary text on background', weight: 1 },
@@ -196,7 +196,7 @@ export function analyzePaletteAccessibility(palette: {
 
       if (bgColor && fgColor) {
         const result = getAccessibilityLevel(calculateContrastRatio(bgColor, fgColor));
-        
+
         // Add to weighted score
         weightedScore += result.score * combo.weight;
         totalWeight += combo.weight;
