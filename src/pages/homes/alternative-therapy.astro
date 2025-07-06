@@ -23,26 +23,6 @@ const metadata = {
 ---
 
 <PageLayout metadata={metadata}>
-  <Fragment slot="header">
-    <Header
-      links={[
-        { text: 'Home', href: '#' },
-        { text: 'About', href: '#' },
-        { text: 'Testimonials', href: '#' },
-        { text: 'Blog', href: '#' },
-      ]}
-      actions={[]}
-      isSticky
-      showToggleTheme
-      position="left"
-      isDark={true}
-    >
-      <Fragment slot="logo">
-        <span class="font-bold text-xl text-white">Blue Rain Lily</span>
-      </Fragment>
-    </Header>
-  </Fragment>
-
   <!-- Hero Section ******************* -->
   <Hero
     id="hero"
@@ -55,10 +35,15 @@ const metadata = {
         href: '#contact',
       },
     ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
+      alt: 'Serene mountain landscape with calm lake reflecting peaceful therapy environment',
+      loading: 'eager',
+    }}
   >
-    <Fragment slot="bg">
+    <!-- <Fragment slot="bg">
       <div class="absolute inset-0 hero-gradient"></div>
-    </Fragment>
+    </Fragment> -->
   </Hero>
 
   <!-- Services Section *************** -->
@@ -165,6 +150,23 @@ const metadata = {
     /* Hero section gradient using design token */
     .hero-gradient {
       background: var(--gradient-hero);
+    }
+
+    /* Hero image styling for better integration */
+    #hero img {
+      border-radius: 1rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      transition: all 0.3s ease;
+    }
+
+    #hero .relative.m-auto.max-w-5xl {
+      margin-top: 2rem;
+    }
+
+    /* Enhance image on hover for interactive feel */
+    #hero:hover img {
+      transform: translateY(-4px);
+      box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.3);
     }
   </style>
 
