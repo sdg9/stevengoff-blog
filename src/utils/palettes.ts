@@ -153,7 +153,7 @@ export const colorPalettes: Record<string, ColorPalette> = {
       accent: '#cbc0d3',
       foreground: '#f8fafc',
       primaryForeground: '#0f172a',
-      secondaryForeground: '#',
+      secondaryForeground: '#0f172a',
       muted: '#030508',
     },
   },
