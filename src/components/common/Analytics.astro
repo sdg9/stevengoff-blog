@@ -1,34 +1,111 @@
 ---
-import { GoogleAnalytics } from '@astrolib/analytics';
 import { ANALYTICS } from 'astrowind:config';
+
+// Pass analytics config to client-side script
+const analyticsConfig = {
+  googleAnalytics: {
+    id: ANALYTICS?.vendors?.googleAnalytics?.id || null,
+    partytown: ANALYTICS?.vendors?.googleAnalytics?.partytown || false,
+  },
+  plausible: {
+    domain: ANALYTICS?.vendors?.plausible?.domain || null,
+    src: ANALYTICS?.vendors?.plausible?.src || null,
+    needs404Script: ANALYTICS?.vendors?.plausible?.needs404Script || false,
+  },
+};
 ---
 
-{
-  ANALYTICS?.vendors?.googleAnalytics?.id ? (
-    <GoogleAnalytics
-      id={String(ANALYTICS.vendors.googleAnalytics.id)}
-      partytown={ANALYTICS?.vendors?.googleAnalytics?.partytown}
-    />
-  ) : null
-}
+<!-- Analytics scripts will be loaded conditionally based on cookie consent -->
+<script type="module" define:vars={{ analyticsConfig }}>
+  // Function to load Google Analytics
+  function loadGoogleAnalytics() {
+    if (window.gtag) return; // Already loaded
 
-{
-  ANALYTICS?.vendors?.plausible?.domain && ANALYTICS?.vendors?.plausible?.src ? (
-    <>
-      <script
-        defer
-        data-domain={ANALYTICS.vendors.plausible.domain}
-        src={ANALYTICS.vendors.plausible.src}
-      ></script>
-      {ANALYTICS?.vendors?.plausible?.needs404Script && (
-        <script>
-          window.plausible =
-            window.plausible ||
-            function (...args) {
-              (window.plausible.q = window.plausible.q || []).push(args);
-            };
-        </script>
-      )}
-    </>
-  ) : null
-}
+    const gtagId = analyticsConfig.googleAnalytics.id;
+    if (!gtagId) return;
+
+    // Load gtag script
+    const script = document.createElement('script');
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${gtagId}`;
+    script.async = true;
+    document.head.appendChild(script);
+
+    // Initialize gtag
+    window.dataLayer = window.dataLayer || [];
+    function gtag(...args) {
+      window.dataLayer.push(args);
+    }
+    window.gtag = gtag;
+    gtag('js', new Date());
+    gtag('config', gtagId);
+  }
+
+  // Function to load Plausible Analytics
+  function loadPlausible() {
+    if (document.querySelector('[data-domain]')) return; // Already loaded
+
+    const { domain, src, needs404Script } = analyticsConfig.plausible;
+    if (!domain || !src) return;
+
+    const script = document.createElement('script');
+    script.defer = true;
+    script.setAttribute('data-domain', domain);
+    script.src = src;
+    document.head.appendChild(script);
+
+    // Add 404 script if needed
+    if (needs404Script) {
+      const script404 = document.createElement('script');
+      script404.textContent = `
+        window.plausible = window.plausible || function (...args) {
+          (window.plausible.q = window.plausible.q || []).push(args);
+        };
+      `;
+      document.head.appendChild(script404);
+    }
+  }
+
+  // Function to load appropriate analytics based on configuration
+  function loadAnalytics() {
+    // Load Google Analytics if configured
+    if (analyticsConfig.googleAnalytics.id) {
+      console.log('Loading Google Analytics with ID:', analyticsConfig.googleAnalytics.id);
+      loadGoogleAnalytics();
+    } else if (analyticsConfig.plausible.domain && analyticsConfig.plausible.src) {
+      console.log('Loading Plausible Analytics for domain:', analyticsConfig.plausible.domain);
+      loadPlausible();
+    } else {
+      console.log('No analytics configuration found. Skipping analytics loading.');
+    }
+  }
+
+  // Function to check consent and load analytics
+  async function initAnalytics() {
+    // Wait for CookieConsent to be available
+    while (!window.CookieConsent) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    if (window.CookieConsent.acceptedCategory('analytics')) {
+      loadAnalytics();
+    }
+  }
+
+  // Check consent when page loads
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAnalytics);
+  } else {
+    initAnalytics();
+  }
+
+  // Listen for consent changes
+  window.addEventListener('cc:onConsent', () => {
+    console.log('Cookie consent changed:', window.CookieConsent);
+    if (window.CookieConsent?.acceptedCategory('analytics')) {
+      loadAnalytics();
+    }
+  });
+
+  // Handle page navigation (for SPAs/View Transitions)
+  window.addEventListener('astro:page-load', initAnalytics);
+</script>

@@ -7,14 +7,19 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
 
   <script>
     import { run } from 'vanilla-cookieconsent';
+    import * as CookieConsent from 'vanilla-cookieconsent';
     import { config } from './CookieConsentConfig';
 
-    // Extend the Window interface to include our custom property
+    // Extend the Window interface to include our custom properties
     declare global {
       interface Window {
         _htmlClassName?: string;
+        CookieConsent: typeof CookieConsent;
       }
     }
+
+    // Make CookieConsent available globally
+    window.CookieConsent = CookieConsent;
 
     run(config);
 
