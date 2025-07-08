@@ -75,6 +75,7 @@ apps:
     relatedPostsCount: 4
 
 analytics:
+  useCookieConsent: false # Set to false to load analytics immediately without cookie consent
   vendors:
     googleAnalytics:
       id: null # or "G-XXXXXXXXXX"

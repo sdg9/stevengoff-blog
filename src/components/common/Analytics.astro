@@ -3,6 +3,8 @@ import { ANALYTICS } from 'astrowind:config';
 
 // Pass analytics config to client-side script
 const analyticsConfig = {
+  useCookieConsent: ANALYTICS?.useCookieConsent ?? true,
+  debug: import.meta.env.DEV, // Only log in development
   googleAnalytics: {
     id: ANALYTICS?.vendors?.googleAnalytics?.id || null,
     partytown: ANALYTICS?.vendors?.googleAnalytics?.partytown || false,
@@ -69,18 +71,25 @@ const analyticsConfig = {
   function loadAnalytics() {
     // Load Google Analytics if configured
     if (analyticsConfig.googleAnalytics.id) {
-      console.log('Loading Google Analytics with ID:', analyticsConfig.googleAnalytics.id);
+      if (analyticsConfig.debug) console.log('Loading Google Analytics with ID:', analyticsConfig.googleAnalytics.id);
       loadGoogleAnalytics();
     } else if (analyticsConfig.plausible.domain && analyticsConfig.plausible.src) {
-      console.log('Loading Plausible Analytics for domain:', analyticsConfig.plausible.domain);
+      if (analyticsConfig.debug) console.log('Loading Plausible Analytics for domain:', analyticsConfig.plausible.domain);
       loadPlausible();
     } else {
-      console.log('No analytics configuration found. Skipping analytics loading.');
+      if (analyticsConfig.debug) console.log('No analytics configuration found. Skipping analytics loading.');
     }
   }
 
   // Function to check consent and load analytics
   async function initAnalytics() {
+    // If cookie consent is disabled, load analytics immediately
+    if (!analyticsConfig.useCookieConsent) {
+      if (analyticsConfig.debug) console.log('Cookie consent disabled, loading analytics immediately');
+      loadAnalytics();
+      return;
+    }
+
     // Wait for CookieConsent to be available
     while (!window.CookieConsent) {
       await new Promise((resolve) => setTimeout(resolve, 100));
@@ -98,13 +107,15 @@ const analyticsConfig = {
     initAnalytics();
   }
 
-  // Listen for consent changes
-  window.addEventListener('cc:onConsent', () => {
-    console.log('Cookie consent changed:', window.CookieConsent);
-    if (window.CookieConsent?.acceptedCategory('analytics')) {
-      loadAnalytics();
-    }
-  });
+  // Listen for consent changes (only if cookie consent is enabled)
+  if (analyticsConfig.useCookieConsent) {
+    window.addEventListener('cc:onConsent', () => {
+      if (analyticsConfig.debug) console.log('Cookie consent changed:', window.CookieConsent);
+      if (window.CookieConsent?.acceptedCategory('analytics')) {
+        loadAnalytics();
+      }
+    });
+  }
 
   // Handle page navigation (for SPAs/View Transitions)
   window.addEventListener('astro:page-load', initAnalytics);
