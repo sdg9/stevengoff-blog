@@ -643,7 +643,7 @@ export const colorPalettes: Record<string, ColorPalette> = {
 
   github: {
     name: 'GitHub Dark',
-    description: 'Modern dark theme inspired by GitHub\'s interface',
+    description: "Modern dark theme inspired by GitHub's interface",
     light: {
       ...lightDefaults,
       primary: '#0969da',
@@ -677,7 +677,7 @@ export const colorPalettes: Record<string, ColorPalette> = {
 
   discord: {
     name: 'Discord',
-    description: 'Gaming-focused palette inspired by Discord\'s brand colors',
+    description: "Gaming-focused palette inspired by Discord's brand colors",
     light: {
       ...lightDefaults,
       primary: '#5865f2',
@@ -711,7 +711,7 @@ export const colorPalettes: Record<string, ColorPalette> = {
 
   notion: {
     name: 'Notion',
-    description: 'Clean and minimal palette inspired by Notion\'s workspace',
+    description: "Clean and minimal palette inspired by Notion's workspace",
     light: {
       ...lightDefaults,
       primary: '#2383e2',
@@ -745,7 +745,7 @@ export const colorPalettes: Record<string, ColorPalette> = {
 
   spotify: {
     name: 'Spotify',
-    description: 'Music-inspired palette with Spotify\'s signature green',
+    description: "Music-inspired palette with Spotify's signature green",
     light: {
       ...lightDefaults,
       primary: '#1db954',
@@ -779,7 +779,7 @@ export const colorPalettes: Record<string, ColorPalette> = {
 
   linear: {
     name: 'Linear',
-    description: 'Sleek and modern palette inspired by Linear\'s design system',
+    description: "Sleek and modern palette inspired by Linear's design system",
     light: {
       ...lightDefaults,
       primary: '#5e6ad2',
@@ -813,7 +813,7 @@ export const colorPalettes: Record<string, ColorPalette> = {
 
   tailwind: {
     name: 'Tailwind CSS',
-    description: 'Modern utility-first palette using Tailwind\'s brand colors',
+    description: "Modern utility-first palette using Tailwind's brand colors",
     light: {
       ...lightDefaults,
       primary: '#0ea5e9',
@@ -1190,7 +1190,7 @@ export const colorPalettes: Record<string, ColorPalette> = {
 
   slack: {
     name: 'Slack',
-    description: 'Professional workspace palette inspired by Slack\'s interface',
+    description: "Professional workspace palette inspired by Slack's interface",
     light: {
       ...lightDefaults,
       primary: '#4a154b',
