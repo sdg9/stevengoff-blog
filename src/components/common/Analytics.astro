@@ -74,7 +74,8 @@ const analyticsConfig = {
       if (analyticsConfig.debug) console.log('Loading Google Analytics with ID:', analyticsConfig.googleAnalytics.id);
       loadGoogleAnalytics();
     } else if (analyticsConfig.plausible.domain && analyticsConfig.plausible.src) {
-      if (analyticsConfig.debug) console.log('Loading Plausible Analytics for domain:', analyticsConfig.plausible.domain);
+      if (analyticsConfig.debug)
+        console.log('Loading Plausible Analytics for domain:', analyticsConfig.plausible.domain);
       loadPlausible();
     } else {
       if (analyticsConfig.debug) console.log('No analytics configuration found. Skipping analytics loading.');

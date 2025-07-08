@@ -711,6 +711,9 @@ async function main() {
       // { name: 'Personal', value: 'personal' },
       { name: 'Counseling', value: 'counseling' },
       { name: 'Beach Club', value: 'beach' },
+      { name: 'Painter', value: 'painter' },
+      { name: 'Physio', value: 'physio-home-1' },
+      { name: 'Dog Grooming', value: 'doggrooming' },
     ];
 
     const { selectedHome } = await promptWithDefaults(

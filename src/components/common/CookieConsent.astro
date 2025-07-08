@@ -23,7 +23,7 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
 
     run(config);
 
-    // Important, the plugin adds classes to the html tag, 
+    // Important, the plugin adds classes to the html tag,
     // so we need keep track of the className attribute.
     document.addEventListener('astro:before-preparation', () => {
       window._htmlClassName = window.document.documentElement.className;

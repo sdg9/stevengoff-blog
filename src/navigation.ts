@@ -49,6 +49,10 @@ export const headerData = {
           text: 'Painter',
           href: getPermalink('/homes/painter'),
         },
+        {
+          text: 'Dog Grooming',
+          href: getPermalink('/homes/doggrooming'),
+        },
       ],
     },
     {
@@ -160,6 +164,10 @@ export const headerData = {
         {
           text: 'Beginner Session Example',
           href: getPermalink('beginner-session-example'),
+        },
+        {
+          text: 'Color Palettes',
+          href: getPermalink('color-palettes'),
         },
       ],
     },

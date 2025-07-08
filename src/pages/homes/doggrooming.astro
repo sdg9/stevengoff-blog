@@ -1,0 +1,443 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+
+import Hero from '~/components/widgets/Hero.astro';
+import Content from '~/components/widgets/Content.astro';
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Features from '~/components/widgets/Features.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import Contact from '~/components/widgets/Contact.astro';
+import Stats from '~/components/widgets/Stats.astro';
+import { getPermalink } from '~/utils/permalinks';
+
+const metadata = {
+  title: 'Pawsome Pet Grooming - Professional Dog Grooming Services',
+  description:
+    'Transform your furry friend with our professional dog grooming services. Expert groomers, premium products, and stress-free environment for your beloved pet.',
+  robots: {
+    index: true,
+    follow: true,
+  },
+  canonical: getPermalink('/homes/doggrooming'),
+};
+---
+
+<PageLayout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero
+    id="hero"
+    title="Your Pet's Spa Day Awaits"
+    tagline="Professional Dog Grooming"
+    actions={[
+      { variant: 'primary', text: 'Book Appointment', href: '#contact' },
+      { text: 'View Services', href: '#services' },
+    ]}
+  >
+    <Fragment slot="subtitle">
+      Transform your furry friend with our professional grooming services. We provide a stress-free, loving environment
+      where your pet receives the royal treatment they deserve.
+      <br /><br />
+      <span class="text-sm font-medium">✓ Certified Professional Groomers</span> •
+      <span class="text-sm font-medium">✓ Premium All-Natural Products</span> •
+      <span class="text-sm font-medium">✓ Gentle, Stress-Free Experience</span>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <img
+          class="w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&h=1080&q=80"
+          alt="Happy dog being groomed"
+        />
+        <div class="absolute inset-0 bg-blue-900/40"></div>
+      </div>
+    </Fragment>
+  </Hero>
+
+  <!-- Stats Widget ****************** -->
+
+  <Stats
+    stats={[
+      { title: 'Happy Pets', amount: '2,500+' },
+      { title: 'Years Experience', amount: '15+' },
+      { title: 'Satisfied Owners', amount: '2,000+' },
+      { title: 'Grooming Services', amount: '50+' },
+    ]}
+  />
+
+  <!-- Content Widget **************** -->
+
+  <Content
+    id="about"
+    tagline="About Pawsome Pet Grooming"
+    title="Where Every Pet is Treated Like Family"
+    items={[
+      {
+        title: 'Expert Care',
+        description: 'Our certified groomers have years of experience handling pets of all sizes and temperaments.',
+      },
+      {
+        title: 'Premium Products',
+        description: "We use only the finest, all-natural grooming products that are gentle on your pet's skin.",
+      },
+      {
+        title: 'Stress-Free Environment',
+        description: 'Our calm, loving atmosphere ensures your pet feels safe and comfortable throughout their visit.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1601758228041-f3b2795255f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      alt: 'Professional dog groomer at work',
+      loading: 'eager',
+    }}
+  >
+    <Fragment slot="content">
+      <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Passionate About Pet Care Since 2009
+      </h2>
+      <p>
+        At Pawsome Pet Grooming, we believe every pet deserves to look and feel their best. Our team of certified
+        professional groomers combines years of experience with genuine love for animals to provide exceptional grooming
+        services in a caring, stress-free environment.
+      </p>
+      <br />
+      <p>
+        We understand that your pet is part of your family, which is why we treat each furry friend with the same love
+        and attention we'd give our own pets. From basic baths to full grooming packages, we're here to keep your
+        companion healthy, happy, and looking their absolute best.
+      </p>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+    </Fragment>
+  </Content>
+
+  <!-- Features Widget *************** -->
+
+  <Features
+    id="services"
+    tagline="Our Services"
+    title="Complete Grooming Solutions"
+    subtitle="From basic baths to full spa treatments, we offer everything your pet needs to look and feel amazing"
+    items={[
+      {
+        title: 'Full Service Grooming',
+        description: 'Complete grooming package including bath, blow dry, haircut, nail trim, and ear cleaning.',
+        icon: 'tabler:scissors',
+      },
+      {
+        title: 'Bath & Brush',
+        description: 'Refreshing bath with premium shampoo, thorough brushing, and blow dry service.',
+        icon: 'tabler:droplets',
+      },
+      {
+        title: 'Nail Trimming',
+        description: 'Professional nail care to keep your pet comfortable and prevent overgrowth.',
+        icon: 'tabler:tool',
+      },
+      {
+        title: 'Ear Cleaning',
+        description: "Gentle ear cleaning to prevent infections and maintain your pet's health.",
+        icon: 'tabler:ear',
+      },
+      {
+        title: 'Teeth Cleaning',
+        description: "Dental hygiene services to maintain your pet's oral health and fresh breath.",
+        icon: 'tabler:dental',
+      },
+      {
+        title: 'Flea & Tick Treatment',
+        description: 'Specialized treatments to eliminate pests and protect your pet from parasites.',
+        icon: 'tabler:bug',
+      },
+    ]}
+  />
+
+  <!-- Steps Widget ****************** -->
+
+  <Steps
+    id="process"
+    title="Our Grooming Process"
+    subtitle="We follow a careful, step-by-step process to ensure your pet has the best possible experience"
+    items={[
+      {
+        title: 'Step 1: <span class="font-medium">Consultation</span>',
+        description:
+          "We start with a brief consultation to understand your pet's specific needs, temperament, and any special requirements.",
+        icon: 'tabler:message-circle',
+      },
+      {
+        title: 'Step 2: <span class="font-medium">Health Check</span>',
+        description:
+          'Our groomers perform a quick health assessment, checking for any skin issues, lumps, or areas of concern.',
+        icon: 'tabler:stethoscope',
+      },
+      {
+        title: 'Step 3: <span class="font-medium">Pre-Grooming</span>',
+        description:
+          'We begin with nail trimming and ear cleaning to get your pet comfortable before the main grooming.',
+        icon: 'tabler:hand-finger',
+      },
+      {
+        title: 'Step 4: <span class="font-medium">Bath & Dry</span>',
+        description:
+          'Relaxing bath with premium products followed by gentle blow drying in our quiet, stress-free environment.',
+        icon: 'tabler:droplets',
+      },
+      {
+        title: 'Step 5: <span class="font-medium">Styling & Finishing</span>',
+        description:
+          'Professional haircut and styling according to your preferences, followed by final touches and quality check.',
+        icon: 'tabler:scissors',
+      },
+      {
+        title: 'Step 6: <span class="font-medium">Final Review</span>',
+        description:
+          'We review the grooming with you, provide care tips, and schedule your next appointment if desired.',
+        icon: 'tabler:check',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      alt: 'Dog grooming process',
+    }}
+  />
+
+  <!-- Features3 Widget ************** -->
+
+  <Features3
+    id="why-choose-us"
+    title="Why Choose Pawsome Pet Grooming?"
+    subtitle="We're committed to providing the best possible care for your beloved companion"
+    columns={3}
+    items={[
+      {
+        title: 'Certified Professionals',
+        description: 'All our groomers are certified and continuously trained in the latest techniques.',
+        icon: 'tabler:certificate',
+      },
+      {
+        title: 'All-Natural Products',
+        description: "We use only premium, eco-friendly products that are gentle on your pet's skin.",
+        icon: 'tabler:leaf',
+      },
+      {
+        title: 'Stress-Free Environment',
+        description: 'Our calm, quiet facility is designed to keep your pet relaxed and comfortable.',
+        icon: 'tabler:heart',
+      },
+      {
+        title: 'Personalized Care',
+        description: "Every grooming session is tailored to your pet's specific needs and preferences.",
+        icon: 'tabler:user-check',
+      },
+      {
+        title: 'Flexible Scheduling',
+        description: 'Convenient appointment times that work with your busy schedule.',
+        icon: 'tabler:calendar',
+      },
+      {
+        title: 'Affordable Pricing',
+        description: 'Competitive rates with package deals and loyalty discounts available.',
+        icon: 'tabler:currency-dollar',
+      },
+    ]}
+  />
+
+  <!-- Testimonials Widget *********** -->
+
+  <Testimonials
+    title="What Pet Parents Say"
+    subtitle="Don't just take our word for it - here's what our satisfied customers have to say"
+    testimonials={[
+      {
+        testimonial: `Pawsome Pet Grooming is absolutely amazing! My golden retriever Max was so anxious about grooming, but the staff here made him feel completely at ease. The results were incredible - he looked like a show dog! I'll never take him anywhere else.`,
+        name: 'Sarah Johnson',
+        job: 'Pet Parent',
+        image: {
+          src: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
+          alt: 'Sarah Johnson',
+        },
+      },
+      {
+        testimonial: `I've been bringing my rescue dog Bella here for over a year now. The team is so patient and gentle with her, and they always remember her specific needs. The facility is clean, professional, and my dog actually gets excited when we pull up!`,
+        name: 'Michael Chen',
+        job: 'Dog Owner',
+        image: {
+          src: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
+          alt: 'Michael Chen',
+        },
+      },
+      {
+        testimonial: `Outstanding service! My poodle has very specific grooming needs, and the team here always gets the cut exactly right. They're professional, caring, and reasonably priced. I highly recommend them to anyone looking for quality pet grooming.`,
+        name: 'Emily Rodriguez',
+        job: 'Poodle Parent',
+        image: {
+          src: 'https://images.unsplash.com/photo-1494790108755-2616b612b47c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=facearea&facepad=2&w=320&h=320&q=80',
+          alt: 'Emily Rodriguez',
+        },
+      },
+    ]}
+  />
+
+  <!-- FAQs Widget ******************* -->
+
+  <FAQs
+    id="faq"
+    title="Frequently Asked Questions"
+    subtitle="Find answers to common questions about our grooming services"
+    tagline="FAQs"
+    classes={{ container: 'max-w-6xl' }}
+    items={[
+      {
+        title: 'How often should my dog be groomed?',
+        description:
+          'Most dogs benefit from professional grooming every 4-6 weeks, but this depends on the breed, coat type, and lifestyle. Long-haired breeds may need more frequent grooming, while short-haired breeds can go longer between sessions.',
+      },
+      {
+        title: 'What should I bring to my appointment?',
+        description:
+          'Just bring your dog! We provide everything needed for the grooming process. If your pet has specific dietary restrictions or medical conditions, please let us know when booking.',
+      },
+      {
+        title: 'Do you groom cats as well?',
+        description:
+          'Yes! We offer professional cat grooming services. Our groomers are experienced with feline behavior and provide gentle, stress-free grooming for cats of all temperaments.',
+      },
+      {
+        title: 'How long does a typical grooming session take?',
+        description:
+          "A full grooming session typically takes 2-3 hours, depending on the size of your pet and the services requested. We work at your pet's pace to ensure they remain comfortable throughout the process.",
+      },
+      {
+        title: 'What if my pet is anxious or aggressive?',
+        description:
+          'Our experienced groomers are trained to work with anxious and difficult pets. We use gentle techniques and take breaks as needed. For severely anxious pets, we may recommend a consultation with your veterinarian.',
+      },
+      {
+        title: 'Do you offer mobile grooming services?',
+        description:
+          "Currently, we operate from our salon location only. However, we've designed our facility to be as stress-free as possible, with separate areas for anxious pets and calming music throughout.",
+      },
+    ]}
+  />
+
+  <!-- Contact Widget **************** -->
+
+  <Contact
+    id="contact"
+    title="Book Your Pet's Appointment"
+    subtitle="Ready to treat your furry friend to a spa day? Contact us to schedule an appointment or ask any questions."
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Your Name',
+        placeholder: 'Enter your name',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email Address',
+        placeholder: 'Enter your email',
+      },
+      {
+        type: 'text',
+        name: 'petName',
+        label: 'Pet Name',
+        placeholder: "Enter your pet's name",
+      },
+      {
+        type: 'text',
+        name: 'petBreed',
+        label: 'Pet Breed',
+        placeholder: "Enter your pet's breed",
+      },
+      {
+        type: 'text',
+        name: 'services',
+        label: 'Desired Services',
+        placeholder: 'Full grooming, bath only, nail trim, etc.',
+      },
+    ]}
+    textarea={{
+      label: 'Special Requirements',
+      placeholder: 'Any special needs, behavioral notes, or specific requests...',
+    }}
+    disclaimer={{
+      label: 'By submitting this form, you agree to our terms of service and privacy policy.',
+    }}
+    description="We'll get back to you within 24 hours to confirm your appointment. For urgent requests, please call us directly."
+  />
+
+  <!-- Additional Contact Info -->
+  <div class="bg-gray-50 dark:bg-slate-800 py-8">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">📍 Visit Us</h3>
+          <p class="text-gray-600 dark:text-gray-400">
+            123 Pet Grooming Lane<br />
+            Pawtown, PT 12345
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">📞 Call Us</h3>
+          <p class="text-gray-600 dark:text-gray-400">
+            (555) 123-PAWS<br />
+            Open Mon-Sat 8AM-6PM
+          </p>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-2">✉️ Email Us</h3>
+          <p class="text-gray-600 dark:text-gray-400">
+            info@pawsomepetgrooming.com<br />
+            We respond within 24 hours
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CallToAction Widget *********** -->
+
+  <CallToAction
+    actions={[
+      {
+        variant: 'primary',
+        text: 'Schedule Now',
+        href: '#contact',
+        icon: 'tabler:calendar',
+      },
+      {
+        variant: 'secondary',
+        text: 'Call Us',
+        href: 'tel:555-123-7297',
+        icon: 'tabler:phone',
+      },
+    ]}
+  >
+    <Fragment slot="title"> Ready to Pamper Your Pet? </Fragment>
+
+    <Fragment slot="subtitle">
+      Book your appointment today and give your furry friend the royal treatment they deserve. New customers receive 10%
+      off their first grooming session!
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <img
+          class="w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&h=1080&q=80"
+          alt="Happy groomed dogs"
+        />
+        <div class="absolute inset-0 bg-blue-900/60"></div>
+      </div>
+    </Fragment>
+  </CallToAction>
+</PageLayout>
