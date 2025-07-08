@@ -159,7 +159,7 @@ function getRatingColor(rating: string): string {
   }
 
   .dark .swatch-label {
-    color: #9ca3af;
+    color: #d1d5db; /* Better contrast in dark mode */
   }
 
   .dark .usage-example {
@@ -167,7 +167,7 @@ function getRatingColor(rating: string): string {
   }
 
   .dark .usage-example code {
-    color: #d1d5db;
+    color: #e5e7eb; /* Better contrast for code in dark mode */
   }
 
   .palette-card::after {
@@ -211,11 +211,22 @@ function getRatingColor(rating: string): string {
   .palette-header h3 {
     margin: 0 0 0.25rem 0;
     max-width: calc(100% - 1rem); /* Ensure title doesn't overlap badge */
+    color: #1f2937; /* Dark text for light mode */
   }
 
   .palette-header p {
     margin: 0;
     max-width: calc(100% - 1rem); /* Ensure description doesn't overlap badge */
+    color: #6b7280; /* Muted text for light mode */
+  }
+
+  /* Dark mode text colors */
+  .dark .palette-header h3 {
+    color: #f9fafb; /* Light text for dark mode */
+  }
+
+  .dark .palette-header p {
+    color: #d1d5db; /* Light muted text for dark mode */
   }
 
   .accessibility-badge {
@@ -266,6 +277,11 @@ function getRatingColor(rating: string): string {
     letter-spacing: 0.5px;
   }
 
+  /* Improved dark mode contrast for swatch labels */
+  .dark .swatch-label {
+    color: #d1d5db; /* Better contrast in dark mode */
+  }
+
   .swatch-row {
     display: flex;
     gap: 3px;
@@ -301,6 +317,15 @@ function getRatingColor(rating: string): string {
   .usage-example code {
     color: #475569;
     font-family: 'Monaco', 'Consolas', monospace;
+  }
+
+  /* Dark mode styles for usage example */
+  .dark .usage-example {
+    background: #374151;
+  }
+
+  .dark .usage-example code {
+    color: #e5e7eb; /* Better contrast for code in dark mode */
   }
 </style>
 
