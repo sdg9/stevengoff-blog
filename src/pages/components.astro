@@ -27,6 +27,8 @@ import IconListItemSlot from '~/components/ui/IconListItemSlot.astro';
 import IconListItemWithSubBullets from '~/components/ui/IconListItemWithSubBullets.astro';
 import IconListWithSubBullets from '~/components/ui/IconListWithSubBullets.astro';
 import AdvancedColorCustomizer from '~/components/ui/AdvancedColorCustomizer.astro';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import Features3 from '~/components/widgets/Features3.astro';
 
 const metadata = {
   title: 'Component Library - UI Components & Widgets',
@@ -318,37 +320,146 @@ const samplePricing = [
         </p>
       </section>
 
-      <!-- Table of Contents -->
-      <nav class="mb-16 bg-gray-50 dark:bg-slate-800 rounded-lg p-6">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Quick Navigation</h2>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-          <div>
-            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">UI Components</h3>
-            <ul class="space-y-1 text-gray-600 dark:text-gray-400">
-              <li><a href="#button" class="hover:text-primary">Button</a></li>
-              <li><a href="#background" class="hover:text-primary">Background</a></li>
-              <li><a href="#headline" class="hover:text-primary">Headline</a></li>
-              <li><a href="#timeline" class="hover:text-primary">Timeline</a></li>
-              <li><a href="#forms" class="hover:text-primary">Forms</a></li>
+      <!-- Comprehensive Table of Contents -->
+      <nav class="mb-16 bg-gray-50 dark:bg-slate-800 rounded-lg p-8">
+        <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6 text-center">Component Index</h2>
+        <p class="text-gray-600 dark:text-gray-400 text-center mb-8 max-w-2xl mx-auto">
+          Navigate to any component section below. Components are grouped by type for easy discovery.
+        </p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 text-sm">
+          <!-- UI Foundation Components -->
+          <div class="bg-white dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+              <span class="w-2 h-2 bg-primary rounded-full mr-2"></span>
+              UI Foundation
+            </h3>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+              <li><a href="#button" class="hover:text-primary transition-colors">Button</a></li>
+              <li><a href="#background" class="hover:text-primary transition-colors">Background</a></li>
+              <li><a href="#headline" class="hover:text-primary transition-colors">Headline</a></li>
+              <li><a href="#timeline" class="hover:text-primary transition-colors">Timeline</a></li>
+              <li><a href="#forms" class="hover:text-primary transition-colors">Forms & DList</a></li>
             </ul>
           </div>
-          <div>
-            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Icon Lists</h3>
-            <ul class="space-y-1 text-gray-600 dark:text-gray-400">
-              <li><a href="#icon-list-item" class="hover:text-primary">IconListItem</a></li>
-              <li><a href="#icon-list" class="hover:text-primary">IconList</a></li>
-              <li><a href="#icon-list-slots" class="hover:text-primary">IconListItemSlot</a></li>
-              <li><a href="#icon-list-sub-bullets" class="hover:text-primary">Sub-bullets</a></li>
+
+          <!-- Icon & List Components -->
+          <div class="bg-white dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+              <span class="w-2 h-2 bg-accent rounded-full mr-2"></span>
+              Icon Lists
+            </h3>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+              <li><a href="#icon-list-item" class="hover:text-primary transition-colors">IconListItem</a></li>
+              <li><a href="#icon-list" class="hover:text-primary transition-colors">IconList</a></li>
+              <li><a href="#icon-list-slots" class="hover:text-primary transition-colors">IconListItemSlot</a></li>
+              <li><a href="#icon-list-sub-bullets" class="hover:text-primary transition-colors">Sub-bullets</a></li>
+              <li><a href="#item-grid" class="hover:text-primary transition-colors">ItemGrid</a></li>
             </ul>
           </div>
-          <div>
-            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Widgets</h3>
-            <ul class="space-y-1 text-gray-600 dark:text-gray-400">
-              <li><a href="#hero" class="hover:text-primary">Hero Sections</a></li>
-              <li><a href="#features" class="hover:text-primary">Features</a></li>
-              <li><a href="#testimonials" class="hover:text-primary">Testimonials</a></li>
-              <li><a href="#contact" class="hover:text-primary">Contact Forms</a></li>
+
+          <!-- Hero Components -->
+          <div class="bg-white dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+              <span class="w-2 h-2 bg-secondary rounded-full mr-2"></span>
+              Hero Sections
+            </h3>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+              <li><a href="#hero" class="hover:text-primary transition-colors">Hero</a></li>
+              <li><a href="#hero2" class="hover:text-primary transition-colors">Hero2</a></li>
+              <li><a href="#hero-text" class="hover:text-primary transition-colors">HeroText</a></li>
             </ul>
+          </div>
+
+          <!-- Feature Components -->
+          <div class="bg-white dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+              <span class="w-2 h-2 bg-green-500 rounded-full mr-2"></span>
+              Features
+            </h3>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+              <li><a href="#features" class="hover:text-primary transition-colors">Features</a></li>
+              <li><a href="#features2" class="hover:text-primary transition-colors">Features2</a></li>
+              <li><a href="#features3" class="hover:text-primary transition-colors">Features3</a></li>
+            </ul>
+          </div>
+
+          <!-- Step Components -->
+          <div class="bg-white dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+              <span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>
+              Process Steps
+            </h3>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+              <li><a href="#steps" class="hover:text-primary transition-colors">Steps</a></li>
+              <li><a href="#steps2" class="hover:text-primary transition-colors">Steps2</a></li>
+            </ul>
+          </div>
+
+          <!-- Content & Information -->
+          <div class="bg-white dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+              <span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>
+              Content Blocks
+            </h3>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+              <li><a href="#content" class="hover:text-primary transition-colors">Content</a></li>
+              <li><a href="#testimonials" class="hover:text-primary transition-colors">Testimonials</a></li>
+              <li><a href="#stats" class="hover:text-primary transition-colors">Stats</a></li>
+              <li><a href="#faqs" class="hover:text-primary transition-colors">FAQs</a></li>
+              <li><a href="#note" class="hover:text-primary transition-colors">Note</a></li>
+            </ul>
+          </div>
+
+          <!-- Interactive Components -->
+          <div class="bg-white dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+              <span class="w-2 h-2 bg-orange-500 rounded-full mr-2"></span>
+              Interactive
+            </h3>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+              <li><a href="#contact" class="hover:text-primary transition-colors">Contact</a></li>
+              <li><a href="#pricing" class="hover:text-primary transition-colors">Pricing</a></li>
+              <li><a href="#cta" class="hover:text-primary transition-colors">Call to Action</a></li>
+            </ul>
+          </div>
+
+          <!-- Blog & Content Management -->
+          <div class="bg-white dark:bg-slate-700 rounded-lg p-4">
+            <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center">
+              <span class="w-2 h-2 bg-pink-500 rounded-full mr-2"></span>
+              Blog Components
+            </h3>
+            <ul class="space-y-2 text-gray-600 dark:text-gray-400">
+              <li><a href="#blog-latest" class="hover:text-primary transition-colors">BlogLatestPosts</a></li>
+              <li><a href="#blog-highlighted" class="hover:text-primary transition-colors">BlogHighlighted</a></li>
+              <li><a href="#brands" class="hover:text-primary transition-colors">Brands</a></li>
+              <li><a href="#announcement" class="hover:text-primary transition-colors">Announcement</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Quick Jump Navigation -->
+        <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-600">
+          <div class="text-center">
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Quick Jump to Sections:</p>
+            <div class="flex flex-wrap justify-center gap-2">
+              <a
+                href="#ui-components"
+                class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-full text-xs hover:bg-primary/20 transition-colors"
+                >UI Components</a
+              >
+              <a
+                href="#icon-list-components"
+                class="inline-block px-3 py-1 bg-accent/10 text-accent rounded-full text-xs hover:bg-accent/20 transition-colors"
+                >Icon Lists</a
+              >
+              <a
+                href="#widgets"
+                class="inline-block px-3 py-1 bg-secondary/10 text-secondary rounded-full text-xs hover:bg-secondary/20 transition-colors"
+                >Widget Components</a
+              >
+            </div>
           </div>
         </div>
       </nav>
@@ -1001,16 +1112,6 @@ const samplePricing = [
                 />
               </div>
             </div>
-
-            <div>
-              <h4 class="text-lg font-medium mb-4">Text-Focused Hero</h4>
-              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <HeroText
-                  title="Simple & Powerful"
-                  subtitle="Sometimes less is more. This hero focuses on clear messaging without distractions."
-                />
-              </div>
-            </div>
           </div>
 
           <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
@@ -1023,10 +1124,63 @@ const samplePricing = [
   ]}
 />
 
-<!-- Text-Only Hero -->
-<HeroText 
+`}</code></pre>
+          </div>
+        </div>
+
+        <!-- Hero2 Component -->
+        <div id="hero2" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Hero2 - Alternative Layout</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Alternative hero layout with different styling and content arrangement options.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Hero2
+              id="hero2"
+              title="Professional websites for local businesses"
+              tagline="Web Town Hero"
+              actions={[
+                { variant: 'primary', text: 'View Our Services', href: '/services' },
+                { text: 'Get in Touch', href: '/contact' },
+              ]}
+            >
+              <Fragment slot="subtitle">
+                We create stunning, high-performing websites that convert visitors into customers. No upfront costs,
+                just affordable monthly plans.
+              </Fragment>
+            </Hero2>
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<Hero2 
+  title="Alternative Hero Title" 
+  subtitle="Different layout and styling"
+  actions={[
+    { text: 'Main Action', href: '/action', variant: 'primary' }
+  ]}
+/>`}</code></pre>
+          </div>
+        </div>
+
+        <!-- HeroText Component -->
+        <div id="hero-text" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">HeroText - Text-Focused Hero</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Minimalist hero component focused on clear, impactful messaging without visual distractions.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <HeroText
+              title="Focus on Your Message"
+              subtitle="Clean, text-focused hero sections for maximum impact and clarity."
+            />
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<HeroText 
   title="Clean Title" 
-  subtitle="Focused messaging"
+  subtitle="Focused messaging without distractions"
 />`}</code></pre>
           </div>
         </div>
@@ -1050,17 +1204,6 @@ const samplePricing = [
                 />
               </div>
             </div>
-
-            <div>
-              <h4 class="text-lg font-medium mb-4">Alternative Feature Layout</h4>
-              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <Features2
-                  title="Advanced Capabilities"
-                  subtitle="Enterprise-grade features for demanding applications"
-                  items={sampleFeatures.slice(0, 3)}
-                />
-              </div>
-            </div>
           </div>
 
           <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
@@ -1078,6 +1221,54 @@ const samplePricing = [
   subtitle="Feature subtitle"
   items={features}
   columns={2}
+/>`}</code></pre>
+          </div>
+        </div>
+
+        <!-- Features2 Component -->
+        <div id="features2" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Features2 - Alternative Layout</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Alternative feature presentation with different styling and layout options for varied design needs.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Features2
+              title="Enhanced Feature Display"
+              subtitle="Alternative styling and layout for feature presentations"
+              items={sampleFeatures.slice(0, 3)}
+            />
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<Features2 
+  title="Alternative Features Title"
+  subtitle="Different layout approach"
+  items={features}
+/>`}</code></pre>
+          </div>
+        </div>
+
+        <!-- Features3 Component -->
+        <div id="features3" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Features3 - Third Variation</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Third variation of feature display with unique styling and content arrangement.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Features3
+              title="Enhanced Feature Display"
+              subtitle="Alternative styling and layout for feature presentations"
+              items={sampleFeatures.slice(0, 3)}
+            />
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<Features3 
+  title="Third Features Variation"
+  subtitle="Unique styling approach"
+  items={features}
 />`}</code></pre>
           </div>
         </div>
@@ -1194,17 +1385,6 @@ const samplePricing = [
                 />
               </div>
             </div>
-
-            <div>
-              <h4 class="text-lg font-medium mb-4">Alternative Steps Layout</h4>
-              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <Steps2
-                  title="Getting Started Guide"
-                  subtitle="Follow these steps to begin your journey"
-                  items={sampleSteps.slice(0, 3)}
-                />
-              </div>
-            </div>
           </div>
 
           <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
@@ -1220,6 +1400,30 @@ const samplePricing = [
 <Steps 
   title="Process Title"
   subtitle="Process description"
+  items={steps}
+/>`}</code></pre>
+          </div>
+        </div>
+
+        <!-- Steps2 Component -->
+        <div id="steps2" class="mb-16">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Steps2 - Alternative Process Layout</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Alternative step-by-step process visualization with different styling and layout approach.
+          </p>
+
+          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+            <Steps2
+              title="Alternative Process Design"
+              subtitle="Different approach to displaying step-by-step processes"
+              items={sampleSteps.slice(0, 3)}
+            />
+          </div>
+
+          <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<Steps2 
+  title="Alternative Steps Title"
+  subtitle="Different layout approach"
   items={steps}
 />`}</code></pre>
           </div>
@@ -1306,17 +1510,13 @@ const samplePricing = [
         <!-- Additional Components -->
         <div class="space-y-12">
           <!-- Stats -->
-          <div>
+          <div id="stats">
             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Statistics</h3>
             <p class="text-gray-600 dark:text-gray-400 mb-6">
               Display key metrics and achievements with visual impact.
             </p>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-              <Stats
-                title="Platform Statistics"
-                subtitle="Numbers that showcase our impact and growth"
-                stats={sampleStats}
-              />
+              <Stats stats={sampleStats} />
             </div>
             <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
               <pre><code>{`const stats = [
@@ -1336,7 +1536,7 @@ const samplePricing = [
           </div>
 
           <!-- FAQs -->
-          <div>
+          <div id="faqs">
             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">FAQ Section</h3>
             <p class="text-gray-600 dark:text-gray-400 mb-6">
               Frequently asked questions with expandable answers for better user experience.
@@ -1365,7 +1565,7 @@ const samplePricing = [
           </div>
 
           <!-- Pricing -->
-          <div>
+          <div id="pricing">
             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Pricing Tables</h3>
             <p class="text-gray-600 dark:text-gray-400 mb-6">
               Product pricing and plan comparison tables with clear call-to-action buttons.
@@ -1403,7 +1603,7 @@ const samplePricing = [
           </div>
 
           <!-- Notes -->
-          <div>
+          <div id="note">
             <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Informational Notes</h3>
             <p class="text-gray-600 dark:text-gray-400 mb-6">Highlighted information boxes and alerts.</p>
             <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
@@ -1414,15 +1614,123 @@ const samplePricing = [
             </div>
           </div>
 
-          <!-- Blog Components -->
-          <div>
-            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Blog Components</h3>
-            <p class="text-gray-600 dark:text-gray-400 mb-6">Components for blog listings and content presentation.</p>
-            <div class="space-y-6">
-              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-                <h4 class="text-lg font-medium mb-3">Latest Posts</h4>
-                <BlogLatestPosts count={3} />
+          <!-- Blog Latest Posts -->
+          <div id="blog-latest">
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">BlogLatestPosts</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">Display recent blog posts in a grid or list format.</p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div class="text-center py-8">
+                <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Blog Latest Posts</h4>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Displays the most recent blog posts with configurable count and layout options.
+                </p>
+                <Button text="View Latest Posts" variant="secondary" />
               </div>
+            </div>
+            <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              <pre><code>{`<BlogLatestPosts 
+  title="Recent Posts"
+  count={3}
+/>`}</code></pre>
+            </div>
+          </div>
+
+          <!-- Blog Highlighted Posts -->
+          <div id="blog-highlighted">
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">BlogHighlightedPosts</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+              Showcase featured or highlighted blog posts with special styling.
+            </p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div class="text-center py-8">
+                <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Blog Highlighted Posts</h4>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Features selected blog posts with enhanced visual presentation and prominence.
+                </p>
+                <Button text="View Highlighted Posts" variant="secondary" />
+              </div>
+            </div>
+            <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              <pre><code>{`<BlogHighlightedPosts 
+  title="Featured Posts"
+  posts={highlightedPosts}
+/>`}</code></pre>
+            </div>
+          </div>
+
+          <!-- Brands -->
+          <div id="brands">
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Brands</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+              Display partner logos and brand showcases in a grid layout.
+            </p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div class="text-center py-8">
+                <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Brand Showcase</h4>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Perfect for displaying partner logos, client brands, or technology stack showcases.
+                </p>
+                <Button text="View Brands" variant="tertiary" />
+              </div>
+            </div>
+            <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              <pre><code>{`<Brands 
+  title="Our Partners"
+  images={brandLogos}
+/>`}</code></pre>
+            </div>
+          </div>
+
+          <!-- Announcement -->
+          <div id="announcement">
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">Announcement</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+              Site-wide announcements and important notifications banner.
+            </p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div class="text-center py-8">
+                <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Announcement Banner</h4>
+                <p class="text-gray-600 dark:text-gray-400 mb-4">
+                  Display important announcements, updates, or promotional messages across your site.
+                </p>
+                <Button text="View Announcements" variant="primary" />
+              </div>
+            </div>
+            <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              <pre><code>{`<Announcement 
+  text="Important announcement message here"
+  link="/announcement"
+/>`}</code></pre>
+            </div>
+          </div>
+
+          <!-- ItemGrid -->
+          <div id="item-grid">
+            <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">ItemGrid</h3>
+            <p class="text-gray-600 dark:text-gray-400 mb-6">
+              Flexible grid layout for displaying items, cards, or content blocks.
+            </p>
+            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg text-center">
+                  <h5 class="font-medium text-gray-900 dark:text-white mb-2">Grid Item 1</h5>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Example grid item content</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg text-center">
+                  <h5 class="font-medium text-gray-900 dark:text-white mb-2">Grid Item 2</h5>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Another grid item example</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg text-center">
+                  <h5 class="font-medium text-gray-900 dark:text-white mb-2">Grid Item 3</h5>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">Third grid item content</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+              <pre><code>{`<ItemGrid 
+  items={gridItems}
+  columns={3}
+/>`}</code></pre>
             </div>
           </div>
         </div>
