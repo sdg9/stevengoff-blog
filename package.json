@@ -23,7 +23,8 @@
     "init": "node scripts/init.js",
     "palette:add": "plop palette",
     "palette:switch": "plop update-active-palette",
-    "palette": "plop"
+    "palette": "plop",
+    "update-template": "git fetch template web-town-hero:web-town-hero && git rebase web-town-hero"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.12",
