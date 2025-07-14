@@ -32,6 +32,12 @@
    pnpm run init
    ```
 
+3. Pick up latest changes from the template repo:
+
+   ```bash
+   pnpm update-template
+   ```
+
 The initialization script will:
 
 1. **Git Setup**: Remove existing git history and create a fresh repository with an initial commit
