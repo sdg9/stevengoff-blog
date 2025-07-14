@@ -1099,8 +1099,9 @@ const samplePricing = [
           </p>
 
           <div class="space-y-8">
+            <!-- Standard Hero -->
             <div>
-              <h4 class="text-lg font-medium mb-4">Standard Hero</h4>
+              <h4 class="text-lg font-medium mb-4">Standard Hero (No Background)</h4>
               <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
                 <Hero
                   title="Welcome to Our Platform"
@@ -1110,6 +1111,73 @@ const samplePricing = [
                     { text: 'Learn More', href: '/about', variant: 'secondary' },
                   ]}
                 />
+              </div>
+            </div>
+
+            <!-- Hero with Background Image -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Hero with Background Image</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <Hero
+                  title="Beautiful Hero with Background"
+                  subtitle="Stunning visuals combined with compelling messaging to capture your audience's attention."
+                  actions={[
+                    { text: 'Explore Features', href: '/features', variant: 'primary' },
+                    { text: 'Watch Demo', href: '/demo', variant: 'secondary' },
+                  ]}
+                  image={{
+                    src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&w=1200&h=600&fit=crop',
+                    alt: 'Technology background',
+                  }}
+                />
+              </div>
+            </div>
+
+            <!-- Hero with Gradient Background -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Hero with Gradient Background</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <!-- Wrap in gradient -->
+                <div class="relative overflow-hidden rounded-lg bg-gradient-to-br from-primary via-secondary to-accent">
+                  <div class="absolute inset-0 bg-black/20"></div>
+                  <div class="relative">
+                    <Hero
+                      title="Gradient Hero Design"
+                      subtitle="Eye-catching gradient backgrounds that make your content stand out with modern styling."
+                      actions={[
+                        { text: 'Get Started', href: '/start', variant: 'primary' },
+                        { text: 'Learn More', href: '/about', variant: 'secondary' },
+                      ]}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero with Image Below Content -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Hero with Image Below Content</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="space-y-8">
+                  <!-- Hero content first -->
+                  <Hero
+                    title="Content-First Hero Layout"
+                    subtitle="Perfect for when your message is the priority. The supporting image comes after the key information and call-to-action."
+                    actions={[
+                      { text: 'Start Now', href: '/start', variant: 'primary' },
+                      { text: 'Learn More', href: '/about', variant: 'secondary' },
+                    ]}
+                  />
+
+                  <!-- Image section below -->
+                  <div class="rounded-lg overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&w=1200&h=400&fit=crop"
+                      alt="Team collaboration"
+                      class="w-full h-64 object-cover"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1124,7 +1192,45 @@ const samplePricing = [
   ]}
 />
 
-`}</code></pre>
+<!-- Hero with Background Image -->
+<Hero 
+  title="Hero with Background" 
+  subtitle="Compelling subtitle"
+  image={{
+    src: '/path/to/background.jpg',
+    alt: 'Background description'
+  }}
+  actions={[
+    { text: 'Get Started', href: '/start', variant: 'primary' }
+  ]}
+/>
+
+<!-- Hero with Gradient (wrap in container) -->
+<div class="bg-gradient-to-br from-primary via-secondary to-accent">
+  <Hero 
+    title="Gradient Hero" 
+    subtitle="Modern gradient styling"
+    actions={[
+      { text: 'Explore', href: '/explore', variant: 'primary' }
+    ]}
+  />
+</div>
+
+<!-- Hero with Image Below Content -->
+<div class="space-y-8">
+  <Hero 
+    title="Content-First Hero" 
+    subtitle="Message and CTA come first"
+    actions={[
+      { text: 'Primary Action', href: '/action', variant: 'primary' }
+    ]}
+  />
+  <img 
+    src="/path/to/image.jpg" 
+    alt="Supporting image"
+    class="w-full h-64 object-cover rounded-lg"
+  />
+</div>`}</code></pre>
           </div>
         </div>
 
@@ -1135,31 +1241,121 @@ const samplePricing = [
             Alternative hero layout with different styling and content arrangement options.
           </p>
 
-          <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-            <Hero2
-              id="hero2"
-              title="Professional websites for local businesses"
-              tagline="Web Town Hero"
-              actions={[
-                { variant: 'primary', text: 'View Our Services', href: '/services' },
-                { text: 'Get in Touch', href: '/contact' },
-              ]}
-            >
-              <Fragment slot="subtitle">
-                We create stunning, high-performing websites that convert visitors into customers. No upfront costs,
-                just affordable monthly plans.
-              </Fragment>
-            </Hero2>
+          <div class="space-y-8">
+            <!-- Standard Hero2 -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Hero2 (No Background)</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <Hero2
+                  id="hero2-standard"
+                  title="Professional websites for local businesses"
+                  tagline="Web Town Hero"
+                  actions={[
+                    { variant: 'primary', text: 'View Our Services', href: '/services' },
+                    { text: 'Get in Touch', href: '/contact' },
+                  ]}
+                >
+                  <Fragment slot="subtitle">
+                    We create stunning, high-performing websites that convert visitors into customers. No upfront costs,
+                    just affordable monthly plans.
+                  </Fragment>
+                </Hero2>
+              </div>
+            </div>
+
+            <!-- Hero2 with Background Image -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Hero2 with Background Image</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div class="relative overflow-hidden rounded-lg">
+                  <div
+                    class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+                    style="background-image: url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&w=1200&h=600&fit=crop')"
+                  >
+                  </div>
+                  <div class="absolute inset-0 bg-black/40"></div>
+                  <div class="relative">
+                    <Hero2
+                      id="hero2-image"
+                      title="Transform Your Business Online"
+                      tagline="Digital Excellence"
+                      actions={[
+                        { variant: 'primary', text: 'Start Your Journey', href: '/start' },
+                        { text: 'See Examples', href: '/portfolio' },
+                      ]}
+                    >
+                      <Fragment slot="subtitle">
+                        <span class="text-white">
+                          Elevate your brand with professional web solutions that drive results and exceed expectations.
+                        </span>
+                      </Fragment>
+                    </Hero2>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Hero2 with Gradient Background -->
+            <div>
+              <h4 class="text-lg font-medium mb-4">Hero2 with Gradient Background</h4>
+              <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div
+                  class="relative overflow-hidden rounded-lg bg-gradient-to-r from-purple-600 via-blue-600 to-blue-800"
+                >
+                  <div class="absolute inset-0 bg-gradient-to-br from-transparent via-black/10 to-black/20"></div>
+                  <div class="relative">
+                    <Hero2
+                      id="hero2-gradient"
+                      title="Modern Web Solutions"
+                      tagline="Innovation Hub"
+                      actions={[
+                        { variant: 'primary', text: 'Explore Solutions', href: '/solutions' },
+                        { text: 'Contact Us', href: '/contact' },
+                      ]}
+                    >
+                      <Fragment slot="subtitle">
+                        <span class="text-white">
+                          Cutting-edge designs powered by modern technology to help your business thrive in the digital
+                          world.
+                        </span>
+                      </Fragment>
+                    </Hero2>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div class="mt-6 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
-            <pre><code>{`<Hero2 
+            <pre><code>{`<!-- Standard Hero2 -->
+<Hero2 
   title="Alternative Hero Title" 
-  subtitle="Different layout and styling"
+  tagline="Your Tagline"
   actions={[
     { text: 'Main Action', href: '/action', variant: 'primary' }
   ]}
-/>`}</code></pre>
+>
+  <Fragment slot="subtitle">
+    Your subtitle content here
+  </Fragment>
+</Hero2>
+
+<!-- Hero2 with Background Image -->
+<div class="relative overflow-hidden">
+  <div 
+    class="absolute inset-0 bg-cover bg-center"
+    style="background-image: url('/path/to/image.jpg')"
+  ></div>
+  <div class="absolute inset-0 bg-black/40"></div>
+  <div class="relative">
+    <Hero2 title="Hero with Background" />
+  </div>
+</div>
+
+<!-- Hero2 with Gradient -->
+<div class="bg-gradient-to-r from-purple-600 to-blue-800">
+  <Hero2 title="Gradient Hero" />
+</div>`}</code></pre>
           </div>
         </div>
 
