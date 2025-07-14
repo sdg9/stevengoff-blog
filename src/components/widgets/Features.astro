@@ -15,7 +15,6 @@ const {
   defaultIcon,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
   bgClass = '',
@@ -25,7 +24,7 @@ const {
 const { bgClasses, nonBgClasses } = separateBackgroundClasses(classes?.container as string, bgClass);
 ---
 
-<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl ${nonBgClasses}`} bg={bg}>
+<WidgetWrapper id={id} containerClass={`max-w-5xl ${nonBgClasses}`} bg={bg}>
   {bgClasses && <div slot="bg" class={`absolute inset-0 ${bgClasses}`} />}
   <Headline title={title} subtitle={subtitle} tagline={tagline} classes={classes?.headline as Record<string, string>} />
   <ItemGrid

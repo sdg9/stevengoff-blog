@@ -1,11 +1,8 @@
 ---
-export interface Props {
-  isDark?: boolean;
-}
-
-const { isDark = false } = Astro.props;
+// Background component that uses global theme system
+// No props needed - automatically follows global light/dark mode
 ---
 
-<div class:list={['absolute inset-0', { 'bg-dark dark:bg-transparent': isDark }]}>
+<div class="absolute inset-0 bg-background">
   <slot />
 </div>

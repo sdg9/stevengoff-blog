@@ -18,7 +18,6 @@ const {
   isAfterContent,
 
   id,
-  isDark = false,
   classes = {},
   bg = await Astro.slots.render('bg'),
   bgClass = '',
@@ -30,7 +29,6 @@ const { bgClasses, nonBgClasses } = separateBackgroundClasses(classes?.container
 
 <WidgetWrapper
   id={id}
-  isDark={isDark}
   containerClass={`${isBeforeContent ? 'md:pb-8 lg:pb-12' : ''} ${isAfterContent ? 'pt-0 md:pt-0 lg:pt-0' : ''} ${
     nonBgClasses
   }`}
