@@ -182,43 +182,43 @@ export const headerData = {
 export const footerData = {
   links: [
     {
-      title: 'Pages',
+      title: 'Contact Us',
+      links: [{ text: 'hello@webtownhero.com', href: 'mailto:hello@webtownhero.com', icon: 'tabler:mail' }],
+    },
+    {
+      title: 'Services',
       links: [
-        { text: 'Home', href: getPermalink('/') },
-        { text: 'About', href: getPermalink('/about') },
-        { text: 'Contact', href: getPermalink('/contact') },
+        { text: 'Website Design & Development', href: getPermalink('/services') },
+        { text: 'SEO Optimization', href: getPermalink('/services') },
+        { text: 'Website Maintenance', href: getPermalink('/services') },
       ],
     },
     {
-      title: 'Legal',
+      title: 'Company',
       links: [
-        { text: 'Terms', href: getPermalink('/terms') },
+        { text: 'About', href: getPermalink('/about') },
+        { text: 'Contact', href: getPermalink('/contact') },
         { text: 'Privacy Policy', href: getPermalink('/privacy') },
+        { text: 'Terms of Service', href: getPermalink('/terms') },
       ],
     },
-    // {
-    //   title: 'Pages',
-    //   links: [
-    //     { text: 'Features', href: '#' },
-    //     { text: 'Security', href: '#' },
-    //     { text: 'Team', href: '#' },
-    //     { text: 'Enterprise', href: '#' },
-    //     { text: 'Customer stories', href: '#' },
-    //     { text: 'Pricing', href: '#' },
-    //     { text: 'Resources', href: '#' },
-    //   ],
-    // },
+    {
+      title: 'Resources',
+      links: [
+        { text: 'FAQs', href: getPermalink('/contact#faq') },
+        { text: 'Sitemap', href: '/sitemap.xml' },
+      ],
+    },
   ],
-  secondaryLinks: [
-    // { text: 'Terms', href: getPermalink('/terms') },
-    // { text: 'Privacy Policy', href: getPermalink('/privacy') },
-  ],
+  secondaryLinks: [],
   socialLinks: [
-    { ariaLabel: 'X', icon: 'tabler:brand-x', href: '#' },
-    { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: '#' },
-    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: '#' },
-    { ariaLabel: 'RSS', icon: 'tabler:rss', href: getAsset('/rss.xml') },
-    { ariaLabel: 'Github', icon: 'tabler:brand-github', href: 'https://github.com/onwidget/astrowind' },
+    { ariaLabel: 'X', icon: 'tabler:brand-x', href: 'https://x.com/webtownhero' },
+    { ariaLabel: 'Instagram', icon: 'tabler:brand-instagram', href: 'https://www.instagram.com/webtownhero/' },
+    { ariaLabel: 'LinkedIn', icon: 'tabler:brand-linkedin', href: 'https://www.linkedin.com/company/webtownhero/' },
+    { ariaLabel: 'Facebook', icon: 'tabler:brand-facebook', href: 'https://www.facebook.com/webtownhero' },
   ],
   footNote: ``,
+  branding: {
+    tagline: 'Crafting performant, professional websites for local businesses at an affordable monthly rate.',
+  },
 };
