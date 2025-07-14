@@ -206,7 +206,7 @@ export const footerData = {
       title: 'Resources',
       links: [
         { text: 'FAQs', href: getPermalink('/contact#faq') },
-        { text: 'Sitemap', href: '/sitemap.xml' },
+        { text: 'Sitemap', href: '/sitemap-index.xml' },
       ],
     },
   ],
