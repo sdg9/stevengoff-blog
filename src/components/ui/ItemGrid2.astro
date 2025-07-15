@@ -3,6 +3,7 @@ import type { ItemGrid as Props } from '~/types';
 import { Icon } from 'astro-icon/components';
 import { twMerge } from 'tailwind-merge';
 import Button from './Button.astro';
+import Image from '~/components/common/Image.astro';
 
 const { items = [], columns, defaultIcon = '', classes = {} } = Astro.props;
 
@@ -13,6 +14,7 @@ const {
   title: titleClass = '',
   description: descriptionClass = '',
   icon: defaultIconClass = 'text-primary',
+  image: defaultImageClass = '',
 } = classes;
 ---
 
@@ -32,7 +34,7 @@ const {
         containerClass
       )}
     >
-      {items.map(({ title, description, icon, callToAction, classes: itemClasses = {} }) => (
+      {items.map(({ title, description, icon, callToAction, image, classes: itemClasses = {} }) => (
         <div
           class={twMerge(
             'relative flex flex-col intersect-once intersect-quarter intercept-no-queue motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade',
@@ -44,11 +46,22 @@ const {
             <Icon name={icon || defaultIcon} class={twMerge('mb-2 w-10 h-10', defaultIconClass, itemClasses?.icon)} />
           )}
           <div class={twMerge('text-xl font-bold', titleClass, itemClasses?.title)}>{title}</div>
+          {image && (
+            <div class={twMerge(`${title ? 'mt-3' : ''}`, defaultImageClass, itemClasses?.image)}>
+              <Image
+                src={image.src}
+                alt={image.alt || title || 'Item image'}
+                class="w-full h-auto rounded-lg"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          )}
           {description && (
-            <p class={twMerge('text-muted mt-2', descriptionClass, itemClasses?.description)} set:html={description} />
+            <p class={twMerge(`${title || image ? 'mt-2' : ''} text-muted`, descriptionClass, itemClasses?.description)} set:html={description} />
           )}
           {callToAction && (
-            <div class="mt-2">
+            <div class={twMerge(`${title || description || image ? 'mt-2' : ''}`)}>
               <Button {...callToAction} />
             </div>
           )}

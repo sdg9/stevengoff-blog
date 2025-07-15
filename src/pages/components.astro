@@ -29,6 +29,8 @@ import IconListWithSubBullets from '~/components/ui/IconListWithSubBullets.astro
 import AdvancedColorCustomizer from '~/components/ui/AdvancedColorCustomizer.astro';
 import Hero2 from '~/components/widgets/Hero2.astro';
 import Features3 from '~/components/widgets/Features3.astro';
+import ItemGrid from '~/components/ui/ItemGrid.astro';
+import ItemGrid2 from '~/components/ui/ItemGrid2.astro';
 
 const metadata = {
   title: 'Component Library - UI Components & Widgets',
@@ -1906,22 +1908,45 @@ const samplePricing = [
             <p class="text-gray-600 dark:text-gray-400 mb-6">
               Flexible grid layout for displaying items, cards, or content blocks.
             </p>
-            <div class="bg-white dark:bg-slate-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
-              <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg text-center">
-                  <h5 class="font-medium text-gray-900 dark:text-white mb-2">Grid Item 1</h5>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">Example grid item content</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg text-center">
-                  <h5 class="font-medium text-gray-900 dark:text-white mb-2">Grid Item 2</h5>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">Another grid item example</p>
-                </div>
-                <div class="bg-gray-50 dark:bg-slate-700 p-4 rounded-lg text-center">
-                  <h5 class="font-medium text-gray-900 dark:text-white mb-2">Grid Item 3</h5>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">Third grid item content</p>
-                </div>
-              </div>
-            </div>
+            <ItemGrid
+              items={[
+                {
+                  title: 'Website Design & Development',
+                  description:
+                    'Custom-designed websites optimized for performance, accessibility, and conversions. Mobile-responsive design customized to your brand, built for conversions with optimized loading speed and accessible to all users.',
+                  icon: 'tabler:world-www',
+                  image: {
+                    src: '~/assets/images/hero-image.png',
+                    alt: 'Web development services',
+                  },
+                  callToAction: {
+                    text: 'Request This Service',
+                    href: '/contact',
+                  },
+                },
+                {
+                  title: 'SEO Optimization',
+                  description:
+                    'Get found by local customers with search engine optimization tailored for your business. Local SEO strategy with Google Business Profile setup, keyword research & optimization, schema markup implementation, and monthly performance reports.',
+                  icon: 'tabler:seo',
+                  callToAction: {
+                    text: 'Request This Service',
+                    href: '/contact',
+                  },
+                },
+                {
+                  title: 'Maintenance & Support',
+                  description:
+                    'Ongoing website maintenance, updates, and support to keep your site secure and current. Security updates & monitoring, regular content updates, performance optimization, technical support, and monthly backups.',
+                  icon: 'tabler:settings',
+                  callToAction: {
+                    text: 'Request This Service',
+                    href: '/contact',
+                  },
+                },
+              ]}
+              columns={3}
+            />
             <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
               <pre><code>{`<ItemGrid 
   items={gridItems}
@@ -1930,63 +1955,120 @@ const samplePricing = [
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Best Practices Section -->
-      <section class="mb-20">
-        <div class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg p-8">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Best Practices & Tips</h2>
-
-          <div class="grid md:grid-cols-2 gap-8">
-            <div>
-              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Component Usage</h3>
-              <ul class="space-y-3 text-gray-600 dark:text-gray-400">
-                <li class="flex items-start gap-3">
-                  <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Use semantic HTML and proper heading hierarchy</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Maintain consistent spacing and sizing across components</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Test components in both light and dark themes</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Ensure all interactive elements are keyboard accessible</span>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Performance</h3>
-              <ul class="space-y-3 text-gray-600 dark:text-gray-400">
-                <li class="flex items-start gap-3">
-                  <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Optimize images and use appropriate formats</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Use lazy loading for below-the-fold content</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Minimize JavaScript for static components</span>
-                </li>
-                <li class="flex items-start gap-3">
-                  <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
-                  <span>Test loading performance on slower connections</span>
-                </li>
-              </ul>
-            </div>
+        <!-- ItemGrid2 -->
+        <div id="item-grid">
+          <h3 class="text-2xl font-semibold text-gray-900 dark:text-white mb-4">ItemGrid2</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-6">
+            Flexible grid layout for displaying items, cards, or content blocks.
+          </p>
+          <ItemGrid2
+            items={[
+              {
+                title: 'Website Design & Development',
+                description:
+                  'Custom-designed websites optimized for performance, accessibility, and conversions. Mobile-responsive design customized to your brand, built for conversions with optimized loading speed and accessible to all users.',
+                icon: 'tabler:world-www',
+                image: {
+                  src: '~/assets/images/pricing1.png',
+                  alt: 'Web development services',
+                },
+                callToAction: {
+                  text: 'Request This Service',
+                  href: '/contact',
+                },
+                // image={{
+                //   src: '~/assets/images/hero-image.png',
+                //   alt: 'Web development services',
+                // }}
+              },
+              {
+                title: 'SEO Optimization',
+                description:
+                  'Get found by local customers with search engine optimization tailored for your business. Local SEO strategy with Google Business Profile setup, keyword research & optimization, schema markup implementation, and monthly performance reports.',
+                icon: 'tabler:seo',
+                callToAction: {
+                  text: 'Request This Service',
+                  href: '/contact',
+                },
+              },
+              {
+                title: 'Maintenance & Support',
+                description:
+                  'Ongoing website maintenance, updates, and support to keep your site secure and current. Security updates & monitoring, regular content updates, performance optimization, technical support, and monthly backups.',
+                icon: 'tabler:settings',
+                callToAction: {
+                  text: 'Request This Service',
+                  href: '/contact',
+                },
+              },
+            ]}
+            columns={3}
+          />
+          <div class="mt-4 bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-sm">
+            <pre><code>{`<ItemGrid2
+  items={gridItems}
+  columns={3}
+/>`}</code></pre>
           </div>
         </div>
       </section>
     </div>
-  </main>
 
-  <!-- Advanced Color Customizer for dynamic token editing -->
-  <AdvancedColorCustomizer />
+    <!-- Best Practices Section -->
+    <section class="mb-20">
+      <div class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg p-8">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-6">Best Practices & Tips</h2>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Component Usage</h3>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400">
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                <span>Use semantic HTML and proper heading hierarchy</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                <span>Maintain consistent spacing and sizing across components</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                <span>Test components in both light and dark themes</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></span>
+                <span>Ensure all interactive elements are keyboard accessible</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">Performance</h3>
+            <ul class="space-y-3 text-gray-600 dark:text-gray-400">
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                <span>Optimize images and use appropriate formats</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                <span>Use lazy loading for below-the-fold content</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                <span>Minimize JavaScript for static components</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-2 h-2 bg-accent rounded-full mt-2 flex-shrink-0"></span>
+                <span>Test loading performance on slower connections</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </Layout>
+
+<!-- Advanced Color Customizer for dynamic token editing -->
+<AdvancedColorCustomizer />
