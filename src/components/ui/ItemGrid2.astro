@@ -58,7 +58,10 @@ const {
             </div>
           )}
           {description && (
-            <p class={twMerge(`${title || image ? 'mt-2' : ''} text-muted`, descriptionClass, itemClasses?.description)} set:html={description} />
+            <p
+              class={twMerge(`${title || image ? 'mt-2' : ''} text-muted`, descriptionClass, itemClasses?.description)}
+              set:html={description}
+            />
           )}
           {callToAction && (
             <div class={twMerge(`${title || description || image ? 'mt-2' : ''}`)}>
