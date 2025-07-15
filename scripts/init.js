@@ -878,6 +878,98 @@ async function main() {
       console.log(`✅ Removed ${dir.split('/').pop()} directory`);
     });
 
+    // Always remove components.astro page (demo/reference page not needed in production)
+    const componentsPagePath = join(pagesDir, 'components.astro');
+    try {
+      unlinkSync(componentsPagePath);
+      console.log(`✅ Removed components.astro demo page`);
+    } catch (err) {
+      console.log(`⚠️ Could not remove components.astro: ${err.message}`);
+    }
+
+    // Remove other demo/example pages that are not needed in production
+    const demoPagesToRemove = [
+      join(pagesDir, 'beginner-session-example.astro'),
+      join(pagesDir, 'color-palettes.astro'),
+      join(pagesDir, 'icon-list-demo.astro'),
+      join(pagesDir, 'sub-bullets-demo.astro'),
+      join(pagesDir, 'therapy-example.astro'),
+    ];
+
+    demoPagesToRemove.forEach((demoPath) => {
+      try {
+        unlinkSync(demoPath);
+        console.log(`✅ Removed ${demoPath.split('/').pop()} demo page`);
+      } catch (err) {
+        console.log(`⚠️ Could not remove ${demoPath.split('/').pop()}: ${err.message}`);
+      }
+    });
+
+    // Remove blog widget components that are no longer needed
+    const blogWidgetsToRemove = [
+      join(process.cwd(), 'src', 'components', 'widgets', 'BlogLatestPosts.astro'),
+      join(process.cwd(), 'src', 'components', 'widgets', 'BlogHighlightedPosts.astro'),
+    ];
+
+    blogWidgetsToRemove.forEach((widgetPath) => {
+      try {
+        unlinkSync(widgetPath);
+        console.log(`✅ Removed ${widgetPath.split('/').pop()}`);
+      } catch (err) {
+        console.log(`⚠️ Could not remove ${widgetPath.split('/').pop()}: ${err.message}`);
+      }
+    });
+
+    // Clean up any remaining blog component imports from remaining files
+    // This is a safety measure in case any files still reference the blog components
+    const filesToCleanup = [
+      join(pagesDir, 'index.astro'),
+    ];
+
+    filesToCleanup.forEach((filePath) => {
+      try {
+        if (statSync(filePath).isFile()) {
+          let fileContent = readFileSync(filePath, 'utf8');
+          let hasChanges = false;
+
+          // Remove import lines for blog components
+          const blogImportRegex = /import\s+BlogLatestPosts\s+from\s+['"]~?[/]?components[/]widgets[/]BlogLatestPosts\.astro['"]\s*;\s*\n?/g;
+          const blogHighlightedImportRegex = /import\s+BlogHighlightedPosts\s+from\s+['"]~?[/]?components[/]widgets[/]BlogHighlightedPosts\.astro['"]\s*;\s*\n?/g;
+          
+          if (blogImportRegex.test(fileContent)) {
+            fileContent = fileContent.replace(blogImportRegex, '');
+            hasChanges = true;
+          }
+          
+          if (blogHighlightedImportRegex.test(fileContent)) {
+            fileContent = fileContent.replace(blogHighlightedImportRegex, '');
+            hasChanges = true;
+          }
+
+          // Remove blog component usage (basic cleanup - remove entire component blocks)
+          const blogUsageRegex = /<BlogLatestPosts[\s\S]*?<\/BlogLatestPosts>/g;
+          const blogHighlightedUsageRegex = /<BlogHighlightedPosts[\s\S]*?<\/BlogHighlightedPosts>/g;
+          
+          if (blogUsageRegex.test(fileContent)) {
+            fileContent = fileContent.replace(blogUsageRegex, '');
+            hasChanges = true;
+          }
+          
+          if (blogHighlightedUsageRegex.test(fileContent)) {
+            fileContent = fileContent.replace(blogHighlightedUsageRegex, '');
+            hasChanges = true;
+          }
+
+          if (hasChanges) {
+            writeFileSync(filePath, fileContent);
+            console.log(`✅ Cleaned up blog component references in ${filePath.split('/').pop()}`);
+          }
+        }
+      } catch (err) {
+        console.log(`⚠️ Could not clean up ${filePath.split('/').pop()}: ${err.message}`);
+      }
+    });
+
     // Update navigation.ts to create flattened navigation
     const navigationPath = join(process.cwd(), 'src', 'navigation.ts');
     let navigationContent = readFileSync(navigationPath, 'utf8');
