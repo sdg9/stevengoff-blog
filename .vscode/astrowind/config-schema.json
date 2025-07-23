@@ -46,6 +46,24 @@
             }
           },
           "additionalProperties": false
+        },
+        "goHighLevel": {
+          "type": "object",
+          "properties": {
+            "formId": {
+              "type": "string"
+            },
+            "locationId": {
+              "type": "string"
+            },
+            "iframeDomain": {
+              "type": "string"
+            },
+            "formEndpoint": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
         }
       },
       "required": ["name", "site", "base", "trailingSlash"],
