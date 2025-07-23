@@ -28,6 +28,12 @@ export interface SiteConfig {
     formEndpoint?: string;
     formId?: string;
   };
+  goHighLevel?: {
+    formId?: string;
+    locationId?: string;
+    iframeDomain?: string;
+    formEndpoint?: string;
+  };
 }
 export interface MetaDataConfig extends Omit<MetaData, 'title'> {
   title?: {

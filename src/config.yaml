@@ -16,6 +16,12 @@ site:
   contactForm:
     formEndpoint: "https://forms.webtownhero.com/contact"
     formId: "bluerainlily"
+  
+  goHighLevel:
+    formId: NL9Bb6WQnwj5r3z8hxam
+    locationId: BBm4w69gyxUSoTBDhuhF
+    iframeDomain: https://brand.webtownhero.com
+    formEndpoint: https://backend.leadconnectorhq.com/forms/submit
 
 # Default SEO metadata
 metadata:

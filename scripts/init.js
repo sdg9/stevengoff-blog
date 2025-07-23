@@ -922,9 +922,7 @@ async function main() {
 
     // Clean up any remaining blog component imports from remaining files
     // This is a safety measure in case any files still reference the blog components
-    const filesToCleanup = [
-      join(pagesDir, 'index.astro'),
-    ];
+    const filesToCleanup = [join(pagesDir, 'index.astro')];
 
     filesToCleanup.forEach((filePath) => {
       try {
@@ -933,14 +931,16 @@ async function main() {
           let hasChanges = false;
 
           // Remove import lines for blog components
-          const blogImportRegex = /import\s+BlogLatestPosts\s+from\s+['"]~?[/]?components[/]widgets[/]BlogLatestPosts\.astro['"]\s*;\s*\n?/g;
-          const blogHighlightedImportRegex = /import\s+BlogHighlightedPosts\s+from\s+['"]~?[/]?components[/]widgets[/]BlogHighlightedPosts\.astro['"]\s*;\s*\n?/g;
-          
+          const blogImportRegex =
+            /import\s+BlogLatestPosts\s+from\s+['"]~?[/]?components[/]widgets[/]BlogLatestPosts\.astro['"]\s*;\s*\n?/g;
+          const blogHighlightedImportRegex =
+            /import\s+BlogHighlightedPosts\s+from\s+['"]~?[/]?components[/]widgets[/]BlogHighlightedPosts\.astro['"]\s*;\s*\n?/g;
+
           if (blogImportRegex.test(fileContent)) {
             fileContent = fileContent.replace(blogImportRegex, '');
             hasChanges = true;
           }
-          
+
           if (blogHighlightedImportRegex.test(fileContent)) {
             fileContent = fileContent.replace(blogHighlightedImportRegex, '');
             hasChanges = true;
@@ -949,12 +949,12 @@ async function main() {
           // Remove blog component usage (basic cleanup - remove entire component blocks)
           const blogUsageRegex = /<BlogLatestPosts[\s\S]*?<\/BlogLatestPosts>/g;
           const blogHighlightedUsageRegex = /<BlogHighlightedPosts[\s\S]*?<\/BlogHighlightedPosts>/g;
-          
+
           if (blogUsageRegex.test(fileContent)) {
             fileContent = fileContent.replace(blogUsageRegex, '');
             hasChanges = true;
           }
-          
+
           if (blogHighlightedUsageRegex.test(fileContent)) {
             fileContent = fileContent.replace(blogHighlightedUsageRegex, '');
             hasChanges = true;

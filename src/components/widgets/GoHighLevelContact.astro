@@ -1,0 +1,563 @@
+---
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Button from '~/components/ui/Button.astro';
+import type { GoHighLevelContact as Props } from '~/types';
+import { SITE } from 'astrowind:config';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  inputs,
+  textarea,
+  disclaimer,
+  button = 'Contact us',
+  description = '',
+  
+  id,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+  
+  // Go High Level specific props with config fallbacks
+  ghlFormId = SITE?.goHighLevel?.formId,
+  ghlIframeSrc,
+  ghlFormEndpoint = SITE?.goHighLevel?.formEndpoint || 'https://backend.leadconnectorhq.com/forms/submit',
+  ghlLocationId = SITE?.goHighLevel?.locationId,
+  ghlIframeDomain = SITE?.goHighLevel?.iframeDomain || 'https://brand.webtownhero.com',
+} = Astro.props;
+
+// Dynamically generate iframe source if not provided
+const finalGhlIframeSrc = ghlIframeSrc || `${ghlIframeDomain}/widget/form/${ghlFormId}`;
+// log finalGhlIframeSrc to console for debugging
+
+// Generate unique IDs for this form instance
+const formId = `ghl-contact-form-${id || 'default'}`;
+const iframeId = `ghl-iframe-${id || 'default'}`;
+---
+
+<WidgetWrapper id={id} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+
+  {inputs && (
+    <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow-sm p-4 sm:p-6 lg:p-8 w-full">
+
+      <!-- Hidden iframe for reCAPTCHA token generation -->
+      <iframe
+        src={finalGhlIframeSrc}
+        style="width:0;height:0;border:none"
+        id={iframeId}
+        data-layout="{'id':'INLINE'}"
+        data-trigger-type="alwaysShow"
+        data-trigger-value=""
+        data-activation-type="alwaysActivated"
+        data-activation-value=""
+        data-deactivation-type="neverDeactivate"
+        data-deactivation-value=""
+        data-form-name="Contact Form"
+        data-height="664"
+        data-layout-iframe-id={iframeId}
+        data-form-id={ghlFormId}
+        title="Contact Form"
+      >
+      </iframe>
+
+      
+      <!-- Contact Form -->
+      <form 
+        method="POST" 
+        action="javascript:void(0);"
+        name="contact" 
+        id={formId}
+        novalidate
+        data-ghl-form-id={ghlFormId}
+        data-ghl-location-id={ghlLocationId}
+        data-iframe-id={iframeId}
+        data-iframe-domain={ghlIframeDomain}
+      >
+        <input type="hidden" name="formId" value={ghlFormId} />
+        
+        <!-- Honeypot field (hidden from users, visible to bots) -->
+        <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        {inputs &&
+          inputs.map(
+            ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '' }) =>
+              name && (
+                <div class="mb-6">
+                  {label && (
+                    <label for={name} class="block text-sm font-medium">
+                      {label}
+                    </label>
+                  )}
+                  <input
+                    type={name === 'email' ? 'email' : type}
+                    name={name}
+                    id={name}
+                    autocomplete={autocomplete}
+                    placeholder={placeholder}
+                    class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                    data-required={true}
+                    required={name === 'email'}
+                  />
+                  <div class="text-red-600 text-xs mt-1 hidden" id={`error-${name}`} />
+                </div>
+              )
+          )}
+
+        {textarea && (
+          <div>
+            <label for="textarea" class="block text-sm font-medium">
+              {textarea.label}
+            </label>
+            <textarea
+              id="textarea"
+              name={textarea.name ? textarea.name : 'message'}
+              rows={textarea.rows ? textarea.rows : 4}
+              placeholder={textarea.placeholder}
+              class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+              data-required={true}
+            />
+            <div class="text-red-600 text-xs mt-1 hidden" id={`error-${textarea.name ? textarea.name : 'message'}`} />
+          </div>
+        )}
+
+        {disclaimer && (
+          <div class="mt-3 flex items-start">
+            <div class="flex mt-0.5">
+              <input
+                id="disclaimer"
+                name="disclaimer"
+                type="checkbox"
+                class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                data-required={true}
+                required
+              />
+            </div>
+            <div class="ml-3">
+              <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
+                {disclaimer.label}
+              </label>
+            </div>
+          </div>
+          <div class="text-red-600 text-xs mt-1 hidden" id="error-disclaimer" />
+        )}
+
+        {button && (
+          <div class="mt-10 grid">
+            <Button variant="primary" type="submit">
+              {button}
+            </Button>
+          </div>
+        )}
+
+        {description && (
+          <div class="mt-3 text-center">
+            <p class="text-sm text-gray-600 dark:text-gray-400">{description}</p>
+          </div>
+        )}
+      </form>
+    </div>
+  )}
+
+</WidgetWrapper>
+
+<script type="module" define:vars={{ formId, iframeId, ghlIframeDomain, ghlLocationId, ghlFormEndpoint }}>
+  class GoHighLevelForm {
+    constructor(formId, iframeId, iframeDomain, locationId, formEndpoint) {
+      this.formId = formId;
+      this.iframeId = iframeId;
+      this.iframeDomain = iframeDomain;
+      this.locationId = locationId;
+      this.formEndpoint = formEndpoint;
+      this.isSubmitting = false;
+      this.captchaToken = null;
+      
+      this.init();
+    }
+
+    init() {
+      this.setupForm();
+      this.setupIframeMessaging();
+      this.setupCaptchaTokenRequest();
+    }
+
+    setupForm() {
+      const form = document.getElementById(this.formId);
+      if (!form) {
+        console.error(`[GHL Form] Form with ID ${this.formId} not found`);
+        return;
+      }
+
+      console.log(`[GHL Form] Setting up form with ID: ${this.formId}`);
+      
+      // Remove any existing listeners first
+      const existingHandler = form.getAttribute('data-handler-attached');
+      if (existingHandler) {
+        console.log('[GHL Form] Handler already attached, skipping');
+        return;
+      }
+
+      form.addEventListener('submit', this.handleFormSubmit.bind(this), true);
+      form.setAttribute('data-handler-attached', 'true');
+      
+      console.log('[GHL Form] Submit handler attached successfully');
+    }
+
+    setupIframeMessaging() {
+      console.log('[GHL Form] Setting up iframe messaging...');
+      window.addEventListener('message', this.handleIframeMessage.bind(this));
+    }
+
+    setupCaptchaTokenRequest() {
+      // Add the global function for requesting captcha tokens
+      const functionName = `requestCaptchaToken_${this.formId.replace(/-/g, '_')}`;
+      window[functionName] = this.requestCaptchaToken.bind(this);
+      
+      // Also set a generic one for backward compatibility
+      if (!window.requestCaptchaToken) {
+        window.requestCaptchaToken = this.requestCaptchaToken.bind(this);
+      }
+    }
+
+    handleIframeMessage(event) {
+      // Validate origin for security
+      if (event.origin !== this.iframeDomain) {
+        console.warn('[GHL Form] Message from unauthorized origin:', event.origin);
+        return;
+      }
+
+      const { type, token, error, siteKey, detectedKeys } = event.data || {};
+
+      switch (type) {
+        case 'recaptcha-token':
+        case 'captcha-token':
+          console.log('[GHL Form] Got reCAPTCHA token');
+          this.captchaToken = token;
+          this.processPendingSubmission();
+          break;
+        
+        case 'site-key-detected':
+          console.log('[GHL Form] Detected reCAPTCHA site key:', siteKey);
+          console.log('[GHL Form] All detected keys:', detectedKeys);
+          break;
+        
+        case 'captcha-token-error':
+          console.error('[GHL Form] CAPTCHA error:', error);
+          this.handleCaptchaError(error);
+          break;
+      }
+    }
+
+    async requestCaptchaToken() {
+      const iframe = document.getElementById(this.iframeId);
+      
+      if (!iframe) {
+        console.error('[GHL Form] Iframe not found');
+        throw new Error('Form not loaded yet. Please wait and try again.');
+      }
+
+      if (!iframe.contentWindow) {
+        console.error('[GHL Form] Iframe content window not accessible');
+        throw new Error('Form not ready. Please refresh the page and try again.');
+      }
+
+      const requestId = crypto.randomUUID();
+      console.log('[GHL Form] Requesting captcha token...');
+
+      return new Promise((resolve, reject) => {
+        const handleMessage = (event) => {
+          if (event.origin !== this.iframeDomain) return;
+
+          const { type, token, error, requestId: respId } = event.data || {};
+          if (respId !== requestId) return; // Ignore unrelated messages
+
+          if (type === 'captcha-token') {
+            window.removeEventListener('message', handleMessage);
+            resolve(token);
+          } else if (type === 'captcha-token-error') {
+            window.removeEventListener('message', handleMessage);
+            reject(new Error(error || 'CAPTCHA verification failed'));
+          }
+        };
+
+        window.addEventListener('message', handleMessage);
+
+        // Set timeout
+        setTimeout(() => {
+          window.removeEventListener('message', handleMessage);
+          reject(new Error('CAPTCHA request timed out'));
+        }, 10000);
+
+        try {
+          iframe.contentWindow.postMessage(
+            {
+              type: 'request-captcha-token',
+              requestId,
+              detectSiteKey: true,
+            },
+            this.iframeDomain
+          );
+        } catch {
+          window.removeEventListener('message', handleMessage);
+          reject(new Error('Error communicating with form. Please try again.'));
+        }
+      });
+    }
+
+    async handleFormSubmit(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      if (this.isSubmitting) return false;
+      
+      const form = e.target;
+      const submitButton = form.querySelector('button[type="submit"]');
+      
+      this.isSubmitting = true;
+      submitButton.disabled = true;
+      
+      try {
+        // Validate form
+        if (!this.validateForm(form)) {
+          this.isSubmitting = false;
+          submitButton.disabled = false;
+          return false;
+        }
+
+        // Get captcha token if we don't have one
+        if (!this.captchaToken) {
+          const originalText = submitButton.textContent;
+          submitButton.textContent = 'Getting reCAPTCHA...';
+          
+          try {
+            this.captchaToken = await this.requestCaptchaToken();
+            submitButton.textContent = originalText;
+          } catch (error) {
+            submitButton.textContent = originalText;
+            throw error;
+          }
+        }
+
+        // Submit to Go High Level
+        await this.submitToGoHighLevel(form);
+        
+      } catch (error) {
+        console.error('[GHL Form] Submission error:', error);
+        this.showError(error.message);
+      } finally {
+        this.isSubmitting = false;
+        submitButton.disabled = false;
+        this.captchaToken = null; // Clear token after use
+      }
+      
+      return false;
+    }
+
+    validateForm(form) {
+      let valid = true;
+      
+      form.querySelectorAll('[data-required]')?.forEach((el) => {
+        const errorDiv = document.getElementById(`error-${el.name}`);
+        el.style.borderColor = '';
+        
+        if (el.type === 'checkbox') {
+          // Special validation for checkboxes
+          if (!el.checked) {
+            errorDiv.textContent = 'You must accept the terms to continue.';
+            errorDiv.classList.remove('hidden');
+            errorDiv.style.color = 'var(--color-destructive)';
+            el.style.borderColor = 'var(--color-destructive)';
+            valid = false;
+          } else {
+            errorDiv.textContent = '';
+            errorDiv.classList.add('hidden');
+            el.style.borderColor = 'var(--color-success)';
+          }
+        } else if (el.value.trim() === '') {
+          errorDiv.textContent = 'This field is required.';
+          errorDiv.classList.remove('hidden');
+          errorDiv.style.color = 'var(--color-destructive)';
+          el.style.borderColor = 'var(--color-destructive)';
+          valid = false;
+        } else if (el.type === 'email') {
+          if (!el.checkValidity()) {
+            errorDiv.textContent = 'Please enter a valid email address.';
+            errorDiv.classList.remove('hidden');
+            errorDiv.style.color = 'var(--color-warning)';
+            el.style.borderColor = 'var(--color-warning)';
+            valid = false;
+          } else {
+            errorDiv.textContent = '';
+            errorDiv.classList.add('hidden');
+            el.style.borderColor = 'var(--color-success)';
+          }
+        } else {
+          errorDiv.textContent = '';
+          errorDiv.classList.add('hidden');
+          el.style.borderColor = 'var(--color-success)';
+        }
+      });
+
+      return valid;
+    }
+
+    async submitToGoHighLevel(form) {
+      const formData = new FormData(form);
+      
+      // Check honeypot
+      if (formData.get('website')) {
+        console.log('[GHL Form] Honeypot triggered, silently failing');
+        return;
+      }
+
+      const formFields = Object.fromEntries(formData.entries());
+      
+      // Prepare GHL payload
+      const ghlPayload = {
+        full_name: formFields.name || '',
+        email: formFields.email || '',
+        AnjEnOmchnI3NqV9C9Iq: formFields.message || '', // Custom field ID for message
+        terms_and_conditions: formFields.disclaimer === 'on' ? 
+          'By submitting this form, you acknowledge and agree to the collection of your personal information for the purpose of responding to your inquiry.' : '',
+        formId: formFields.formId || '',
+        location_id: this.locationId,
+        sessionId: crypto.randomUUID(),
+        eventData: {
+          source: 'direct',
+          referrer: document.referrer || '',
+          keyword: '',
+          adSource: '',
+          url_params: {},
+          page: {
+            url: window.location.href,
+            title: document.title
+          },
+          timestamp: Date.now(),
+          campaign: '',
+          contactSessionIds: {
+            ids: [crypto.randomUUID()]
+          },
+          fbp: '',
+          fbc: '',
+          type: 'page-visit',
+          parentId: formFields.formId || '',
+          pageVisitType: 'form',
+          domain: window.location.hostname,
+          version: 'v3',
+          parentName: 'Contact Form',
+          fingerprint: null,
+          documentURL: window.location.href,
+          fbEventId: crypto.randomUUID(),
+          medium: 'form',
+          mediumId: formFields.formId || ''
+        },
+        sessionFingerprint: crypto.randomUUID(),
+        Timezone: Intl.DateTimeFormat().resolvedOptions().timeZone + 
+          ` (GMT${new Date().getTimezoneOffset() > 0 ? '-' : '+'}${String(Math.floor(Math.abs(new Date().getTimezoneOffset()) / 60)).padStart(2, '0')}:${String(Math.abs(new Date().getTimezoneOffset()) % 60).padStart(2, '0')})`,
+        paymentContactId: {},
+        timeSpent: Math.random() * 30 + 5 // Random time between 5-35 seconds
+      };
+
+      const body = new FormData();
+      body.set('formData', JSON.stringify(ghlPayload));
+      body.set('locationId', this.locationId);
+      body.set('formId', formFields.formId || '');
+      body.set('captchaV3', this.captchaToken);
+
+      console.log('[GHL Form] Submitting to Go High Level...');
+      
+      const response = await fetch(this.formEndpoint, {
+        method: 'POST',
+        headers: {
+          'accept': '*/*',
+          'accept-language': 'en-US,en;q=0.9',
+          'fullurl': window.location.href,
+          'origin': window.location.origin,
+          'referer': window.location.href,
+          'sec-ch-ua': '"Not)A;Brand";v="8", "Chromium";v="138", "Google Chrome";v="138"',
+          'sec-ch-ua-mobile': '?0',
+          'sec-ch-ua-platform': '"macOS"',
+          'sec-fetch-dest': 'empty',
+          'sec-fetch-mode': 'cors',
+          'sec-fetch-site': 'cross-site',
+          'timezone': Intl.DateTimeFormat().resolvedOptions().timeZone,
+          'user-agent': navigator.userAgent,
+          'priority': 'u=1, i',
+        },
+        body,
+      });
+
+      if (response.ok) {
+        this.showSuccess();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Submission failed (${response.status}). Please try again later.`);
+      }
+    }
+
+    showSuccess() {
+      const container = document.getElementById(this.formId).parentElement;
+      container.innerHTML = `
+        <div class='p-6 rounded-md text-center animate-fade-in' 
+             style='background-color: var(--color-success); color: var(--color-success-foreground)'>
+          Thank you! Your message was sent.
+        </div>
+      `;
+    }
+
+    showError(message) {
+      const container = document.getElementById(this.formId).parentElement;
+      container.innerHTML = `
+        <div class='p-6 rounded-md text-center animate-fade-in' 
+             style='background-color: var(--color-destructive); color: var(--color-destructive-foreground)'>
+          ${message}
+        </div>
+      `;
+    }
+
+    handleCaptchaError(error) {
+      this.showError(`CAPTCHA error: ${error || 'Unknown error occurred'}`);
+    }
+
+    processPendingSubmission() {
+      // If we have a pending form submission, continue with it
+      if (this.pendingSubmission) {
+        this.handleFormSubmit(this.pendingSubmission);
+        this.pendingSubmission = null;
+      }
+    }
+  }
+
+  // Initialize the form when DOM is ready
+  function initializeForm() {
+    console.log('[GHL Form] Initializing form...');
+    new GoHighLevelForm(formId, iframeId, ghlIframeDomain, ghlLocationId, ghlFormEndpoint);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeForm);
+  } else {
+    // DOM is already loaded
+    initializeForm();
+  }
+</script>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease;
+  }
+</style>
