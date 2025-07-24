@@ -18,10 +18,12 @@ site:
     formId: "bluerainlily"
   
   goHighLevel:
-    formId: NL9Bb6WQnwj5r3z8hxam
-    locationId: BBm4w69gyxUSoTBDhuhF
+    # GoHighLevel form configuration
+    # formId: NL9Bb6WQnwj5r3z8hxam
+    # locationId: BBm4w69gyxUSoTBDhuhF
     iframeDomain: https://brand.webtownhero.com
-    formEndpoint: https://backend.leadconnectorhq.com/forms/submit
+    # Chat widget ID for GoHighLevel
+    # chatWidgetId: 687db4a4afd5326f76f86aa8
 
 # Default SEO metadata
 metadata:

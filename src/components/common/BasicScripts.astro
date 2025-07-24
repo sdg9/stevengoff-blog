@@ -1,5 +1,5 @@
 ---
-import { UI } from 'astrowind:config';
+import { UI, SITE } from 'astrowind:config';
 ---
 
 <script is:inline define:vars={{ defaultTheme: UI.theme }}>
@@ -253,3 +253,39 @@ import { UI } from 'astrowind:config';
     Observer.start();
   });
 </script>
+
+<!-- Chat Widget Script -->
+{SITE.goHighLevel?.chatWidgetId && (
+<script is:inline define:vars={{ chatWidgetId: SITE.goHighLevel.chatWidgetId }}>
+  function loadChatWidget() {
+    // Only load if widget ID is available
+    if (!chatWidgetId) return;
+    
+    // Remove any existing widget script
+    const existingScript = document.querySelector('script[src*="leadconnectorhq.com/loader.js"]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    // Create new script
+    const script = document.createElement('script');
+    script.src = 'https://widgets.leadconnectorhq.com/loader.js';
+    script.setAttribute('data-resources-url', 'https://widgets.leadconnectorhq.com/chat-widget/loader.js');
+    script.setAttribute('data-widget-id', chatWidgetId);
+    document.head.appendChild(script);
+  }
+
+  // Load on initial page load
+  document.addEventListener('DOMContentLoaded', loadChatWidget);
+
+  // Reload after each page transition
+  document.addEventListener('astro:after-swap', () => {
+    setTimeout(loadChatWidget, 100);
+  });
+
+  // Load immediately if DOM is already ready
+  if (document.readyState !== 'loading') {
+    loadChatWidget();
+  }
+</script>
+)}

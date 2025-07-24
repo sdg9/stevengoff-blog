@@ -33,6 +33,7 @@ export interface SiteConfig {
     locationId?: string;
     iframeDomain?: string;
     formEndpoint?: string;
+    chatWidgetId?: string;
   };
 }
 export interface MetaDataConfig extends Omit<MetaData, 'title'> {
