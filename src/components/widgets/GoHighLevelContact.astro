@@ -34,6 +34,14 @@ const {
 const finalGhlIframeSrc = ghlIframeSrc || `${ghlIframeDomain}/widget/form/${ghlFormId}`;
 // log finalGhlIframeSrc to console for debugging
 
+// Use disclaimer label as termsAndConditionsText if disclaimer is provided
+const finalTermsAndConditionsText = disclaimer?.label || termsAndConditionsText;
+
+// Auto-generate disclaimer if termsAndConditionsText is provided but no disclaimer exists
+const finalDisclaimer = disclaimer || (finalTermsAndConditionsText ? {
+  label: finalTermsAndConditionsText,
+} : null);
+
 // Generate unique IDs for this form instance
 const formId = `ghl-contact-form-${id || 'default'}`;
 const iframeId = `ghl-iframe-${id || 'default'}`;
@@ -128,7 +136,7 @@ const iframeId = `ghl-iframe-${id || 'default'}`;
           </div>
         )}
 
-        {disclaimer && (
+        {finalDisclaimer && (
           <div class="mt-3 flex items-start">
             <div class="flex mt-0.5">
               <input
@@ -142,7 +150,7 @@ const iframeId = `ghl-iframe-${id || 'default'}`;
             </div>
             <div class="ml-3">
               <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
-                {disclaimer.label}
+                {finalDisclaimer.label}
               </label>
             </div>
           </div>
@@ -168,7 +176,7 @@ const iframeId = `ghl-iframe-${id || 'default'}`;
 
 </WidgetWrapper>
 
-<script type="module" define:vars={{ formId, iframeId, ghlIframeDomain, ghlLocationId, ghlFormEndpoint, termsAndConditionsText }}>
+<script type="module" define:vars={{ formId, iframeId, ghlIframeDomain, ghlLocationId, ghlFormEndpoint, termsAndConditionsText: finalTermsAndConditionsText }}>
   class GoHighLevelForm {
     constructor(formId, iframeId, iframeDomain, locationId, formEndpoint, termsText) {
       this.formId = formId;
