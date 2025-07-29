@@ -34,6 +34,7 @@ export interface SiteConfig {
     iframeDomain?: string;
     formEndpoint?: string;
     chatWidgetId?: string;
+    formTerms?: string;
   };
 }
 export interface MetaDataConfig extends Omit<MetaData, 'title'> {

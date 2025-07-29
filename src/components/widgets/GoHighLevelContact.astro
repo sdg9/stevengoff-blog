@@ -25,6 +25,9 @@ const {
   ghlFormEndpoint = SITE?.goHighLevel?.formEndpoint || 'https://backend.leadconnectorhq.com/forms/submit',
   ghlLocationId = SITE?.goHighLevel?.locationId,
   ghlIframeDomain = SITE?.goHighLevel?.iframeDomain || 'https://brand.webtownhero.com',
+  
+  // Terms and conditions text - can be customized per form
+  termsAndConditionsText = SITE?.goHighLevel?.formT || 'By submitting this form, you acknowledge and agree to the collection of your personal information for the purpose of responding to your inquiry.',
 } = Astro.props;
 
 // Dynamically generate iframe source if not provided
@@ -165,14 +168,15 @@ const iframeId = `ghl-iframe-${id || 'default'}`;
 
 </WidgetWrapper>
 
-<script type="module" define:vars={{ formId, iframeId, ghlIframeDomain, ghlLocationId, ghlFormEndpoint }}>
+<script type="module" define:vars={{ formId, iframeId, ghlIframeDomain, ghlLocationId, ghlFormEndpoint, termsAndConditionsText }}>
   class GoHighLevelForm {
-    constructor(formId, iframeId, iframeDomain, locationId, formEndpoint) {
+    constructor(formId, iframeId, iframeDomain, locationId, formEndpoint, termsText) {
       this.formId = formId;
       this.iframeId = iframeId;
       this.iframeDomain = iframeDomain;
       this.locationId = locationId;
       this.formEndpoint = formEndpoint;
+      this.termsAndConditionsText = termsText;
       this.isSubmitting = false;
       this.captchaToken = null;
       
@@ -418,12 +422,9 @@ const iframeId = `ghl-iframe-${id || 'default'}`;
       
       // Prepare GHL payload
       const ghlPayload = {
+        ...formFields,
         full_name: formFields.name || '',
-        email: formFields.email || '',
-        AnjEnOmchnI3NqV9C9Iq: formFields.message || '', // Custom field ID for message
-        terms_and_conditions: formFields.disclaimer === 'on' ? 
-          'By submitting this form, you acknowledge and agree to the collection of your personal information for the purpose of responding to your inquiry.' : '',
-        formId: formFields.formId || '',
+        terms_and_conditions: formFields.disclaimer === 'on' ? this.termsAndConditionsText : '',
         location_id: this.locationId,
         sessionId: crypto.randomUUID(),
         eventData: {
@@ -535,7 +536,7 @@ const iframeId = `ghl-iframe-${id || 'default'}`;
   // Initialize the form when DOM is ready
   function initializeForm() {
     console.log('[GHL Form] Initializing form...');
-    new GoHighLevelForm(formId, iframeId, ghlIframeDomain, ghlLocationId, ghlFormEndpoint);
+    new GoHighLevelForm(formId, iframeId, ghlIframeDomain, ghlLocationId, ghlFormEndpoint, termsAndConditionsText);
   }
 
   if (document.readyState === 'loading') {

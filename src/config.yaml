@@ -24,6 +24,7 @@ site:
     iframeDomain: https://brand.webtownhero.com
     # Chat widget ID for GoHighLevel
     # chatWidgetId: 687db4a4afd5326f76f86aa8
+    # formTerms: "By submitting this form, you acknowledge and agree to the collection of your personal information for the purpose of responding to your inquiry."
 
 # Default SEO metadata
 metadata:

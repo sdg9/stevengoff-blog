@@ -64,6 +64,10 @@
             },
             "chatWidgetId": {
               "type": "string"
+            },
+            "formTerms": {
+              "type": "string",
+              "description": "Default terms and conditions text for GoHighLevel forms"
             }
           },
           "additionalProperties": false

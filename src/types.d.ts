@@ -213,6 +213,15 @@ export interface Form {
   formId?: string;
 }
 
+export interface GoHighLevelContact extends Omit<Headline, 'classes'>, Form, Widget {
+  ghlFormId?: string;
+  ghlIframeSrc?: string;
+  ghlFormEndpoint?: string;
+  ghlLocationId?: string;
+  ghlIframeDomain?: string;
+  termsAndConditionsText?: string;
+}
+
 // WIDGETS
 export interface Hero extends Omit<Headline, 'classes'>, Omit<Widget, 'isDark' | 'classes'> {
   content?: string;
