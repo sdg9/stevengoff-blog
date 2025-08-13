@@ -36,7 +36,7 @@ export interface SiteConfig {
     chatWidgetId?: string;
     formTerms?: string;
   };
-  diyForms?: {
+  diyForm?: {
     clientId?: string;
     formId?: string;
     formEndpoint?: string;
@@ -125,10 +125,10 @@ const getSite = (config: Config) => {
       formId: config.site?.contactForm?.formId || '',
     },
     diyForm: {
-      clientId: config.site?.diyForms?.clientId || '',
-      formId: config.site?.diyForms?.formId || '',
-      formEndpoint: config.site?.diyForms?.formEndpoint || '',
-      chatWidgetId: config.site?.diyForms?.chatWidgetId || '',
+      clientId: config.site?.diyForm?.clientId || '',
+      formId: config.site?.diyForm?.formId || '',
+      formEndpoint: config.site?.diyForm?.formEndpoint || '',
+      chatWidgetId: config.site?.diyForm?.chatWidgetId || '',
     },
   };
 
