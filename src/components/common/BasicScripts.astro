@@ -289,3 +289,47 @@ import { UI, SITE } from 'astrowind:config';
   }
 </script>
 )}
+
+{SITE.diyForms?.chatWidgetId && (
+<script is:inline define:vars={{ chatWidgetId: SITE.diyForms.chatWidgetId }}>
+  function loadDiyFormsWidget() {
+    // Only load if widget ID is available
+    if (!chatWidgetId) return;
+    
+    // Remove any existing widget script
+    const existingScript = document.querySelector('script[src*="client.webtownhero.com/api/chat/widget.js"]');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    // Create new script with error handling
+    const script = document.createElement('script');
+    script.src = `https://client.webtownhero.com/api/chat/widget.js?clientId=${chatWidgetId}`;
+    script.async = true;
+    
+    // Add error handling
+    script.onerror = function() {
+      console.warn('[DIY Forms] Failed to load chat widget script');
+    };
+    
+    script.onload = function() {
+      console.log('[DIY Forms] Chat widget script loaded successfully');
+    };
+    
+    document.head.appendChild(script);
+  }
+
+  // Load on initial page load
+  document.addEventListener('DOMContentLoaded', loadDiyFormsWidget);
+
+  // Reload after each page transition
+  document.addEventListener('astro:after-swap', () => {
+    setTimeout(loadDiyFormsWidget, 100);
+  });
+
+  // Load immediately if DOM is already ready
+  if (document.readyState !== 'loading') {
+    loadDiyFormsWidget();
+  }
+</script>
+)}

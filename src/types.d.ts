@@ -211,15 +211,12 @@ export interface Form {
   description?: string;
   formEndpoint?: string;
   formId?: string;
-}
-
-export interface GoHighLevelContact extends Omit<Headline, 'classes'>, Form, Widget {
+  // Go High Level specific properties
   ghlFormId?: string;
-  ghlIframeSrc?: string;
-  ghlFormEndpoint?: string;
   ghlLocationId?: string;
+  ghlFormEndpoint?: string;
+  ghlIframeSrc?: string;
   ghlIframeDomain?: string;
-  termsAndConditionsText?: string;
 }
 
 // WIDGETS
@@ -290,6 +287,29 @@ export interface Content extends Omit<Headline, 'classes'>, Widget {
 }
 
 export interface Contact extends Omit<Headline, 'classes'>, Form, Widget {}
+
+export interface GoHighLevelContact extends Omit<Headline, 'classes'>, Omit<Form, 'formEndpoint' | 'formId'>, Widget {
+  // Go High Level specific props
+  ghlFormId?: string;
+  ghlIframeSrc?: string;
+  ghlFormEndpoint?: string;
+  ghlLocationId?: string;
+  ghlIframeDomain?: string;
+
+  // DIY Form specific props
+  diyClientId?: string;
+  diyFormId?: string;
+  diyFormEndpoint?: string;
+  diyChatWidgetId?: string;
+}
+
+// Extend the global Window interface for Go High Level functionality
+declare global {
+  interface Window {
+    requestCaptchaToken?: () => Promise<string>;
+    iframeCaptchaToken?: string;
+  }
+}
 
 // Icon List Component Types
 export interface IconListItemData {

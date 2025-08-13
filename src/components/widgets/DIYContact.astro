@@ -1,0 +1,365 @@
+---
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Button from '~/components/ui/Button.astro';
+import type { GoHighLevelContact as Props } from '~/types';
+import { SITE } from 'astrowind:config';
+
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline = await Astro.slots.render('tagline'),
+  inputs,
+  textarea,
+  disclaimer,
+  button = 'Contact us',
+  description = '',
+  
+  id,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+  
+  // DIY Form specific props with config fallbacks
+  diyClientId = SITE?.diyForm?.clientId,
+  diyFormId = SITE?.diyForm?.formId,
+  diyFormEndpoint = SITE?.diyForm?.formEndpoint || 'https://client.webtownhero.com/api/forms/submit',
+} = Astro.props;
+
+// Generate unique IDs for this form instance
+const formId = `diy-contact-form-${id || 'default'}`;
+---
+
+<WidgetWrapper id={id} containerClass={`max-w-7xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+
+  {inputs && (
+    <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow-sm p-4 sm:p-6 lg:p-8 w-full">
+
+      <!-- DIY Contact Form -->
+      <form 
+        method="POST" 
+        action="javascript:void(0);"
+        name="contact" 
+        id={formId}
+        novalidate
+        data-diy-client-id={diyClientId}
+        data-diy-form-id={diyFormId}
+        data-diy-endpoint={diyFormEndpoint}
+      >
+        <input type="hidden" name="client_id" value={diyClientId} />
+        <input type="hidden" name="form_id" value={diyFormId} />
+        
+        <!-- Honeypot field (hidden from users, visible to bots) -->
+        <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        {inputs &&
+          inputs.map(
+            ({ type = 'text', name, label = '', autocomplete = 'on', placeholder = '' }) =>
+              name && (
+                <div class="mb-6">
+                  {label && (
+                    <label for={name} class="block text-sm font-medium">
+                      {label}
+                    </label>
+                  )}
+                  <input
+                    type={name === 'email' ? 'email' : type}
+                    name={name}
+                    id={name}
+                    autocomplete={autocomplete}
+                    placeholder={placeholder}
+                    class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                    data-required={true}
+                    required={name === 'email'}
+                  />
+                  <div class="text-red-600 text-xs mt-1 hidden" id={`error-${name}`} />
+                </div>
+              )
+          )}
+
+        {textarea && (
+          <div>
+            <label for="textarea" class="block text-sm font-medium">
+              {textarea.label}
+            </label>
+            <textarea
+              id="textarea"
+              name={textarea.name ? textarea.name : 'message'}
+              rows={textarea.rows ? textarea.rows : 4}
+              placeholder={textarea.placeholder}
+              class="py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+              data-required={true}
+            />
+            <div class="text-red-600 text-xs mt-1 hidden" id={`error-${textarea.name ? textarea.name : 'message'}`} />
+          </div>
+        )}
+
+        {disclaimer && (
+          <div class="mt-3 flex items-start">
+            <div class="flex mt-0.5">
+              <input
+                id="disclaimer"
+                name="disclaimer"
+                type="checkbox"
+                class="cursor-pointer mt-1 py-3 px-4 block w-full text-md rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900"
+                data-required={true}
+                required
+              />
+            </div>
+            <div class="ml-3">
+              <label for="disclaimer" class="cursor-pointer select-none text-sm text-gray-600 dark:text-gray-400">
+                {disclaimer.label}
+              </label>
+            </div>
+          </div>
+          <div class="text-red-600 text-xs mt-1 hidden" id="error-disclaimer" />
+        )}
+
+        {button && (
+          <div class="mt-10 grid">
+            <Button variant="primary" type="submit">
+              {button}
+            </Button>
+          </div>
+        )}
+
+        {description && (
+          <div class="mt-3 text-center">
+            <p class="text-sm text-gray-600 dark:text-gray-400">{description}</p>
+          </div>
+        )}
+      </form>
+    </div>
+  )}
+
+</WidgetWrapper>
+
+<script type="module" define:vars={{ formId, diyClientId, diyFormId, diyFormEndpoint }}>
+  class DIYForm {
+    constructor(formId, clientId, formIdValue, formEndpoint) {
+      this.formId = formId;
+      this.clientId = clientId;
+      this.formIdValue = formIdValue;
+      this.formEndpoint = formEndpoint;
+      this.isSubmitting = false;
+      
+      this.init();
+    }
+
+    init() {
+      this.setupForm();
+    }
+
+    setupForm() {
+      const form = document.getElementById(this.formId);
+      if (!form) {
+        console.error(`[DIY Form] Form with ID ${this.formId} not found`);
+        return;
+      }
+
+      console.log(`[DIY Form] Setting up form with ID: ${this.formId}`);
+      
+      // Remove any existing listeners first
+      const existingHandler = form.getAttribute('data-handler-attached');
+      if (existingHandler) {
+        console.log('[DIY Form] Handler already attached, skipping');
+        return;
+      }
+
+      form.addEventListener('submit', this.handleFormSubmit.bind(this), true);
+      form.setAttribute('data-handler-attached', 'true');
+      
+      console.log('[DIY Form] Submit handler attached successfully');
+    }
+
+    async handleFormSubmit(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      if (this.isSubmitting) return false;
+      
+      const form = e.target;
+      const submitButton = form.querySelector('button[type="submit"]');
+      
+      this.isSubmitting = true;
+      if (submitButton) {
+        submitButton.disabled = true;
+      }
+      
+      try {
+        // Validate form
+        if (!this.validateForm(form)) {
+          this.isSubmitting = false;
+          if (submitButton) {
+            submitButton.disabled = false;
+          }
+          return false;
+        }
+
+        // Submit to DIY Form endpoint
+        await this.submitToDIYForm(form);
+        
+      } catch (error) {
+        console.error('[DIY Form] Submission error:', error);
+        this.showError(error.message || 'An error occurred. Please try again.');
+      } finally {
+        this.isSubmitting = false;
+        if (submitButton) {
+          submitButton.disabled = false;
+        }
+      }
+      
+      return false;
+    }
+
+    validateForm(form) {
+      let valid = true;
+      
+      form.querySelectorAll('[data-required]')?.forEach((el) => {
+        const errorDiv = document.getElementById(`error-${el.name}`);
+        if (errorDiv) {
+          el.style.borderColor = '';
+          
+          if (el.type === 'checkbox') {
+            // Special validation for checkboxes
+            if (!el.checked) {
+              errorDiv.textContent = 'You must accept the terms to continue.';
+              errorDiv.classList.remove('hidden');
+              errorDiv.style.color = 'var(--color-destructive)';
+              el.style.borderColor = 'var(--color-destructive)';
+              valid = false;
+            } else {
+              errorDiv.textContent = '';
+              errorDiv.classList.add('hidden');
+              el.style.borderColor = 'var(--color-success)';
+            }
+          } else if (el.value.trim() === '') {
+            errorDiv.textContent = 'This field is required.';
+            errorDiv.classList.remove('hidden');
+            errorDiv.style.color = 'var(--color-destructive)';
+            el.style.borderColor = 'var(--color-destructive)';
+            valid = false;
+          } else if (el.type === 'email') {
+            if (!el.checkValidity()) {
+              errorDiv.textContent = 'Please enter a valid email address.';
+              errorDiv.classList.remove('hidden');
+              errorDiv.style.color = 'var(--color-warning)';
+              el.style.borderColor = 'var(--color-warning)';
+              valid = false;
+            } else {
+              errorDiv.textContent = '';
+              errorDiv.classList.add('hidden');
+              el.style.borderColor = 'var(--color-success)';
+            }
+          } else {
+            errorDiv.textContent = '';
+            errorDiv.classList.add('hidden');
+            el.style.borderColor = 'var(--color-success)';
+          }
+        }
+      });
+
+      return valid;
+    }
+
+    async submitToDIYForm(form) {
+      const formData = new FormData(form);
+      
+      // Check honeypot
+      if (formData.get('website')) {
+        console.log('[DIY Form] Honeypot triggered, silently failing');
+        return;
+      }
+
+      const formFields = Object.fromEntries(formData.entries());
+      
+      // Prepare DIY Form payload
+      const payload = {
+        client_id: this.clientId,
+        form_id: this.formIdValue,
+        formData: {
+          name: formFields.name || '',
+          email: formFields.email || '',
+          message: formFields.message || '',
+          disclaimer: formFields.disclaimer === 'on' ? 
+            'By submitting this form, you acknowledge and agree to the collection of your personal information for the purpose of responding to your inquiry.' : ''
+        }
+      };
+
+      console.log('[DIY Form] Submitting to DIY Form endpoint...');
+      
+      const response = await fetch(this.formEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        this.showSuccess();
+      } else {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `Submission failed (${response.status}). Please try again later.`);
+      }
+    }
+
+    showSuccess() {
+      const container = document.getElementById(this.formId)?.parentElement;
+      if (container) {
+        container.innerHTML = `
+          <div class='p-6 rounded-md text-center animate-fade-in' 
+               style='background-color: var(--color-success); color: var(--color-success-foreground)'>
+            Thank you! Your message was sent.
+          </div>
+        `;
+      }
+    }
+
+    showError(message) {
+      const container = document.getElementById(this.formId)?.parentElement;
+      if (container) {
+        container.innerHTML = `
+          <div class='p-6 rounded-md text-center animate-fade-in' 
+               style='background-color: var(--color-destructive); color: var(--color-destructive-foreground)'>
+            ${message}
+          </div>
+        `;
+      }
+    }
+  }
+
+  // Initialize the form when DOM is ready
+  function initializeForm() {
+    console.log('[DIY Form] Initializing form...');
+    new DIYForm(formId, diyClientId, diyFormId, diyFormEndpoint);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeForm);
+  } else {
+    // DOM is already loaded
+    initializeForm();
+  }
+</script>
+
+<style>
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in {
+    animation: fade-in 0.5s ease;
+  }
+</style>

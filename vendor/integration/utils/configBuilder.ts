@@ -36,6 +36,12 @@ export interface SiteConfig {
     chatWidgetId?: string;
     formTerms?: string;
   };
+  diyForms?: {
+    clientId?: string;
+    formId?: string;
+    formEndpoint?: string;
+    chatWidgetId?: string;
+  };
 }
 export interface MetaDataConfig extends Omit<MetaData, 'title'> {
   title?: {
@@ -117,6 +123,12 @@ const getSite = (config: Config) => {
     contactForm: {
       formEndpoint: config.site?.contactForm?.formEndpoint || '',
       formId: config.site?.contactForm?.formId || '',
+    },
+    diyForm: {
+      clientId: config.site?.diyForms?.clientId || '',
+      formId: config.site?.diyForms?.formId || '',
+      formEndpoint: config.site?.diyForms?.formEndpoint || '',
+      chatWidgetId: config.site?.diyForms?.chatWidgetId || '',
     },
   };
 
