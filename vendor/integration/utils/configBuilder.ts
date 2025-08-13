@@ -41,6 +41,7 @@ export interface SiteConfig {
     formId?: string;
     formEndpoint?: string;
     chatWidgetId?: string;
+    turnsiteClientKey?: string;
   };
 }
 export interface MetaDataConfig extends Omit<MetaData, 'title'> {
@@ -129,6 +130,7 @@ const getSite = (config: Config) => {
       formId: config.site?.diyForm?.formId || '',
       formEndpoint: config.site?.diyForm?.formEndpoint || '',
       chatWidgetId: config.site?.diyForm?.chatWidgetId || '',
+      turnsiteClientKey: config.site?.diyForm?.turnsiteClientKey || '',
     },
   };
 

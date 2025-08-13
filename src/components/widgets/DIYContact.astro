@@ -24,6 +24,12 @@ const {
   diyClientId = SITE?.diyForm?.clientId,
   diyFormId = SITE?.diyForm?.formId,
   diyFormEndpoint = SITE?.diyForm?.formEndpoint || 'https://client.webtownhero.com/api/forms/submit',
+  turnsiteClientKey = SITE?.diyForm?.turnsiteClientKey,
+  // Turnstile customization (optional)
+  turnstileAppearance = 'always', // 'always' | 'interaction-only' | 'execute'
+  turnstileSize = 'normal', // 'normal' | 'compact' | 'flexible'
+  turnstileAlign = 'center', // 'start' | 'center' | 'end'
+  turnstilePosition = 'beforeButton', // 'top' | 'beforeButton' | 'afterButton'
 } = Astro.props;
 
 // Generate unique IDs for this form instance
@@ -47,6 +53,17 @@ const formId = `diy-contact-form-${id || 'default'}`;
         data-diy-form-id={diyFormId}
         data-diy-endpoint={diyFormEndpoint}
       >
+
+
+      {turnsiteClientKey && turnstilePosition === 'top' && (
+        <div
+          class={`cf-turnstile mb-6 ${turnstileAlign === 'center' ? 'mx-auto' : turnstileAlign === 'end' ? 'ml-auto' : ''}`}
+          data-sitekey={turnsiteClientKey}
+          data-appearance={turnstileAppearance}
+          data-size={turnstileSize}
+        />
+      )}
+      {/* Log turnsite key */}
         <!-- Loading overlay -->
         <div 
           id={`${formId}-loading`} 
@@ -131,8 +148,20 @@ const formId = `diy-contact-form-${id || 'default'}`;
           <div class="text-red-600 text-xs mt-1 hidden" id="error-disclaimer" />
         )}
 
+        {/* Turnstile before button */}
+        {turnsiteClientKey && turnstilePosition === 'beforeButton' && (
+          <div class={`mt-8 flex ${turnstileAlign === 'center' ? 'justify-center' : turnstileAlign === 'end' ? 'justify-end' : 'justify-start'}`}>
+            <div
+              class={`cf-turnstile ${turnstileAlign === 'center' ? '' : ''}`}
+              data-sitekey={turnsiteClientKey}
+              data-appearance={turnstileAppearance}
+              data-size={turnstileSize}
+            />
+          </div>
+        )}
+
         {button && (
-          <div class="mt-10 grid">
+          <div class="mt-8 grid">
             <Button variant="primary" type="submit" data-submit-button>
               <span class="submit-text">{button}</span>
               <span class="hidden submit-spinner items-center gap-2">
@@ -143,6 +172,18 @@ const formId = `diy-contact-form-${id || 'default'}`;
                 <span>Submitting…</span>
               </span>
             </Button>
+          </div>
+        )}
+
+        {/* Turnstile after button */}
+        {turnsiteClientKey && turnstilePosition === 'afterButton' && (
+          <div class={`mt-6 flex ${turnstileAlign === 'center' ? 'justify-center' : turnstileAlign === 'end' ? 'justify-end' : 'justify-start'}`}>
+            <div
+              class={`cf-turnstile`}
+              data-sitekey={turnsiteClientKey}
+              data-appearance={turnstileAppearance}
+              data-size={turnstileSize}
+            />
           </div>
         )}
 
@@ -165,6 +206,7 @@ const formId = `diy-contact-form-${id || 'default'}`;
       this.formIdValue = formIdValue;
       this.formEndpoint = formEndpoint;
       this.isSubmitting = false;
+      this.turnstileContainer = null;
       
       this.init();
     }
@@ -173,7 +215,7 @@ const formId = `diy-contact-form-${id || 'default'}`;
       this.setupForm();
     }
 
-    setupForm() {
+  setupForm() {
       const form = document.getElementById(this.formId);
       if (!form) {
         console.error(`[DIY Form] Form with ID ${this.formId} not found`);
@@ -189,8 +231,11 @@ const formId = `diy-contact-form-${id || 'default'}`;
         return;
       }
 
-      form.addEventListener('submit', this.handleFormSubmit.bind(this), true);
+  form.addEventListener('submit', this.handleFormSubmit.bind(this), true);
       form.setAttribute('data-handler-attached', 'true');
+
+  // Capture turnstile container if present
+  this.turnstileContainer = form.querySelector('.cf-turnstile');
       
       console.log('[DIY Form] Submit handler attached successfully');
     }
@@ -212,6 +257,18 @@ const formId = `diy-contact-form-${id || 'default'}`;
           this.isSubmitting = false;
       this.setLoading(form, false);
           return false;
+        }
+
+        // Ensure Turnstile token exists if widget present
+        if (this.turnstileContainer) {
+          const token = this.turnstileContainer.getAttribute('data-token');
+          if (!token) {
+            console.warn('[DIY Form] Turnstile token missing; blocking submission');
+            this.showInlineError(form, 'Please complete the CAPTCHA.');
+            this.isSubmitting = false;
+            this.setLoading(form, false);
+            return false;
+          }
         }
 
         // Submit to DIY Form endpoint
@@ -301,7 +358,7 @@ const formId = `diy-contact-form-${id || 'default'}`;
       return valid;
     }
 
-    async submitToDIYForm(form) {
+  async submitToDIYForm(form) {
       const formData = new FormData(form);
       
       // Check honeypot
@@ -322,7 +379,9 @@ const formId = `diy-contact-form-${id || 'default'}`;
           message: formFields.message || '',
           disclaimer: formFields.disclaimer === 'on' ? 
             'By submitting this form, you acknowledge and agree to the collection of your personal information for the purpose of responding to your inquiry.' : ''
-        }
+    },
+    // Include Turnstile token when available
+    turnstile_token: this.turnstileContainer?.getAttribute('data-token') || null,
       };
 
       console.log('[DIY Form] Submitting to DIY Form endpoint...');
@@ -366,6 +425,17 @@ const formId = `diy-contact-form-${id || 'default'}`;
           </div>
         `;
       }
+    }
+
+    showInlineError(form, message) {
+      let errorBox = form.querySelector('[data-form-error]');
+      if (!errorBox) {
+        errorBox = document.createElement('div');
+        errorBox.setAttribute('data-form-error', 'true');
+        errorBox.className = 'mt-4 text-sm text-red-600';
+        form.appendChild(errorBox);
+      }
+      errorBox.textContent = message;
     }
   }
 

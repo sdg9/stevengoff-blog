@@ -61,6 +61,9 @@
             },
             "chatWidgetId": {
               "type": "string"
+            },
+            "turnsiteClientKey": {
+              "type": "string"
             }
           },
           "additionalProperties": false

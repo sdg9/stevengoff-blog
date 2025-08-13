@@ -333,3 +333,61 @@ import { UI, SITE } from 'astrowind:config';
   }
 </script>
 )}
+
+{SITE.diyForm?.turnsiteClientKey && (
+  <>
+    <script is:inline define:vars={{ siteKey: SITE.diyForm.turnsiteClientKey }}>
+      // Cloudflare Turnstile (explicit render) setup
+      (function () {
+        if (!siteKey) return;
+        function renderAllTurnstiles() {
+          if (typeof turnstile === 'undefined') {
+            return;
+          }
+          document.querySelectorAll('.cf-turnstile:not([data-rendered])').forEach((el) => {
+            const key = el.getAttribute('data-sitekey') || siteKey;
+            try {
+              const widgetId = turnstile.render(el, {
+                sitekey: key,
+                callback: function (token) {
+                  el.setAttribute('data-token', token);
+                  // Optional: dispatch custom event for app-level listeners
+                  const evt = new CustomEvent('turnstile-success', { detail: { token, widgetId } });
+                  window.dispatchEvent(evt);
+                },
+                'expired-callback': function () {
+                  el.removeAttribute('data-token');
+                  const evt = new CustomEvent('turnstile-expired');
+                  window.dispatchEvent(evt);
+                },
+                'error-callback': function () {
+                  const evt = new CustomEvent('turnstile-error');
+                  window.dispatchEvent(evt);
+                },
+              });
+              el.setAttribute('data-rendered', widgetId || 'true');
+            } catch (err) {
+              console.warn('[Turnstile] render error', err);
+            }
+          });
+        }
+
+        // Callback required when using ?onload=
+        window.onloadTurnstileCallback = function () {
+          renderAllTurnstiles();
+        };
+
+        // Re-render on Astro page transitions
+        document.addEventListener('astro:after-swap', () => {
+          renderAllTurnstiles();
+        });
+
+        // In case script already loaded (hot reload)
+        if (typeof turnstile !== 'undefined') {
+          renderAllTurnstiles();
+        }
+      })();
+    </script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onloadTurnstileCallback" async defer></script>
+  </>
+)}

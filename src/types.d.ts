@@ -301,6 +301,13 @@ export interface GoHighLevelContact extends Omit<Headline, 'classes'>, Omit<Form
   diyFormId?: string;
   diyFormEndpoint?: string;
   diyChatWidgetId?: string;
+  // Cloudflare Turnstile client key for DIY form
+  turnsiteClientKey?: string;
+  // Turnstile customization
+  turnstileAppearance?: 'always' | 'interaction-only' | 'execute';
+  turnstileSize?: 'normal' | 'compact' | 'flexible';
+  turnstileAlign?: 'start' | 'center' | 'end';
+  turnstilePosition?: 'top' | 'beforeButton' | 'afterButton';
 }
 
 // Extend the global Window interface for Go High Level functionality
