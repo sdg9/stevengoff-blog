@@ -34,7 +34,7 @@ const formId = `diy-contact-form-${id || 'default'}`;
   <Headline title={title} subtitle={subtitle} tagline={tagline} />
 
   {inputs && (
-    <div class="flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow-sm p-4 sm:p-6 lg:p-8 w-full">
+  <div class="relative flex flex-col max-w-xl mx-auto rounded-lg backdrop-blur-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-slate-900 shadow-sm p-4 sm:p-6 lg:p-8 w-full">
 
       <!-- DIY Contact Form -->
       <form 
@@ -47,6 +47,18 @@ const formId = `diy-contact-form-${id || 'default'}`;
         data-diy-form-id={diyFormId}
         data-diy-endpoint={diyFormEndpoint}
       >
+        <!-- Loading overlay -->
+        <div 
+          id={`${formId}-loading`} 
+          class="hidden absolute inset-0 z-10 rounded-lg bg-white/70 dark:bg-slate-900/70 backdrop-blur flex-col items-center justify-center gap-3 text-sm font-medium"
+          aria-hidden="true"
+        >
+          <svg class="w-8 h-8 animate-spin text-gray-700 dark:text-gray-200" viewBox="0 0 24 24" fill="none" aria-label="Loading" role="img">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+          <span style="color: var(--color-primary)">Submitting…</span>
+        </div>
         <input type="hidden" name="client_id" value={diyClientId} />
         <input type="hidden" name="form_id" value={diyFormId} />
         
@@ -121,8 +133,15 @@ const formId = `diy-contact-form-${id || 'default'}`;
 
         {button && (
           <div class="mt-10 grid">
-            <Button variant="primary" type="submit">
-              {button}
+            <Button variant="primary" type="submit" data-submit-button>
+              <span class="submit-text">{button}</span>
+              <span class="hidden submit-spinner items-center gap-2">
+                <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <span>Submitting…</span>
+              </span>
             </Button>
           </div>
         )}
@@ -183,20 +202,15 @@ const formId = `diy-contact-form-${id || 'default'}`;
       if (this.isSubmitting) return false;
       
       const form = e.target;
-      const submitButton = form.querySelector('button[type="submit"]');
-      
-      this.isSubmitting = true;
-      if (submitButton) {
-        submitButton.disabled = true;
-      }
+  // submitButton handled inside setLoading
+    this.isSubmitting = true;
+    this.setLoading(form, true);
       
       try {
         // Validate form
         if (!this.validateForm(form)) {
           this.isSubmitting = false;
-          if (submitButton) {
-            submitButton.disabled = false;
-          }
+      this.setLoading(form, false);
           return false;
         }
 
@@ -208,12 +222,33 @@ const formId = `diy-contact-form-${id || 'default'}`;
         this.showError(error.message || 'An error occurred. Please try again.');
       } finally {
         this.isSubmitting = false;
-        if (submitButton) {
-          submitButton.disabled = false;
-        }
+        this.setLoading(form, false);
       }
       
       return false;
+    }
+
+    setLoading(form, isLoading) {
+      const submitButton = form.querySelector('button[type="submit"]');
+      const loadingOverlay = form.querySelector(`#${this.formId}-loading`);
+      if (submitButton) {
+        submitButton.disabled = isLoading;
+        submitButton.setAttribute('aria-disabled', isLoading.toString());
+        submitButton.classList.toggle('opacity-70', isLoading);
+        const textSpan = submitButton.querySelector('.submit-text');
+        const spinnerSpan = submitButton.querySelector('.submit-spinner');
+        if (textSpan && spinnerSpan) {
+          textSpan.classList.toggle('hidden', isLoading);
+          spinnerSpan.classList.toggle('hidden', !isLoading);
+          spinnerSpan.classList.toggle('flex', isLoading);
+        }
+      }
+      if (loadingOverlay) {
+        loadingOverlay.classList.toggle('hidden', !isLoading);
+        loadingOverlay.classList.toggle('flex', isLoading);
+        loadingOverlay.setAttribute('aria-hidden', (!isLoading).toString());
+      }
+      form.setAttribute('aria-busy', isLoading.toString());
     }
 
     validateForm(form) {
