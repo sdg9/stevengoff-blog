@@ -15,32 +15,111 @@ const analyticsConfig = {
     needs404Script: ANALYTICS?.vendors?.plausible?.needs404Script || false,
   },
 };
+
+const gtagId = ANALYTICS?.vendors?.googleAnalytics?.id;
 ---
+
+<!-- Google Analytics 4 with Consent Mode v2 --><!-- Defer GTM loading for better performance --><!-- Initialize Consent Mode v2 BEFORE gtag loads -->
+<script is:inline define:vars={{ analyticsConfig }}>
+  // Initialize dataLayer and gtag immediately (before gtag.js loads)
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    // eslint-disable-next-line prefer-rest-params
+    dataLayer.push(arguments);
+  }
+  window.gtag = gtag;
+
+  // Set default consent state to 'denied' (GDPR best practice)
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    analytics_storage: 'denied',
+    wait_for_update: 500, // Wait 500ms for consent update before sending data
+  });
+
+  // Initialize GA4 timestamp
+  gtag('js', new Date());
+  // NOTE: Do NOT call gtag('config') here - it will be called after checking opt-out status
+</script>
 
 <!-- Analytics scripts will be loaded conditionally based on cookie consent -->
 <script type="module" define:vars={{ analyticsConfig }}>
-  // Function to load Google Analytics
-  function loadGoogleAnalytics() {
-    if (window.gtag) return; // Already loaded
-
-    const gtagId = analyticsConfig.googleAnalytics.id;
-    if (!gtagId) return;
-
-    // Load gtag script
-    const script = document.createElement('script');
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${gtagId}`;
-    script.async = true;
-    document.head.appendChild(script);
-
-    // Initialize gtag
-    window.dataLayer = window.dataLayer || [];
-    function gtag(...args) {
-      window.dataLayer.push(args);
-    }
-    window.gtag = gtag;
-    gtag('js', new Date());
-    gtag('config', gtagId);
+  // Function to get cookie value
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
   }
+
+  // Function to check if user needs consent (EU/UK/CH)
+  function needsConsent() {
+    return getCookie('needs_consent') === '1';
+  }
+
+  // Function to check opt-out status
+  function hasOptedOutOfAnalytics() {
+    if (typeof localStorage === 'undefined') return false;
+    return localStorage.getItem('analytics-opt-out') === 'true';
+  }
+
+  // Update consent based on geo-location and opt-out status
+  function updateInitialConsent() {
+    if (!window.gtag) return;
+
+    // Check if user has opted out via privacy page
+    const hasOptedOut = hasOptedOutOfAnalytics();
+
+    // If user has opted out, do NOT initialize GA4 config
+    if (hasOptedOut) {
+      if (analyticsConfig.debug) console.log('Analytics opted out - not initializing GA4');
+      return;
+    }
+
+    // Initialize GA4 config now that we've confirmed no opt-out
+    if (analyticsConfig.googleAnalytics.id) {
+      // Configure cross-domain tracking for OwnerRez widgets
+      // Source: https://www.ownerrez.com/support/articles/cross-domain-widget-analytics
+      window.gtag('set', 'linker', { accept_incoming: true });
+      window.gtag('config', analyticsConfig.googleAnalytics.id, {
+        cookie_flags: 'SameSite=None;Secure',
+        send_page_view: true,
+      });
+    }
+
+    // For non-EU users with 'eu-only' mode who haven't opted out, grant consent immediately
+    if (analyticsConfig.useCookieConsent === 'eu-only' && !needsConsent()) {
+      window.gtag('consent', 'update', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+      });
+    }
+
+    // For users without consent requirements and no opt-out, grant consent
+    if (!analyticsConfig.useCookieConsent) {
+      window.gtag('consent', 'update', {
+        ad_storage: 'granted',
+        ad_user_data: 'granted',
+        ad_personalization: 'granted',
+        analytics_storage: 'granted',
+      });
+    }
+  }
+
+  // Function to update consent (called from cookie banner)
+  window.updateGoogleConsent = function (granted) {
+    if (!window.gtag) return;
+
+    window.gtag('consent', 'update', {
+      ad_storage: granted ? 'granted' : 'denied',
+      ad_user_data: granted ? 'granted' : 'denied',
+      ad_personalization: granted ? 'granted' : 'denied',
+      analytics_storage: granted ? 'granted' : 'denied',
+    });
+  };
 
   // Function to load Plausible Analytics
   function loadPlausible() {
@@ -67,41 +146,62 @@ const analyticsConfig = {
     }
   }
 
-  // Function to load appropriate analytics based on configuration
-  function loadAnalytics() {
-    // Load Google Analytics if configured
-    if (analyticsConfig.googleAnalytics.id) {
-      if (analyticsConfig.debug) console.log('Loading Google Analytics with ID:', analyticsConfig.googleAnalytics.id);
-      loadGoogleAnalytics();
-    } else if (analyticsConfig.plausible.domain && analyticsConfig.plausible.src) {
-      if (analyticsConfig.debug)
-        console.log('Loading Plausible Analytics for domain:', analyticsConfig.plausible.domain);
-      loadPlausible();
-    } else {
-      if (analyticsConfig.debug) console.log('No analytics configuration found. Skipping analytics loading.');
+  // Function to load GTM script (deferred)
+  function loadGTM() {
+    const gtagId = analyticsConfig.googleAnalytics.id;
+    if (!gtagId || document.querySelector(`script[src*="googletagmanager.com/gtag/js"]`)) {
+      return; // Already loaded or no ID configured
     }
+
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${gtagId}`;
+    document.head.appendChild(script);
   }
 
-  // Function to check consent and load analytics
+  // Function to initialize analytics on page load
   async function initAnalytics() {
-    // If cookie consent is disabled, load analytics immediately
-    if (!analyticsConfig.useCookieConsent) {
-      if (analyticsConfig.debug) console.log('Cookie consent disabled, loading analytics immediately');
-      loadAnalytics();
-      return;
+    // Aggressively defer GTM - wait for LCP before loading
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGTM, { timeout: 5000 });
+    } else {
+      setTimeout(loadGTM, 3000);
     }
 
-    // Wait for CookieConsent to be available
-    while (!window.CookieConsent) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
+    if (analyticsConfig.debug) {
+      console.log('Initializing consent state', {
+        useCookieConsent: analyticsConfig.useCookieConsent,
+        needsConsent: needsConsent(),
+        hasOptedOut: hasOptedOutOfAnalytics(),
+      });
     }
 
-    if (window.CookieConsent.acceptedCategory('analytics')) {
-      loadAnalytics();
+    // Update consent state based on configuration
+    updateInitialConsent();
+
+    // Load Plausible if configured
+    if (analyticsConfig.plausible.domain && analyticsConfig.plausible.src) {
+      loadPlausible();
+    }
+
+    // For traditional cookie banner mode, wait for user interaction
+    if (analyticsConfig.useCookieConsent === true) {
+      while (!window.CookieConsent) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
+
+      if (window.CookieConsent.acceptedCategory('analytics')) {
+        window.gtag('consent', 'update', {
+          ad_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          analytics_storage: 'granted',
+        });
+      }
     }
   }
 
-  // Check consent when page loads
+  // Initialize consent when page loads
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initAnalytics);
   } else {
@@ -117,6 +217,16 @@ const analyticsConfig = {
       }
     });
   }
+
+  // Listen for opt-out changes
+  window.addEventListener('analytics-opt-out-changed', function (e) {
+    if (analyticsConfig.debug) console.log('Analytics opt-out changed:', e.detail);
+    if (e.detail.optedOut) {
+      // User opted out - reload page to clear analytics
+      if (analyticsConfig.debug) console.log('Reloading page to clear analytics scripts');
+      window.location.reload();
+    }
+  });
 
   // Handle page navigation (for SPAs/View Transitions)
   window.addEventListener('astro:page-load', initAnalytics);

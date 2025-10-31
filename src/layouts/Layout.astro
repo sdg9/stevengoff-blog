@@ -1,5 +1,10 @@
 ---
 import '~/assets/styles/tailwind.css';
+import '@fontsource-variable/inter';
+// Load fonts with font-display: swap (already configured in fontsource)
+import '@fontsource/playfair-display/400.css';
+import '@fontsource/playfair-display/700.css';
+import '@fontsource-variable/montserrat';
 
 import { I18N, ANALYTICS } from 'astrowind:config';
 
@@ -25,6 +30,7 @@ export interface Props {
 const { metadata = {} } = Astro.props;
 const { language, textDirection } = I18N;
 const useCookieConsent = ANALYTICS?.useCookieConsent ?? true;
+const { needsConsent } = Astro.locals;
 ---
 
 <!doctype html>
@@ -37,13 +43,23 @@ const useCookieConsent = ANALYTICS?.useCookieConsent ?? true;
     <Metadata {...metadata} />
     <SiteVerification />
     <Analytics />
-    {useCookieConsent && <CookieConsent />}
+    {
+      /* Show cookie banner based on config:
+       * - true: always show
+       * - 'eu-only': only show for EU/UK/CH users
+       * - false: never show
+       */
+      (useCookieConsent === true || (useCookieConsent === 'eu-only' && needsConsent)) && <CookieConsent />
+    }
+
+    <!-- Custom page-specific head content -->
+    <slot name="head" />
 
     <!-- Comment the line below to disable View Transitions -->
     <ClientRouter fallback="swap" />
   </head>
 
-  <body class="antialiased text-default bg-page tracking-tight">
+  <body class="antialiased text-default bg-page tracking-tight overflow-x-hidden">
     <slot />
 
     <BasicScripts />
