@@ -15,6 +15,8 @@ import astrowind from './vendor/integration';
 
 import { readingTimeRemarkPlugin, responsiveTablesRehypePlugin, lazyImagesRehypePlugin } from './src/utils/frontmatter';
 
+import sentry from '@sentry/astro';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const hasExternalScripts = false;
@@ -65,6 +67,13 @@ export default defineConfig({
 
     astrowind({
       config: './src/config.yaml',
+    }),
+
+    sentry({
+      // TODO: sgoff0 - update me with new projects
+      project: 'TODO',
+      org: 'web-town-hero-llc',
+      authToken: process.env.SENTRY_AUTH_TOKEN,
     }),
   ],
 
