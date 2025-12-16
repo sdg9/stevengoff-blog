@@ -45,17 +45,78 @@ const gtagId = ANALYTICS?.vendors?.googleAnalytics?.id;
 
 <!-- Analytics scripts will be loaded conditionally based on cookie consent -->
 <script type="module" define:vars={{ analyticsConfig }}>
-  // Function to get cookie value
-  function getCookie(name) {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop().split(';').shift();
-    return null;
+  /**
+   * Check if user needs GDPR consent based on geo-location.
+   * Only calls the API when useCookieConsent === 'eu-only'.
+   * Results are cached in localStorage for 24 hours.
+   */
+  async function checkNeedsConsent() {
+    // No consent needed if disabled
+    if (!analyticsConfig.useCookieConsent) {
+      return false;
+    }
+
+    // Always show consent if set to true
+    if (analyticsConfig.useCookieConsent === true) {
+      return true;
+    }
+
+    // 'eu-only' mode - check geo location
+    // Check localStorage cache first
+    const cached = localStorage.getItem('geo_consent_check');
+    if (cached) {
+      try {
+        const { needsConsent, timestamp } = JSON.parse(cached);
+        // Cache valid for 24 hours
+        if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
+          return needsConsent;
+        }
+      } catch (e) {
+        // Invalid cache, continue to API call
+      }
+    }
+
+    try {
+      const response = await fetch('/api/geo');
+      const data = await response.json();
+
+      // Cache the result
+      localStorage.setItem(
+        'geo_consent_check',
+        JSON.stringify({
+          needsConsent: data.needsConsent,
+          country: data.country,
+          timestamp: Date.now(),
+        })
+      );
+
+      return data.needsConsent;
+    } catch (error) {
+      // If API fails, default to showing consent (safer for compliance)
+      if (analyticsConfig.debug) console.warn('Geo check failed, defaulting to show consent:', error);
+      return true;
+    }
   }
 
-  // Function to check if user needs consent (EU/UK/CH)
-  function needsConsent() {
-    return getCookie('needs_consent') === '1';
+  // Synchronous version for backward compatibility (uses cached value or defaults)
+  function needsConsentSync() {
+    if (!analyticsConfig.useCookieConsent) return false;
+    if (analyticsConfig.useCookieConsent === true) return true;
+
+    // For 'eu-only', check cache
+    const cached = localStorage.getItem('geo_consent_check');
+    if (cached) {
+      try {
+        const { needsConsent, timestamp } = JSON.parse(cached);
+        if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
+          return needsConsent;
+        }
+      } catch (e) {
+        // Invalid cache
+      }
+    }
+    // Default to needing consent if no cache (will be updated async)
+    return true;
   }
 
   // Function to check opt-out status
@@ -65,7 +126,7 @@ const gtagId = ANALYTICS?.vendors?.googleAnalytics?.id;
   }
 
   // Update consent based on geo-location and opt-out status
-  function updateInitialConsent() {
+  async function updateInitialConsent() {
     if (!window.gtag) return;
 
     // Check if user has opted out via privacy page
@@ -88,14 +149,20 @@ const gtagId = ANALYTICS?.vendors?.googleAnalytics?.id;
       });
     }
 
-    // For non-EU users with 'eu-only' mode who haven't opted out, grant consent immediately
-    if (analyticsConfig.useCookieConsent === 'eu-only' && !needsConsent()) {
-      window.gtag('consent', 'update', {
-        ad_storage: 'granted',
-        ad_user_data: 'granted',
-        ad_personalization: 'granted',
-        analytics_storage: 'granted',
-      });
+    // For 'eu-only' mode, check geo-location (async API call)
+    if (analyticsConfig.useCookieConsent === 'eu-only') {
+      const needsConsentResult = await checkNeedsConsent();
+      if (!needsConsentResult) {
+        // Non-EU user - grant consent immediately
+        window.gtag('consent', 'update', {
+          ad_storage: 'granted',
+          ad_user_data: 'granted',
+          ad_personalization: 'granted',
+          analytics_storage: 'granted',
+        });
+      }
+      // EU users will need to interact with the cookie banner
+      return;
     }
 
     // For users without consent requirements and no opt-out, grant consent
@@ -171,13 +238,13 @@ const gtagId = ANALYTICS?.vendors?.googleAnalytics?.id;
     if (analyticsConfig.debug) {
       console.log('Initializing consent state', {
         useCookieConsent: analyticsConfig.useCookieConsent,
-        needsConsent: needsConsent(),
+        needsConsent: needsConsentSync(), // Use sync version for logging
         hasOptedOut: hasOptedOutOfAnalytics(),
       });
     }
 
-    // Update consent state based on configuration
-    updateInitialConsent();
+    // Update consent state based on configuration (async for 'eu-only' mode)
+    await updateInitialConsent();
 
     // Load Plausible if configured
     if (analyticsConfig.plausible.domain && analyticsConfig.plausible.src) {

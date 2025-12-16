@@ -30,7 +30,6 @@ export interface Props {
 const { metadata = {} } = Astro.props;
 const { language, textDirection } = I18N;
 const useCookieConsent = ANALYTICS?.useCookieConsent ?? true;
-const { needsConsent } = Astro.locals;
 ---
 
 <!doctype html>
@@ -45,11 +44,12 @@ const { needsConsent } = Astro.locals;
     <Analytics />
     {
       /* Show cookie banner based on config:
-       * - true: always show
-       * - 'eu-only': only show for EU/UK/CH users
+       * - true: always show to all users
+       * - 'eu-only': render component, Analytics.astro handles geo-detection client-side
+       *              and auto-grants consent for non-EU users before banner can show
        * - false: never show
        */
-      (useCookieConsent === true || (useCookieConsent === 'eu-only' && needsConsent)) && <CookieConsent />
+      useCookieConsent && <CookieConsent />
     }
 
     <!-- Custom page-specific head content -->
