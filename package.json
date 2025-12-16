@@ -27,7 +27,7 @@
     "update-template": "git fetch template web-town-hero:web-town-hero && git rebase web-town-hero"
   },
   "dependencies": {
-    "@astrojs/rss": "^4.0.13",
+    "@astrojs/rss": "^4.0.14",
     "@astrojs/sitemap": "^3.6.0",
     "@astrolib/analytics": "^0.6.1",
     "@astrolib/seo": "^1.0.0-beta.8",
@@ -36,7 +36,7 @@
     "@fontsource/playfair-display": "^5.2.8",
     "@sentry/astro": "^10.17.0",
     "@tailwindcss/vite": "^4.0.10",
-    "astro": "^5.15.3",
+    "astro": "^5.16.5",
     "astro-embed": "^0.9.0",
     "astro-icon": "^1.1.5",
     "limax": "4.1.0",
@@ -45,8 +45,8 @@
     "vanilla-cookieconsent": "^3.1.0"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.5",
-    "@astrojs/mdx": "4.3.9",
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/mdx": "4.3.13",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/tailwind": "^6.0.2",
     "@eslint/js": "^9.24.0",
