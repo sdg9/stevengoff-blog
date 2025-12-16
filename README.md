@@ -160,3 +160,7 @@ ui:
 
 - <https://coolors.co/>
 - <https://contrast-grid.eightshapes.com/>
+
+# If using Google Analytics with region banner
+
+See middleware.ts JSDocs, as this relies on cloudflare's SSR rather than static generation.

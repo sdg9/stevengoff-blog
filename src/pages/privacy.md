@@ -182,4 +182,111 @@ You are advised to review this Privacy Policy periodically for any changes. Chan
 
 If you have any questions about this Privacy Policy, You can contact us:
 
-- By email: somecoolemail@domain.com
+- By email: <somecoolemail@domain.com>
+
+---
+
+<h2 id="analytics-opt-out">Analytics Opt-Out</h2>
+
+Manage your analytics tracking preferences below. When you opt-out, we will not collect analytics data about your browsing behavior on our website.
+
+<div id="analytics-opt-out-controls" class="analytics-opt-out-box">
+  <p><strong>Current Status:</strong> <span id="opt-out-status">Checking...</span></p>
+  <button id="opt-out-button" style="margin-top: 1rem; padding: 0.75rem 1.5rem; background: #333; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1rem;">
+    Loading...
+  </button>
+  <p id="opt-out-message" style="margin-top: 1rem; font-size: 0.9rem;"></p>
+</div>
+
+<style>
+  .analytics-opt-out-box {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background: #f9f9f9;
+    border: 1px solid #e5e5e5;
+  }
+
+  .dark .analytics-opt-out-box {
+    background: #1a1a1a;
+    border-color: #404040;
+  }
+
+  .analytics-opt-out-box p {
+    color: #333;
+  }
+
+  .dark .analytics-opt-out-box p {
+    color: #e5e5e5;
+  }
+
+  #opt-out-message {
+    color: #666 !important;
+  }
+
+  .dark #opt-out-message {
+    color: #999 !important;
+  }
+</style>
+
+<script>
+  // Analytics opt-out management
+  const OPT_OUT_KEY = 'analytics-opt-out';
+
+  function hasOptedOut() {
+    return localStorage.getItem(OPT_OUT_KEY) === 'true';
+  }
+
+  function setOptOut(optOut) {
+    localStorage.setItem(OPT_OUT_KEY, optOut ? 'true' : 'false');
+
+    // Update Google Consent Mode if available
+    if (window.updateGoogleConsent) {
+      window.updateGoogleConsent(!optOut);
+    }
+
+    window.dispatchEvent(new CustomEvent('analytics-opt-out-changed', {
+      detail: { optedOut: optOut }
+    }));
+  }
+
+  function updateUI() {
+    const status = document.getElementById('opt-out-status');
+    const button = document.getElementById('opt-out-button');
+    const message = document.getElementById('opt-out-message');
+    const isOptedOut = hasOptedOut();
+
+    if (status) {
+      status.textContent = isOptedOut ? 'Opted Out (Analytics Disabled)' : 'Active (Analytics Enabled)';
+      status.style.color = isOptedOut ? '#16a34a' : '#dc2626';
+      status.style.fontWeight = 'bold';
+    }
+
+    if (button) {
+      button.textContent = isOptedOut ? 'Enable Analytics Tracking' : 'Opt-Out of Analytics';
+      button.style.background = isOptedOut ? '#16a34a' : '#dc2626';
+      button.onclick = () => {
+        const newOptOut = !isOptedOut;
+        setOptOut(newOptOut);
+        if (message) {
+          message.textContent = newOptOut
+            ? '✓ You have successfully opted out of analytics tracking. Changes applied immediately.'
+            : '✓ Analytics tracking has been enabled. Changes applied immediately.';
+          message.style.color = '#16a34a';
+        }
+        // Update UI after short delay
+        setTimeout(() => {
+          updateUI();
+          if (message) message.textContent = '';
+        }, 2000);
+      };
+    }
+  }
+
+  // Initialize on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateUI);
+  } else {
+    updateUI();
+  }
+</script>
