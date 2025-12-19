@@ -21,7 +21,47 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
     // Make CookieConsent available globally
     window.CookieConsent = CookieConsent;
 
-    run(config);
+    async function initCookieConsent() {
+      // Check localStorage cache first
+      const cached = localStorage.getItem('geo_consent_check');
+      if (cached) {
+        try {
+          const { needsConsent, timestamp } = JSON.parse(cached);
+          if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
+            if (needsConsent) run(config);
+            return;
+          }
+        } catch (e) {
+          /* Invalid cache, continue */
+        }
+      }
+
+      // Call geo API
+      try {
+        const response = await fetch('/api/geo');
+        const data = await response.json();
+
+        // Cache result
+        localStorage.setItem(
+          'geo_consent_check',
+          JSON.stringify({
+            needsConsent: data.needsConsent,
+            country: data.country,
+            timestamp: Date.now(),
+          })
+        );
+
+        // Only show banner if EU/UK/CH
+        if (data.needsConsent) {
+          run(config);
+        }
+      } catch (error) {
+        // API failed - don't show banner
+        console.warn('Geo check failed, not showing cookie banner:', error);
+      }
+    }
+
+    initCookieConsent();
 
     // Important, the plugin adds classes to the html tag,
     // so we need keep track of the className attribute.
