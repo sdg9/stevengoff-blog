@@ -9,6 +9,7 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
     import { run } from 'vanilla-cookieconsent';
     import * as CookieConsent from 'vanilla-cookieconsent';
     import { config } from './CookieConsentConfig';
+    import { checkGeoConsent } from '~/utils/geoCheck';
 
     // Extend the Window interface to include our custom properties
     declare global {
@@ -22,37 +23,9 @@ import 'vanilla-cookieconsent/dist/cookieconsent.css';
     window.CookieConsent = CookieConsent;
 
     async function initCookieConsent() {
-      // Check localStorage cache first
-      const cached = localStorage.getItem('geo_consent_check');
-      if (cached) {
-        try {
-          const { needsConsent, timestamp } = JSON.parse(cached);
-          if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
-            if (needsConsent) run(config);
-            return;
-          }
-        } catch (e) {
-          /* Invalid cache, continue */
-        }
-      }
-
-      // Call geo API
       try {
-        const response = await fetch('/api/geo');
-        const data = await response.json();
-
-        // Cache result
-        localStorage.setItem(
-          'geo_consent_check',
-          JSON.stringify({
-            needsConsent: data.needsConsent,
-            country: data.country,
-            timestamp: Date.now(),
-          })
-        );
-
-        // Only show banner if EU/UK/CH
-        if (data.needsConsent) {
+        const { needsConsent } = await checkGeoConsent();
+        if (needsConsent) {
           run(config);
         }
       } catch (error) {

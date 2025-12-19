@@ -45,10 +45,11 @@ const gtagId = ANALYTICS?.vendors?.googleAnalytics?.id;
 
 <!-- Analytics scripts will be loaded conditionally based on cookie consent -->
 <script type="module" define:vars={{ analyticsConfig }}>
+  import { checkGeoConsent } from '~/utils/geoCheck';
+
   /**
    * Check if user needs GDPR consent based on geo-location.
-   * Only calls the API when useCookieConsent === 'eu-only'.
-   * Results are cached in localStorage for 24 hours.
+   * Uses shared utility with singleton pattern to prevent duplicate API calls.
    */
   async function checkNeedsConsent() {
     // No consent needed if disabled
@@ -61,36 +62,10 @@ const gtagId = ANALYTICS?.vendors?.googleAnalytics?.id;
       return true;
     }
 
-    // 'eu-only' mode - check geo location
-    // Check localStorage cache first
-    const cached = localStorage.getItem('geo_consent_check');
-    if (cached) {
-      try {
-        const { needsConsent, timestamp } = JSON.parse(cached);
-        // Cache valid for 24 hours
-        if (Date.now() - timestamp < 24 * 60 * 60 * 1000) {
-          return needsConsent;
-        }
-      } catch (e) {
-        // Invalid cache, continue to API call
-      }
-    }
-
+    // 'eu-only' mode - use shared geo check utility
     try {
-      const response = await fetch('/api/geo');
-      const data = await response.json();
-
-      // Cache the result
-      localStorage.setItem(
-        'geo_consent_check',
-        JSON.stringify({
-          needsConsent: data.needsConsent,
-          country: data.country,
-          timestamp: Date.now(),
-        })
-      );
-
-      return data.needsConsent;
+      const { needsConsent } = await checkGeoConsent();
+      return needsConsent;
     } catch (error) {
       // If API fails, default to showing consent (safer for compliance)
       if (analyticsConfig.debug) console.warn('Geo check failed, defaulting to show consent:', error);
