@@ -15,7 +15,7 @@ tags:
 
 ## When Side Projects Meet Day Job (2022-2023)
 
-The game dev intensity had faded. I was in a different headspace—less about building worlds and more about building tools. The kind of projects that scratch very specific itches.
+The game dev intensity had faded. I was in a different headspace, less about building worlds and more about building tools. The kind of projects that scratch very specific itches.
 
 This era split neatly into two streams: developer tools that actually helped my team at work, and gaming utilities that helped me optimize my hobbies.
 
@@ -23,7 +23,7 @@ This era split neatly into two streams: developer tools that actually helped my 
 
 Let me tell you about Mezzo.
 
-At Walmart Labs, there was this mocking framework called Midway, part of their Test Armada suite. When I joined my current company, I missed having something like it. Mobile development—especially React Native—desperately needs good API mocking. Testing against real backends is slow, flaky, and often impossible when the backend team is two sprints behind you.
+At Walmart Labs, there was this mocking framework called Midway, part of their Test Armada suite. When I joined my current company, I missed having something like it. Mobile development (especially React Native) desperately needs good API mocking. Testing against real backends is slow, flaky, and often impossible when the backend team is two sprints behind you.
 
 So I built Mezzo.
 
@@ -36,9 +36,9 @@ So I built Mezzo.
 I open-sourced it. I wrote documentation. I gave it a real shot.
 
 The commits tell the story:
-- **Q2 2022**: 179 commits on Mezzo—the big push
-- **Q3 2022**: 18 commits—versioned components experiments
-- **Q1 2023**: 8 more commits—maintenance mode
+- **Q2 2022**: 179 commits on Mezzo (the big push)
+- **Q3 2022**: 18 commits (versioned components experiments)
+- **Q1 2023**: 8 more commits (maintenance mode)
 
 ### The Adoption Problem
 
@@ -76,9 +76,9 @@ Sometimes side projects aren't fun. They're just necessary.
 
 Then Payday 3 was announced.
 
-I'd struck gold with Payday 2—millions of visitors, an NDA with the studio, actual revenue. The formula seemed repeatable. Make a skill calculator before anyone else, be the go-to resource, profit.
+I'd struck gold with Payday 2: millions of visitors, an NDA with the studio, actual revenue. The formula seemed repeatable. Make a skill calculator before anyone else, be the go-to resource, profit.
 
-I even rallied a team this time. Four developers total—coworkers and gaming friends. `caribou-crew/pd3skills` started taking shape. We were organized. We had meetings. This was going to be bigger than the original.
+I even rallied a team this time. Four developers total, coworkers and gaming friends. `caribou-crew/pd3skills` started taking shape. We were organized. We had meetings. This was going to be bigger than the original.
 
 Then Payday 3 launched.
 

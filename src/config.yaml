@@ -1,6 +1,6 @@
 site:
-  name: My Awesome Site
-  site: https://example.com
+  name: Steven's Dev Blog
+  site: https://stevengoff.dev
   base: /
   trailingSlash: false
   googleSiteVerificationId: ""
@@ -15,14 +15,14 @@ site:
     iframeDomain: https://brand.webtownhero.com
 metadata:
   title:
-    default: My Awesome Site
-    template: "%s — My Awesome Site"
-  description: A modern, fast, and accessible website built with Astro and Tailwind CSS.
+    default: Steven's Dev Blog
+    template: "%s — Steven's Dev Blog"
+  description: 10 years of side projects, game dev experiments, and digital Legos. A developer's journey through tinkering, learning, and occasionally shipping.
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: My Awesome Site
+    site_name: Steven's Dev Blog
     images:
       - url: ~/assets/images/default.png
         width: 1200
@@ -70,4 +70,4 @@ analytics:
       domain: null
       src: null
 ui:
-  theme: system
+  theme: dark:only

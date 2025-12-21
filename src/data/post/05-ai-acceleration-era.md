@@ -55,7 +55,7 @@ Q4 2024 shows 268 commits on `NodeBuster`. This was fun.
 
 The game NodeBuster was a puzzle game written in Godot. I reverse-engineered it, got it running, and then started modifying it to be co-op. The original was designed for single player, but I wanted to play it with friends and family.
 
-It ran on phones. It ran on Linux. The netcode actually worked. I had fun with it for a while, then—like most projects—moved on when something shinier appeared.
+It ran on phones. It ran on Linux. The netcode actually worked. I had fun with it for a while, then (like most projects) moved on when something shinier appeared.
 
 ### The AI Thesis
 
@@ -67,7 +67,7 @@ I have two choices:
 1. Stay an employee and hope I'm not one of the displaced
 2. Ride the wave as a business owner, leveraging AI as a multiplier
 
-I saw a guy on Reddit posting about making multiple six figures just building websites for small businesses. Nothing complicated—just solid, functional websites. And I realized: I could do that. I already knew how to build things. AI would just make me faster.
+I saw a guy on Reddit posting about making multiple six figures just building websites for small businesses. Nothing complicated, just solid, functional websites. And I realized: I could do that. I already knew how to build things. AI would just make me faster.
 
 So I started **Web Town Hero**.
 
@@ -114,7 +114,7 @@ Later that same day, I made a mobile toilet-themed football game. You're a pixel
 
 **Two playable games in one day.**
 
-That would've been impossible two years ago. Not because I couldn't code—but because the *time* required would've been prohibitive. AI collapsed weeks of work into hours.
+That would've been impossible two years ago. Not because I couldn't code, but because the *time* required would've been prohibitive. AI collapsed weeks of work into hours.
 
 ### The Philosophy Remains
 
@@ -128,7 +128,7 @@ None of it needs to be the next billion-dollar startup. It just needs to be usef
 
 ### Looking Forward
 
-The web agency keeps growing. I'm hoping it can become substantial enough to be a real option if something happens with my day job. Not because I want to leave—I don't—but because having options is valuable.
+The web agency keeps growing. I'm hoping it can become substantial enough to be a real option if something happens with my day job. Not because I want to leave (I don't) but because having options is valuable.
 
 The game development continues. CardCoalition/html5-coop-digital-card-game is still evolving. I still want to play a co-op Slay the Spire with my friends.
 
@@ -162,4 +162,4 @@ Everything else is just details.
 
 ---
 
-*Thanks for reading this five-part retrospective of my side project journey. If you're a fellow tinkerer, I hope seeing the messy reality—the abandoned projects, the scattered focus, the bursts and lulls—is encouraging. You don't need a polished success story. You just need to keep building.*
+*Thanks for reading this five-part retrospective of my side project journey. If you're a fellow tinkerer, I hope seeing the messy reality (the abandoned projects, the scattered focus, the bursts and lulls) is encouraging. You don't need a polished success story. You just need to keep building.*

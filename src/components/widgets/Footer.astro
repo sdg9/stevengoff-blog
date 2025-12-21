@@ -29,15 +29,12 @@ const { socialLinks = [], links = [], footNote = '', branding } = Astro.props;
 
 // Default social links if none provided
 const defaultSocialLinks = [
-  { ariaLabel: 'Twitter', href: 'https://twitter.com/webtownhero', icon: 'tabler:brand-twitter' },
-  { ariaLabel: 'Instagram', href: 'https://instagram.com/webtownhero', icon: 'tabler:brand-instagram' },
-  { ariaLabel: 'LinkedIn', href: 'https://linkedin.com/company/webtownhero', icon: 'tabler:brand-linkedin' },
-  { ariaLabel: 'Facebook', href: 'https://facebook.com/webtownhero', icon: 'tabler:brand-facebook' },
+  { ariaLabel: 'GitHub', href: 'https://github.com/sdg9', icon: 'tabler:brand-github' },
 ];
 
 const finalSocialLinks = socialLinks.length > 0 ? socialLinks : defaultSocialLinks;
 const tagline =
-  branding?.tagline || 'Crafting performant, professional websites for local businesses at an affordable monthly rate.';
+  branding?.tagline || '10 years of side projects, tinkering, and treating programming like digital Legos.';
 ---
 
 <footer class="relative border-t border-border not-prose">
@@ -124,14 +121,8 @@ const tagline =
           {footNote || `© ${new Date().getFullYear()} ${SITE?.name}. All rights reserved.`}
         </div>
 
-        <!-- Legal Links -->
+        <!-- Links -->
         <div class="flex flex-wrap gap-6 text-sm">
-          <a href="/privacy" class="text-muted-foreground hover:text-foreground transition duration-150 ease-in-out"
-            >Privacy Policy</a
-          >
-          <a href="/terms" class="text-muted-foreground hover:text-foreground transition duration-150 ease-in-out"
-            >Terms of Service</a
-          >
           <a
             href="/sitemap-index.xml"
             class="text-muted-foreground hover:text-foreground transition duration-150 ease-in-out">Sitemap</a

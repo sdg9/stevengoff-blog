@@ -2,7 +2,7 @@
 publishDate: 2025-12-17T00:00:00Z
 author: Steven Goff
 title: "The Game Dev Deep Dive: Slay the Spire, Among Us, and Learning Kubernetes for Fun"
-excerpt: 698 commits in a single quarter. Proximity-based chat, spreading alien viruses, and finally answering a question I'd wondered about since childhood—how do games actually work?
+excerpt: 698 commits in a single quarter. Proximity-based chat, spreading alien viruses, and finally answering a question I'd wondered about since childhood: how do games actually work?
 image: https://images.unsplash.com/photo-1556438064-2d7646166914?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80
 category: Retrospective
 tags:
@@ -15,11 +15,11 @@ tags:
 
 ## A Childhood Question Finally Answered (2019-2021)
 
-My fascination with computers started as a young child with video games. Not playing them—wondering *how they worked*.
+My fascination with computers started as a young child with video games. Not playing them, but wondering *how they worked*.
 
 I vividly remember playing Mario and clicking jump, thinking: "Okay, in the computer system, I'm saying I want to jump. Is it pre-programmed at every possible spot in the game that if I click jump, I'll move a certain height?" That seemed impossibly complex. There had to be some logic that would work no matter where I was, as long as I was on the ground.
 
-That question—*how does this actually work?*—never really left me. It just evolved. How does Mario Kart give last-place players a boost? Why does the last bullet in some games' clips deal extra damage? These invisible mechanics fascinated me.
+That question (*how does this actually work?*) never really left me. It just evolved. How does Mario Kart give last-place players a boost? Why does the last bullet in some games' clips deal extra damage? These invisible mechanics fascinated me.
 
 Building my own games, decades later, was finally paying homage to my younger self.
 
@@ -32,7 +32,7 @@ Thus began `Coop-Deckbuilder`.
 The plan was to learn Kotlin while building it. Two birds, one stone. The numbers tell the story:
 - **Q2 2019**: 194 commits on Coop-Deckbuilder
 - **Q3 2019**: 114 more commits
-- **Q2 2023**: CardCoalition (385 commits)—same concept, fresh restart years later
+- **Q2 2023**: CardCoalition (385 commits), same concept, fresh restart years later
 
 That's the thing about game development as a hobby. You never really finish. You just come back to the same ideas with more experience.
 
@@ -42,13 +42,13 @@ Then Among Us happened.
 
 Like everyone else in 2020, I was hooked. But unlike most players, I was hooked on the *mechanics*. The social deduction. The spreading paranoia. The proximity chat that some lobbies used.
 
-I wanted to build my own version. A spin-off with an alien virus that would spread—so the infected team would *grow* as the game played. Paranoia would compound as more and more players switched sides.
+I wanted to build my own version. A spin-off with an alien virus that would spread, so the infected team would *grow* as the game played. Paranoia would compound as more and more players switched sides.
 
 This became **Pathogenesis**.
 
 ### Learning Kubernetes the Hard Way
 
-Pathogenesis needed multiplayer. Not just any multiplayer—I wanted lobby systems, matchmaking, auto-scaling based on player count.
+Pathogenesis needed multiplayer. Not just any multiplayer. I wanted lobby systems, matchmaking, auto-scaling based on player count.
 
 I discovered Agones, a framework for hosting game servers on Kubernetes. It could keep warm game instances ready and scale up as players connected.
 
@@ -81,9 +81,9 @@ Q4 2020 was insane.
 **698 commits in a single quarter.** My most active period until 2025's AI explosion.
 
 The repos tell the story:
-- `ECSNetworkingCardGame`: 273 commits—rebuilding the card game with an Entity Component System architecture
-- `pathogenesis`: 251 commits—still grinding on the Among Us inspired game
-- `AdventOfCode`: 112 commits—because apparently I needed a break from games to solve puzzles
+- `ECSNetworkingCardGame`: 273 commits, rebuilding the card game with an Entity Component System architecture
+- `pathogenesis`: 251 commits, still grinding on the Among Us inspired game
+- `AdventOfCode`: 112 commits (because apparently I needed a break from games to solve puzzles)
 
 I was working full-time, had a growing family, and still finding hours to pour into these projects. Looking back, I'm not sure how I did it. Coffee, probably.
 
@@ -91,13 +91,13 @@ I was working full-time, had a growing family, and still finding hours to pour i
 
 The `ECSNetworkingCardGame` project was fascinating. Entity Component Systems are a game development pattern where you separate data (components) from logic (systems). It's particularly powerful for multiplayer because you can easily serialize and sync entity state.
 
-I was building a co-op card game—think Slay the Spire meets Pandemic—and wanted the networking to be solid from the start. The architecture took forever to get right, but when it clicked? *Chef's kiss.*
+I was building a co-op card game (think Slay the Spire meets Pandemic) and wanted the networking to be solid from the start. The architecture took forever to get right, but when it clicked? *Chef's kiss.*
 
 You could play on phones. On Linux. The netcode actually worked (most of the time).
 
 ### Why This Era Mattered
 
-This period was the most technically challenging of my side project career. I wasn't just building apps or websites—I was learning:
+This period was the most technically challenging of my side project career. I wasn't just building apps or websites. I was learning:
 - Game development patterns (ECS, game loops, state machines)
 - Multiplayer networking (latency compensation, state synchronization)
 - DevOps and infrastructure (Kubernetes, container orchestration)
@@ -109,7 +109,7 @@ And honestly? It was the most fun I'd had programming in years.
 
 ### The Quiet After
 
-By mid-2021, the intensity dropped off. Q2 2021 shows just 4 commits—a `BestBuyCrawler` because (yes) I was trying to snag a GPU during the great shortage.
+By mid-2021, the intensity dropped off. Q2 2021 shows just 4 commits on a `BestBuyCrawler` because (yes) I was trying to snag a GPU during the great shortage.
 
 Q3 2021? Seventeen commits on `AlgorithmPrep`. Classic "maybe I should get better at interviews" energy.
 

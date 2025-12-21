@@ -7,13 +7,13 @@ export const headerData = {
       href: getPermalink('/'),
     },
     {
+      text: 'Blog',
+      href: getBlogPermalink(),
+    },
+    {
       text: 'About',
       href: getPermalink('/about'),
     },
-    {
-      text: 'Contact',
-      href: getPermalink('/contact'),
-    }
   ]
 };
 
@@ -23,23 +23,14 @@ export const footerData = {
       title: 'Pages',
       links: [
         { text: 'Home', href: getPermalink('/') },
+        { text: 'Blog', href: getBlogPermalink() },
         { text: 'About', href: getPermalink('/about') },
-        { text: 'Contact', href: getPermalink('/contact') }
       ]
     },
-    {
-      title: 'Legal',
-      links: [
-        { text: 'Terms', href: getPermalink('/terms') },
-        { text: 'Privacy Policy', href: getPermalink('/privacy') }
-      ]
-    }
   ],
-  secondaryLinks: [
-    
-  ],
+  secondaryLinks: [],
   socialLinks: [
-    
+    { ariaLabel: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/sdg9' },
   ],
-  footNote: ``,
+  footNote: `Made with Astro. Programming is digital Legos.`,
 };
