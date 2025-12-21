@@ -1,412 +1,379 @@
 ---
-import Layout from '~/layouts/PageLayout.astro';
+import PageLayout from '~/layouts/PageLayout.astro';
 
+// import Header from '~/components/widgets/Header.astro';
 import Hero from '~/components/widgets/Hero.astro';
-import Note from '~/components/widgets/Note.astro';
-import Features from '~/components/widgets/Features.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import Steps from '~/components/widgets/Steps.astro';
 import Content from '~/components/widgets/Content.astro';
-import BlogLatestPosts from '~/components/widgets/BlogLatestPosts.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
-import Stats from '~/components/widgets/Stats.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
-
-import { getPermalink } from '~/utils/permalinks';
+import Features from '~/components/widgets/Features.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import Testimonials from '~/components/widgets/Testimonials.astro';
+import Steps from '~/components/widgets/Steps.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import Contact from '~/components/widgets/Contact.astro';
+// import { getPermalink } from '~/utils/permalinks';
 
 const metadata = {
-  title: 'AstroWind — Free template for creating websites with Astro + Tailwind CSS',
+  title: 'Professional Counseling Services - Mental Health Support',
+  description:
+    'Compassionate, professional counseling services for individuals, couples, and families. Start your journey to better mental health with experienced therapists.',
   ignoreTitleTemplate: true,
 };
 ---
 
-<Layout metadata={metadata}>
+<PageLayout metadata={metadata}>
+  <!-- <Fragment slot="announcement"></Fragment>
+  <Fragment slot="header">
+    <Header
+      links={[
+        { text: 'Home', href: '#' },
+        { text: 'About', href: '#about' },
+        { text: 'Services', href: '#services' },
+        { text: 'Approach', href: '#approach' },
+        { text: 'Testimonials', href: '#testimonials' },
+        { text: 'FAQ', href: '#faq' },
+        { text: 'Contact', href: '#contact' },
+      ]}
+      actions={[
+        {
+          text: 'Book Consultation',
+          href: '#contact',
+          variant: 'primary',
+        },
+      ]}
+      isSticky
+      showToggleTheme
+    />
+  </Fragment> -->
+
   <!-- Hero Widget ******************* -->
 
   <Hero
+    id="hero"
+    title="Find Your Path to Healing"
+    tagline="Professional Counseling Services"
     actions={[
-      {
-        variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/onwidget/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
-      },
-      { text: 'Learn more', href: '#features' },
+      { variant: 'primary', text: 'Schedule Consultation', href: '#contact' },
+      { text: 'Learn More', href: '#about' },
     ]}
-    image={{ src: '~/assets/images/hero-image.png', alt: 'AstroWind Hero Image' }}
   >
-    <Fragment slot="title">
-      Free template for <span class="hidden xl:inline">creating websites with</span>
-      <span class="text-accent dark:text-white"> Astro 5.0</span> + Tailwind CSS
+    <Fragment slot="subtitle">
+      Welcome to a safe space where healing begins. Our experienced therapists provide compassionate, evidence-based
+      counseling to help you navigate life's challenges and discover your inner strength.
+      <br /><br />
+      <span class="text-sm font-medium">✓ Licensed Professional Counselors</span> •
+      <span class="text-sm font-medium">✓ Confidential & Safe Environment</span> •
+      <span class="text-sm font-medium">✓ Flexible Scheduling</span>
     </Fragment>
 
-    <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">AstroWind</span> is a free, customizable and production-ready template for Astro 5.0
-        + Tailwind CSS.</span
-      >
-      <span class="block mb-1 sm:hidden font-bold text-blue-600">AstroWind: Production-ready.</span>
-      Suitable for Startups, Small Business, SaaS websites, Professional Portfolios, Marketing websites, Landing Pages &
-      Blogs.
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <img
+          class="w-full h-full object-cover"
+          src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&h=1080&q=80"
+          alt="Peaceful counseling environment"
+        />
+        <div class="absolute inset-0 bg-gray-900/60"></div>
+      </div>
     </Fragment>
   </Hero>
 
-  <!-- Note Widget ******************* -->
+  <!-- Content Widget **************** -->
 
-  <Note title="Philosophy:" description="Simplicity, Best Practices and High Performance" />
+  <Content
+    id="about"
+    tagline="About Our Practice"
+    title="Your Mental Health Journey Starts Here"
+    items={[
+      {
+        title: 'Compassionate Care',
+        description: 'We believe in meeting you where you are with empathy and understanding.',
+      },
+      {
+        title: 'Evidence-Based Therapy',
+        description: 'Our approaches are grounded in proven therapeutic methods and research.',
+      },
+      {
+        title: 'Personalized Treatment',
+        description: 'Every treatment plan is tailored to your unique needs and goals.',
+      },
+    ]}
+    image={{
+      src: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      alt: 'Therapist consultation',
+      loading: 'eager',
+    }}
+  >
+    <Fragment slot="content">
+      <h2 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
+        Creating a Safe Space for Healing
+      </h2>
+      <p>
+        Our practice is built on the foundation that everyone deserves access to quality mental health care. We
+        understand that taking the first step can be difficult, which is why we've created a welcoming, non-judgmental
+        environment where you can feel safe to explore your thoughts and emotions.
+      </p>
+      <br />
+      <p>
+        With over 15 years of combined experience, our team of licensed therapists specializes in a wide range of mental
+        health concerns, using proven therapeutic techniques to help you achieve lasting positive change.
+      </p>
+    </Fragment>
+
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-50 dark:bg-slate-800"></div>
+    </Fragment>
+  </Content>
 
   <!-- Features Widget *************** -->
 
   <Features
-    id="features"
-    tagline="Features"
-    title="What you get with AstroWind"
-    subtitle="One of the most professional and comprehensive templates currently on the market. Most starred & forked Astro theme in 2022, 2023 and 2024."
+    id="services"
+    tagline="Our Services"
+    title="Comprehensive Mental Health Support"
+    subtitle="We offer a full range of counseling services to meet your unique needs"
     items={[
       {
-        title: 'Astro + Tailwind CSS Integration',
-        description:
-          'A seamless integration between two great frameworks that offer high productivity, performance and versatility.',
-        icon: 'tabler:brand-tailwind',
+        title: 'Individual Therapy',
+        description: 'One-on-one sessions focused on your personal growth and healing journey.',
+        icon: 'tabler:user',
       },
       {
-        title: 'Ready-to-use Components',
-        description:
-          'Widgets made with Tailwind CSS ready to be used in Marketing Websites, SaaS, Blogs, Personal Profiles, Small Business...',
-        icon: 'tabler:components',
+        title: 'Couples Counseling',
+        description: 'Strengthen your relationship through improved communication and understanding.',
+        icon: 'tabler:heart-handshake',
       },
       {
-        title: 'Best Practices',
-        description:
-          'Creating secure, efficient, and user-friendly websites that deliver exceptional experiences and lasting value.',
-        icon: 'tabler:list-check',
+        title: 'Family Therapy',
+        description: 'Heal family dynamics and improve relationships within your family system.',
+        icon: 'tabler:home-heart',
       },
       {
-        title: 'Excellent Page Speed',
-        description:
-          'Having a good page speed impacts organic search ranking, improves user experience (UI/UX) and increase conversion rates.',
-        icon: 'tabler:rocket',
+        title: 'Group Therapy',
+        description: 'Connect with others facing similar challenges in a supportive group setting.',
+        icon: 'tabler:users',
       },
       {
-        title: 'Search Engine Optimization (SEO)',
-        description:
-          "SEO lies in its ability to enhance a website's visibility, driving organic traffic and enabling it to reach a wider audience.",
-        icon: 'tabler:arrows-right-left',
+        title: 'Trauma Recovery',
+        description: 'Specialized care for those healing from traumatic experiences using EMDR and other methods.',
+        icon: 'tabler:shield-heart',
       },
       {
-        title: 'Open to new ideas and contributions',
-        description:
-          'Embracing a culture that is open to new ideas and contributions is integral fostering innovation, collaboration, and a dynamic user experience.',
-        icon: 'tabler:bulb',
+        title: 'Anxiety & Depression',
+        description: 'Evidence-based treatments for anxiety disorders and depression management.',
+        icon: 'tabler:brain',
       },
     ]}
   />
 
-  <!-- Content Widget **************** -->
+  <!-- Features3 Widget ************** -->
 
-  <Content
-    isReversed
-    tagline="Inside template"
-    title="AstroWind's Blueprint: Fun Meets Functionality!"
+  <Features3
+    id="approach"
+    title="Our Therapeutic Approach"
+    subtitle="We integrate multiple evidence-based therapeutic modalities to provide you with the most effective treatment"
+    columns={3}
     items={[
       {
-        title: 'Built on top of Astro 5.0',
-        description:
-          'Benefiting from the performance and developer-friendly features of this modern static site generator.',
+        title: 'Cognitive Behavioral Therapy (CBT)',
+        description: 'Transform negative thought patterns and behaviors that impact your daily life.',
+        icon: 'tabler:brain',
       },
       {
-        title: 'Styled using Tailwind CSS',
-        description:
-          'Facilitating rapid design and consistent styling with this highly popular utility-first CSS framework.',
+        title: 'Dialectical Behavior Therapy (DBT)',
+        description: 'Learn mindfulness and emotional regulation skills for better life management.',
+        icon: 'tabler:leaf',
       },
       {
-        title: 'Cross-browser compatibility',
-        description:
-          'Ensure your website looks and functions consistently across various web browsers, delivering a seamless experience to all users.',
+        title: 'EMDR Therapy',
+        description: 'Process traumatic memories through guided eye movements and bilateral stimulation.',
+        icon: 'tabler:eye',
+      },
+      {
+        title: 'Solution-Focused Brief Therapy',
+        description: 'Goal-oriented approach focusing on solutions rather than problems.',
+        icon: 'tabler:target',
+      },
+      {
+        title: 'Mindfulness-Based Interventions',
+        description: 'Cultivate present-moment awareness and reduce stress through mindfulness practices.',
+        icon: 'tabler:yin-yang',
+      },
+      {
+        title: 'Humanistic Approach',
+        description: 'Client-centered therapy that honors your inherent capacity for growth and healing.',
+        icon: 'tabler:heart',
       },
     ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Colorful Image',
-    }}
-  >
-    <Fragment slot="content">
-      <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">Building on modern foundations</h3>
-      Gain a competitive advantage by incorporating industry leading practices
-    </Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isAfterContent
-    items={[
-      {
-        title: 'High level of customization',
-        description: `Tailor the template effortlessly to match your brand's identity and requirements, making your website distinct and saving you time.`,
-      },
-      {
-        title: 'Multiple layout possibilities',
-        description:
-          'Explore various layout options to find the structure that best presents your content, enhancing user engagement and navigation.',
-      },
-      {
-        title: 'Fully responsive design',
-        description:
-          "Ensure your website's optimal performance on various devices and screen sizes, providing a consistent and enjoyable user experience.",
-      },
-      {
-        title: 'Integration of media',
-        description:
-          'Seamlessly incorporate images, videos, and multimedia elements that enhance your content and engage visitors effectively.',
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1600132806370-bf17e65e942f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2194&q=80',
-      alt: 'Blueprint Image',
-    }}
-  >
-    <Fragment slot="content">Ensure your online presence truly represents you.</Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
-
-  <!-- Content Widget **************** -->
-
-  <Content
-    isReversed
-    isAfterContent
-    items={[
-      {
-        title: 'Enhanced user engagement',
-        description:
-          'Captivate your audience with interactive elements, intuitive navigation, and visually appealing layouts, encouraging longer visits.',
-      },
-      {
-        title: 'Continuous improvement',
-        description:
-          'Ensure your website stays aligned with the latest trends and technologies through regular updates and enhancements.',
-      },
-      {
-        title: 'Time and resource efficiency',
-        description:
-          'Skip the time-consuming process of building a website from scratch and launch your online presence sooner with AstroWind.',
-      },
-      {
-        title: 'Community support',
-        description: `Join the growing AstroWind community for insights, resources, and assistance, ensuring you're never alone on your web development journey.`,
-      },
-    ]}
-    image={{
-      src: 'https://images.unsplash.com/photo-1611462985358-60d3498e0364?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-      alt: 'Astronauts Image',
-    }}
-  >
-    <Fragment slot="content">Designed to foster growth and success.</Fragment>
-
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Content>
+  />
 
   <!-- Steps Widget ****************** -->
 
   <Steps
-    title="Get your dream website up and running in no time with AstroWind."
+    title="Getting Started is Simple"
     items={[
       {
-        title: 'Step 1: <span class="font-medium">Download</span>',
+        title: 'Step 1: <span class="font-medium">Initial Contact</span>',
         description:
-          "Kickstart with GitHub! Either fork the AstroWind template or simply click 'Use this template'. Your canvas awaits, ready for your digital masterpiece. In just a few clicks, you've already set the foundation.",
-        icon: 'tabler:package',
+          "Reach out to us via phone, email, or our online form. We'll discuss your needs and answer any questions.",
+        icon: 'tabler:phone',
       },
       {
-        title: 'Step 2: <span class="font-medium">Add content</span>',
-        description:
-          "Pour your vision into it. Add images, text, and all that jazz to breathe life into your digital space. Remember, it's the content that tells your story, so make it captivating.",
-        icon: 'tabler:letter-case',
+        title: 'Step 2: <span class="font-medium">Free Consultation</span>',
+        description: "Schedule a brief consultation to determine if we're a good fit and discuss treatment options.",
+        icon: 'tabler:calendar',
       },
       {
-        title: 'Step 3: <span class="font-medium">Customize styles</span>',
-        description:
-          'Give it your personal touch. Tailor colors, fonts, and layouts until it feels just right. Your unique flair, amplified by AstroWind! Precision in design ensures a seamless user experience.',
-        icon: 'tabler:paint',
+        title: 'Step 3: <span class="font-medium">First Appointment</span>',
+        description: 'Begin your therapeutic journey with a comprehensive assessment and goal setting session.',
+        icon: 'tabler:clipboard',
       },
       {
-        title: 'Ready!',
-        icon: 'tabler:check',
+        title: 'Step 4: <span class="font-medium">Ongoing Support</span>',
+        description: 'Continue with regular sessions as we work together toward your mental health goals.',
+        icon: 'tabler:growth',
       },
     ]}
     image={{
-      src: 'https://images.unsplash.com/photo-1616198814651-e71f960c3180?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80',
-      alt: 'Steps image',
+      src: 'https://images.unsplash.com/photo-1516627145497-ae56461c2c94?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+      alt: 'Steps to mental wellness',
     }}
   />
 
-  <!-- Features2 Widget ************** -->
+  <!-- Testimonials Widget *********** -->
 
-  <Features2
-    title="Most used widgets"
-    subtitle="Provides frequently used components for building websites using Tailwind CSS"
-    tagline="Components"
-    items={[
+  <Testimonials
+    id="testimonials"
+    title="What Our Clients Say"
+    subtitle="Real stories of healing and growth from our community"
+    testimonials={[
       {
-        title: 'Headers',
-        description: "Ever tried driving without GPS? Boom! That's why websites need headers for direction.",
-        icon: 'flat-color-icons:template',
-      },
-      {
-        title: 'Heros',
-        description:
-          "Picture a superhero landing – epic, right? That's the job of a Hero section, making grand entrances!",
-        icon: 'flat-color-icons:gallery',
-      },
-      {
-        title: 'Features',
-        description:
-          'Where websites strut their stuff and show off superpowers. No holding back on the bragging rights here!',
-        icon: 'flat-color-icons:approval',
-      },
-      {
-        title: 'Content',
-        description:
-          "Dive into the meat and potatoes of a site; without it, you'd just be window shopping. Content is king.",
-        icon: 'flat-color-icons:document',
-      },
-      {
-        title: 'Call-to-Action',
-        description:
-          'That enthusiastic friend who\'s always urging, "Do it! Do it!"? Yeah, that\'s this button nudging you towards adventure.',
-        icon: 'flat-color-icons:advertising',
-      },
-      {
-        title: 'Pricing',
-        description: 'Behold the dessert menu of the website world. Tempting choices await, can you resist?',
-        icon: 'flat-color-icons:currency-exchange',
-      },
-      {
-        title: 'Testimonial',
-        description: 'Step into the gossip corner! Here, other visitors spill the beans and share the juicy details.',
-        icon: 'flat-color-icons:voice-presentation',
-      },
-      {
-        title: 'Contact',
-        description:
-          'Like a digital mailbox, but faster! Drop a line, ask a question, or send a virtual high-five. Ding! Message in.',
-        icon: 'flat-color-icons:business-contact',
-      },
-      {
-        title: 'Color Palettes',
-        description:
-          'Explore accessibility-focused color tools! Test contrast ratios and discover AAA-compliant colors with our interactive color wheel.',
-        icon: 'tabler:palette',
-        callToAction: {
-          text: 'Try Color Tools',
-          href: getPermalink('color-palettes'),
-          variant: 'link',
+        testimonial: `The support I received here changed my life. The therapist created such a safe space where I could finally open up about my anxiety. I learned practical tools that I use every day.`,
+        name: 'Sarah M.',
+        job: 'Marketing Professional',
+        image: {
+          src: 'https://images.unsplash.com/photo-1619734086067-24bf8889ea7d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+          alt: 'Sarah M.',
         },
       },
       {
-        title: 'Footers',
-        description: "The footer's like the credits of a movie but sprinkled with easter eggs. Time to hunt!",
-        icon: 'flat-color-icons:database',
+        testimonial: `Couples counseling saved our marriage. We learned how to communicate effectively and work through our differences. We're stronger than ever now.`,
+        name: 'Mike & Lisa K.',
+        job: 'Married 12 Years',
+        image: {
+          src: 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+          alt: 'Mike and Lisa K.',
+        },
+      },
+      {
+        testimonial: `After years of struggling with depression, I finally found hope again. The therapist's approach was exactly what I needed. I'm grateful for this journey.`,
+        name: 'David R.',
+        job: 'Teacher',
+        image: {
+          src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80',
+          alt: 'David R.',
+        },
       },
     ]}
-  >
-    <Fragment slot="bg">
-      <div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div>
-    </Fragment>
-  </Features2>
-
-  <!-- HighlightedPosts Widget ******* -->
-
-  <BlogLatestPosts
-    title="Find out more content in our Blog"
-    information={`The blog is used to display AstroWind documentation.
-                        Each new article will be an important step that you will need to know to be an expert in creating a website using Astro + Tailwind CSS.
-                        Astro is a very interesting technology. Thanks.
-                `}
   />
 
   <!-- FAQs Widget ******************* -->
 
   <FAQs
+    id="faq"
     title="Frequently Asked Questions"
-    subtitle="Dive into the following questions to gain insights into the powerful features that AstroWind offers and how it can elevate your web development journey."
-    tagline="FAQs"
+    subtitle="Common questions about our counseling services"
+    tagline="FAQ"
     classes={{ container: 'max-w-6xl' }}
     items={[
       {
-        title: 'Why AstroWind?',
+        title: 'How do I know if counseling is right for me?',
         description:
-          "Michael Knight a young loner on a crusade to champion the cause of the innocent. The helpless. The powerless in a world of criminals who operate above the law. Here he comes Here comes Speed Racer. He's a demon on wheels.",
+          "If you're experiencing emotional distress, relationship difficulties, life transitions, or simply want to grow personally, counseling can be beneficial. Many people find it helpful even when they're functioning well but want additional support.",
       },
       {
-        title: 'What do I need to start?',
+        title: 'What can I expect in my first session?',
         description:
-          'Space, the final frontier. These are the voyages of the Starship Enterprise. Its five-year mission: to explore strange new worlds. Many say exploration is part of our destiny, but it’s actually our duty to future generations.',
+          "Your first session will focus on getting to know you and understanding your concerns. We'll discuss your goals, history, and what brought you to therapy. This helps us create a personalized treatment plan together.",
       },
       {
-        title: 'How to install the Astro + Tailwind CSS template?',
+        title: 'How long does therapy typically take?',
         description:
-          "Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to the people who make shows, and on the strength of that one show they decide if they're going to make more shows.",
+          "The duration of therapy varies depending on your individual needs and goals. Some people benefit from short-term therapy (8-12 sessions), while others prefer longer-term support. We'll regularly check in about your progress.",
       },
       {
-        title: "What's something that you don't understand?",
+        title: 'Do you accept insurance?',
         description:
-          "A flower in my garden, a mystery in my panties. Heart attack never stopped old Big Bear. I didn't even know we were calling him Big Bear.",
+          'We accept most major insurance plans. We also offer sliding scale fees for those who qualify. Our staff can help verify your benefits and explain your coverage before your first appointment.',
       },
       {
-        title: 'What is something that you would like to try again?',
+        title: 'Is everything I share completely confidential?',
         description:
-          "A business big enough that it could be listed on the NASDAQ goes belly up. Disappears! It ceases to exist without me. No, you clearly don't know who you're talking to, so let me clue you in.",
+          "Yes, confidentiality is fundamental to therapy. What you share is protected by law, with very limited exceptions (such as imminent danger to self or others). We'll explain these boundaries clearly during your first visit.",
       },
       {
-        title: 'If you could only ask one question to each person you meet, what would that question be?',
+        title: 'Do you offer online therapy sessions?',
         description:
-          "This is not about revenge. This is about justice. A lot of things can change in twelve years, Admiral. Well, that's certainly good to know. About four years. I got tired of hearing how young I looked.",
+          'Yes, we offer secure video therapy sessions for your convenience. Online therapy can be just as effective as in-person sessions and provides flexibility for busy schedules or those who prefer meeting from home.',
       },
     ]}
   />
 
-  <!-- Stats Widget ****************** -->
+  <!-- Contact Widget **************** -->
 
-  <Stats
-    stats={[
-      { title: 'Downloads', amount: '132K' },
-      { title: 'Stars', amount: '24.8K' },
-      { title: 'Forks', amount: '10.3K' },
-      { title: 'Users', amount: '48.4K' },
+  <Contact
+    id="contact"
+    title="Ready to Begin Your Journey?"
+    subtitle="Take the first step toward better mental health today"
+    inputs={[
+      {
+        type: 'text',
+        name: 'name',
+        label: 'Name',
+      },
+      {
+        type: 'email',
+        name: 'email',
+        label: 'Email',
+      },
+      {
+        type: 'tel',
+        name: 'phone',
+        label: 'Phone',
+      },
     ]}
+    textarea={{
+      label: 'How can we help you?',
+      name: 'message',
+      placeholder: 'Tell us briefly about what brings you to counseling or any questions you have...',
+    }}
+    disclaimer={{
+      label:
+        'By submitting this form, you agree to our privacy policy and understand that this is not a crisis hotline. For immediate assistance, please call 988 (Suicide & Crisis Lifeline) or 911.',
+    }}
+    description="We'll respond to your message within 24 hours. All communications are confidential."
   />
 
   <!-- CallToAction Widget *********** -->
 
   <CallToAction
+    title="Don't Wait – Your Mental Health Matters"
+    subtitle="Every journey begins with a single step. Let us walk alongside you toward healing and growth."
     actions={[
       {
         variant: 'primary',
-        text: 'Get template',
-        href: 'https://github.com/onwidget/astrowind',
-        target: '_blank',
-        icon: 'tabler:download',
+        text: 'Schedule Consultation',
+        href: '#contact',
+      },
+      {
+        variant: 'secondary',
+        text: 'Call Us: (555) 123-HELP',
+        href: 'tel:+15551234357',
       },
     ]}
   >
-    <Fragment slot="title">
-      Astro&nbsp;+&nbsp;<br class="block sm:hidden" /><span class="sm:whitespace-nowrap">Tailwind CSS</span>
-    </Fragment>
-
-    <Fragment slot="subtitle">
-      Be very surprised by these huge fake numbers you are seeing on this page. <br class="hidden md:inline" />Don't
-      waste more time! :P
+    <Fragment slot="bg">
+      <div class="absolute inset-0 bg-blue-900 dark:bg-transparent"></div>
     </Fragment>
   </CallToAction>
-</Layout>
+</PageLayout>

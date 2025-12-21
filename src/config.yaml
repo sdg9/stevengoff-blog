@@ -1,96 +1,73 @@
 site:
-  name: AstroWind
-  site: 'https://astrowind.vercel.app'
-  base: '/'
+  name: My Awesome Site
+  site: https://example.com
+  base: /
   trailingSlash: false
-
   googleSiteVerificationId: ""
-
-  # Contact information (optional)
   contact:
     address: ""
     phone: ""
     email: ""
-
-  # Contact form configuration
   contactForm:
-    formEndpoint: "https://forms.webtownhero.com/contact"
-    formId: "bluerainlily"
-  
+    formEndpoint: https://forms.webtownhero.com/contact
+    formId: bluerainlily
   goHighLevel:
-    # GoHighLevel form configuration
-    # formId: NL9Bb6WQnwj5r3z8hxam
-    # locationId: BBm4w69gyxUSoTBDhuhF
     iframeDomain: https://brand.webtownhero.com
-    # Chat widget ID for GoHighLevel
-    # chatWidgetId: 687db4a4afd5326f76f86aa8
-    # formTerms: "By submitting this form, you acknowledge and agree to the collection of your personal information for the purpose of responding to your inquiry."
-
-# Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+    default: My Awesome Site
+    template: "%s — My Awesome Site"
+  description: A modern, fast, and accessible website built with Astro and Tailwind CSS.
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: My Awesome Site
     images:
-      - url: '~/assets/images/default.png'
+      - url: ~/assets/images/default.png
         width: 1200
         height: 628
     type: website
   twitter:
-    handle: '@onwidget'
-    site: '@onwidget'
+    handle: "@onwidget"
+    site: "@onwidget"
     cardType: summary_large_image
-
 i18n:
   language: en
   textDirection: ltr
-
 apps:
   blog:
-    isEnabled: true
+    isEnabled: false
     postsPerPage: 6
-
     post:
       isEnabled: true
-      permalink: '/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
+      permalink: /%slug%
       robots:
         index: true
-
     list:
       isEnabled: true
-      pathname: 'blog' # Blog main path, you can change this to "articles" (/articles)
+      pathname: blog
       robots:
         index: true
-
     category:
       isEnabled: true
-      pathname: 'category' # Category main path /category/some-category, you can change this to "group" (/group/some-category)
+      pathname: category
       robots:
         index: true
-
     tag:
       isEnabled: true
-      pathname: 'tag' # Tag main path /tag/some-tag, you can change this to "topics" (/topics/some-category)
+      pathname: tag
       robots:
         index: false
-
     isRelatedPostsEnabled: true
     relatedPostsCount: 4
-
 analytics:
-  useCookieConsent: false # Set to false to load analytics immediately without cookie consent
+  useCookieConsent: false
   vendors:
     googleAnalytics:
-      id: null # or "G-XXXXXXXXXX"
+      id: null
     plausible:
-      domain: null # or "yourdomain.com"
-      src: null # or "https://plausible.io/js/script.js" or your custom plausible instance
-
+      domain: null
+      src: null
 ui:
-  theme: 'system' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"
+  theme: system
