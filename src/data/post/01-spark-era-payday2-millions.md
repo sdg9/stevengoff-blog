@@ -80,4 +80,4 @@ The Payday 2 calculator was never about money. It was about playing with code, s
 
 ---
 
-*This is Part 1 of my retrospective series looking back at 10 years of side projects. Next up: The Smart Home Era, where I learned to 3D print sensor cases and automate my entire house.*
+*This is Part 1 of my retrospective series looking back at 20 years of side projects. Next up: The Smart Home Era, where I learned to 3D print sensor cases and automate my entire house.*

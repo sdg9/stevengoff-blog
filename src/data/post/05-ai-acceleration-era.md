@@ -134,7 +134,7 @@ The game development continues. CardCoalition/html5-coop-digital-card-game is st
 
 And the random projects will keep coming. That's just who I am.
 
-### Ten Years of Digital Legos
+### Twenty Years of Digital Legos
 
 Looking back at this retrospective, a few things stand out:
 
@@ -148,7 +148,7 @@ Looking back at this retrospective, a few things stand out:
 
 **Family makes it better.** The Walgreens sticker moment. Making games with my kids. My wife suggesting the Android app that paid for our pizza. The best side project memories involve the people I love.
 
-### The Next Ten Years
+### The Next Twenty Years
 
 I don't know what I'll be building in 2035. The technology landscape will be unrecognizable. AI will be doing things we can't imagine. My kids will be teenagers with their own interests.
 

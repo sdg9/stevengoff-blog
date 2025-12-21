@@ -17,7 +17,7 @@ metadata:
   title:
     default: Steven's Dev Blog
     template: "%s — Steven's Dev Blog"
-  description: 10 years of side projects, game dev experiments, and digital Legos. A developer's journey through tinkering, learning, and occasionally shipping.
+  description: 20 years of side projects, game dev experiments, and digital Legos. A developer's journey through tinkering, learning, and occasionally shipping.
   robots:
     index: true
     follow: true
