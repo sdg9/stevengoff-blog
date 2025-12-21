@@ -1,0 +1,39 @@
+---
+import { Icon } from 'astro-icon/components';
+
+export interface Props {
+  prevUrl?: string;
+  nextUrl?: string;
+}
+
+const { prevUrl, nextUrl } = Astro.props;
+---
+
+{
+  (prevUrl || nextUrl) && (
+    <nav class="flex justify-between mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
+      <div>
+        {prevUrl && (
+          <a
+            href={prevUrl}
+            class="flex items-center gap-2 text-primary hover:underline dark:text-blue-400 font-medium"
+          >
+            <Icon name="tabler:arrow-left" class="w-5 h-5" />
+            <span>Previous Page</span>
+          </a>
+        )}
+      </div>
+      <div>
+        {nextUrl && (
+          <a
+            href={nextUrl}
+            class="flex items-center gap-2 text-primary hover:underline dark:text-blue-400 font-medium"
+          >
+            <span>Next Page</span>
+            <Icon name="tabler:arrow-right" class="w-5 h-5" />
+          </a>
+        )}
+      </div>
+    </nav>
+  )
+}

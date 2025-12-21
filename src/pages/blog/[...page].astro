@@ -1,0 +1,31 @@
+---
+import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
+import PageLayout from '~/layouts/PageLayout.astro';
+import BlogList from '~/components/blog/List.astro';
+
+import { getStaticPathsBlogList, blogListRobots } from '~/utils/blog';
+import { SITE } from 'astrowind:config';
+
+export const prerender = true;
+
+export const getStaticPaths = (async ({ paginate }) => {
+  return await getStaticPathsBlogList({ paginate });
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { page } = Astro.props;
+
+const metadata = {
+  title: `Blog${page && page.currentPage > 1 ? ` — Page ${page.currentPage}` : ''}`,
+  description: 'Thoughts, stories, and ideas from my coding journey.',
+  robots: blogListRobots,
+  openGraph: {
+    type: 'blog',
+  },
+};
+---
+
+<PageLayout metadata={metadata}>
+  <BlogList page={page} />
+</PageLayout>

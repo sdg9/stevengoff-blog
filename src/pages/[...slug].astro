@@ -1,0 +1,51 @@
+---
+import type { InferGetStaticPropsType, GetStaticPaths } from 'astro';
+import merge from 'lodash.merge';
+import type { MetaData } from '~/types';
+import PageLayout from '~/layouts/PageLayout.astro';
+import SinglePost from '~/components/blog/SinglePost.astro';
+
+import { getStaticPathsBlogPost, blogPostRobots } from '~/utils/blog';
+
+export const prerender = true;
+
+export const getStaticPaths = (async () => {
+  const paths = await getStaticPathsBlogPost();
+  // Map 'blog' param to 'slug' param and filter out empty permalinks
+  return paths
+    .filter((p) => p.params.blog && p.params.blog.length > 0)
+    .map((p) => ({
+      params: { slug: p.params.blog },
+      props: p.props,
+    }));
+}) satisfies GetStaticPaths;
+
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { post } = Astro.props;
+
+const metadata: MetaData = merge(
+  {
+    title: post.title,
+    description: post.excerpt,
+    robots: blogPostRobots,
+    openGraph: post.image
+      ? {
+          type: 'article',
+          images: [
+            {
+              url: typeof post.image === 'string' ? post.image : post.image?.src,
+            },
+          ],
+        }
+      : undefined,
+  },
+  post?.metadata || {}
+);
+
+const url = Astro.url;
+---
+
+<PageLayout metadata={metadata}>
+  <SinglePost post={post} url={url} />
+</PageLayout>
