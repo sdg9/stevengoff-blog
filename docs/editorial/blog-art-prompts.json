@@ -1,0 +1,62 @@
+[
+  {
+    "id": "01",
+    "prompt": "Use case: stylized-concept. Create a wide 16:9 editorial blog cover, polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy backdrop, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a tiny retro computer displaying a branching skill-tree made of glowing connected nodes, beside a heist vault, a few coins and a slice of pizza; represents a hobby game skill calculator becoming a successful side project. Strong single central composition, generous edge breathing room for crops, visually readable at thumbnail size. No text, letters, logos, watermarks. Conceptual illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/01-spark-era-payday2-millions.webp"
+  },
+  {
+    "id": "02",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a cutaway smart home with glowing sensor connections, a miniature circuit board, and property assessment papers with a small balance scale; neighborhood automation and fair property taxes. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/02-smart-home-tax-crusader.webp"
+  },
+  {
+    "id": "03",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a miniature game world under construction, floating playing cards, tiny astronaut figures linked by luminous multiplayer paths, and a cluster of server cubes beneath the terrain; exploring game mechanics and networking. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/03-game-dev-deep-dive.webp"
+  },
+  {
+    "id": "04",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a maker workbench with a neatly organized fantasy loot inventory grid, a scanning light over a magical sword, and modular testing blocks on a computer; tools for developers and gamers. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/04-developer-tools-gaming-tools.webp"
+  },
+  {
+    "id": "05",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a tiny creative production workshop with a luminous central computing core powering two colorful miniature game worlds and a small storefront; rapid prototyping, family games and starting a web agency. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/05-ai-acceleration-era.webp"
+  },
+  {
+    "id": "06",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a glowing cyan reactor in the center of a circular science-fiction arena, an oversized luminous cursor arrow defending it against approaching geometric enemies, a game controller beside the arena; conceptual cover for Arcward, not actual gameplay. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/06-arcward-toward-steam.webp"
+  },
+  {
+    "id": "07",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a cozy moonlit miniature garden with a whimsical stacked-house tower, butterfly nets and glowing butterflies, two friendly game controllers in the foreground; accessible games for family couch play. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/07-family-games.webp"
+  },
+  {
+    "id": "08",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: three distinct miniature game worlds supported by a shared foundation of interlocking luminous mechanical modules, visible network connections and a controller-shaped input module; reusable game infrastructure. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/08-shared-bevy-foundation.webp"
+  },
+  {
+    "id": "09",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a miniature developer command desk with orderly floating task cards, a relay baton between two robotic tool arms, and a magnifying lens over a code-like abstract panel; keeping AI coding work organized and reviewed. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/09-ai-development-tools.webp"
+  },
+  {
+    "id": "10",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a playful miniature everyday-life desktop with a stroller beside a glowing timer, a colorful star sticker board, an open book and a calendar with colored blocks; useful small personal apps. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/10-everyday-apps.webp"
+  },
+  {
+    "id": "11",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a tiny charming town with a school, a vacation cottage and a storefront linked by luminous pathways to a central web workshop, small calendar and message icons; software that supports small businesses. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/11-web-town-hero-beyond-websites.webp"
+  },
+  {
+    "id": "12",
+    "prompt": "Use case: stylized-concept. Wide 16:9 editorial blog cover. Polished miniature isometric digital-workshop diorama, tactile clay and finely machined materials, dark navy background, luminous cyan, violet and warm amber accents, dramatic soft studio lighting, sophisticated playful craftsmanship. Subject: a miniature VR creative workshop with a headset, a tabletop board with snapped-in pieces, a friendly little holographic creature, and a jointed motion-capture mannequin beside a phone on a tripod; spatial computing and animation experiments. Strong unified central composition, generous edge breathing room for crops, readable at thumbnail size. No text, letters, logos, watermarks. Conceptual editorial illustration, not a screenshot.",
+    "asset": "src/assets/images/posts/12-vr-animation-workshop.webp"
+  }
+]

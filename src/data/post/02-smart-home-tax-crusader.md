@@ -3,7 +3,7 @@ publishDate: 2025-12-16T00:00:00Z
 author: Steven Goff
 title: "Smart Homes & Tax Crusades: When Side Projects Meet Real-World Impact"
 excerpt: 3D-printed sensor cases, Home Assistant automations, and going door-to-door helping strangers win property tax appeals. The story of when my tinkering habit actually started solving real problems.
-image: https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80
+image: ~/assets/images/posts/02-smart-home-tax-crusader.webp
 category: Retrospective
 tags:
   - home-automation

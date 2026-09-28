@@ -3,7 +3,7 @@ publishDate: 2025-12-18T00:00:00Z
 author: Steven Goff
 title: "Developer Tools & Gaming Utilities: Open Source, Inventory Managers, and Another Payday Sequel"
 excerpt: Building Mezzo (a mocking framework everyone at work loved), OCR inventory sorting for Diablo 4, and trying to recreate Payday 2 magic with Payday 3. Some projects succeed, some flop hard. Here's both.
-image: https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80
+image: ~/assets/images/posts/04-developer-tools-gaming-tools.webp
 category: Retrospective
 tags:
   - developer-tools

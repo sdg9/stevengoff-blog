@@ -3,6 +3,7 @@ publishDate: 2026-09-27T12:01:00Z
 author: Steven Goff
 title: 'Building Games My Family Can Actually Play'
 excerpt: 'A one-button tower, a moonlit game of hide-and-seek, and a camp full of butterfly nets are changing how I think about controls, assistance, and getting everyone into a game.'
+image: ~/assets/images/posts/07-family-games.webp
 category: Game Development
 tags:
   - family

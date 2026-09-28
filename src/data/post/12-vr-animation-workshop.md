@@ -3,6 +3,7 @@ publishDate: 2026-09-27T12:00:00Z
 author: Steven Goff
 title: 'My VR and Animation Workshop'
 excerpt: 'VR tabletops, shared-room creatures, superhero traversal, and phone-based motion capture are different experiments with a common problem: making digital things feel right when people interact with them.'
+image: ~/assets/images/posts/12-vr-animation-workshop.webp
 category: Game Development
 tags:
   - virtual-reality

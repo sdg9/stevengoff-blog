@@ -3,6 +3,7 @@ publishDate: 2026-09-27T12:00:00Z
 author: Steven Goff
 title: 'Small Apps I Keep Building for Everyday Life'
 excerpt: A stroller timer, a sticker board, a reader, a scheduling poll, and a stay-request calendar. Small apps keep reminding me that useful software starts with an ordinary problem and a few decisions made carefully.
+image: ~/assets/images/posts/10-everyday-apps.webp
 category: Side Projects
 tags:
   - personal-software

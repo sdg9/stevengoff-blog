@@ -3,7 +3,7 @@ publishDate: 2025-12-19T00:00:00Z
 author: Steven Goff
 title: "The AI Acceleration Era: Making Two Games in a Day and Starting a Web Agency"
 excerpt: 2,189 commits in Q3 2025 alone. Pokémon Vampire Survivors with my kids. A web agency hitting $1000/month in recurring revenue. When AI meets a tinkerer's mindset, everything accelerates.
-image: https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80
+image: ~/assets/images/posts/05-ai-acceleration-era.webp
 category: Retrospective
 tags:
   - ai

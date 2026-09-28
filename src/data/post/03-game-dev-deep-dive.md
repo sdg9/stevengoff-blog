@@ -3,7 +3,7 @@ publishDate: 2025-12-17T00:00:00Z
 author: Steven Goff
 title: "The Game Dev Deep Dive: Slay the Spire, Among Us, and Learning Kubernetes for Fun"
 excerpt: "698 commits in a single quarter. Proximity-based chat, spreading alien viruses, and finally answering a question I'd wondered about since childhood: how do games actually work?"
-image: https://images.unsplash.com/photo-1556438064-2d7646166914?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80
+image: ~/assets/images/posts/03-game-dev-deep-dive.webp
 category: Retrospective
 tags:
   - game-development
