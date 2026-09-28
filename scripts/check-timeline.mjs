@@ -17,5 +17,5 @@ for (const file of posts) {
   assert.ok(readFileSync(`dist/${slug}/index.html`, 'utf8').includes('<h1'), `Broken article: ${slug}`);
 }
 assert.ok(html.includes('timeline-mobile'), 'Provide a touch-friendly article list');
-assert.ok(html.includes('2014'), 'Include the earliest verified project');
+assert.ok(html.includes('id="year-2012"'), 'Include the newly recovered Bitbucket history');
 console.log(`Verified timeline coverage, article routes, and unique dates for ${posts.length} posts.`);

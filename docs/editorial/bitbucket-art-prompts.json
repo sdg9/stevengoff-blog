@@ -1,0 +1,40 @@
+{
+  "generator": "Built-in image_gen",
+  "images": [
+    {
+      "slug": "2012-dj-project",
+      "asset": "src/assets/images/posts/2012-dj-project.webp",
+      "prompt": "Wide landscape editorial blog cover. Overhead still life photograph-style illustration of a home music catalog workbench: vinyl records, paper song catalog cards, simple headphones and a small laptop with abstract rows on its screen. Cozy 2012 home computing feel, natural afternoon window light, warm wood, muted teal. No readable text, no brand logos, no people. Visually realistic materials. Concept art, not a screenshot."
+    },
+    {
+      "slug": "2013-card-game-online",
+      "asset": "src/assets/images/posts/2013-card-game-online.webp",
+      "prompt": "Wide landscape blog cover in charming isometric pixel art. A virtual tabletop floating against a midnight blue background, tiny playing cards and custom illustrated card backs arranged in piles, a small cursor moving one card, four empty player seats. 2013 indie web-game feeling, crisp deliberate pixel grid, cyan and lilac highlights, no text, no logos. Conceptual illustration for building an upload-your-own-cards online tabletop."
+    },
+    {
+      "slug": "2014-recipes",
+      "asset": "src/assets/images/posts/2014-recipes.webp",
+      "prompt": "Wide landscape editorial blog cover in cheerful cut-paper collage: vegetables, a recipe card with abstract lines, grocery checklist, measuring spoon, and a small browser-window shape arranged on cream paper. Flat tactile paper textures, tomato red, leaf green, butter yellow. No readable text or logos. About a homemade recipe and grocery-list web app."
+    },
+    {
+      "slug": "2015-spades",
+      "asset": "src/assets/images/posts/2015-spades.webp",
+      "prompt": "Wide landscape editorial blog cover in bold vintage linocut print style. Four hands of playing cards arranged around a green felt table, spade symbols prominent, tiny wooden counters marking turns and score. Deep forest green, ivory, black and restrained crimson, strong geometric composition and carved ink textures. No words or logos. About programming turn-based card game rules."
+    },
+    {
+      "slug": "2015-telestrations",
+      "asset": "src/assets/images/posts/2015-telestrations.webp",
+      "prompt": "Wide landscape editorial blog cover in loose colored-pencil and watercolor sketchbook style. Several overlapping small paper sketchbooks passed in a circle, each showing a funny different interpretation of the same simple house and cat drawing; pencils and eraser scattered nearby. Pastel sky blue, peach, golden yellow, white paper, airy composition. No people, no words, no logos. About developing a networked drawing-and-guessing party game."
+    },
+    {
+      "slug": "2015-halloween-react",
+      "asset": "src/assets/images/posts/2015-halloween-react.webp",
+      "prompt": "Create a wide landscape editorial blog cover, illustration-story. A warm, playful Halloween house party in 2015: friends seen as anonymous silhouettes gather around a television playing an abstract colorful party quiz, smartphones in hands, a small glowing jack-o-lantern on a coffee table. Hand-painted gouache with visible brush texture, autumn orange, plum and warm cream, lively human scene. No text, no logos, no recognizable people. This is conceptual art for a memoir about a party inspiring a programmer to build multiplayer games. Save the image as a usable project asset."
+    },
+    {
+      "slug": "2016-react-native-pilot",
+      "asset": "src/assets/images/posts/2016-react-native-pilot.webp",
+      "prompt": "Wide landscape editorial cover as elegant architectural pencil and blue ink drawing on pale drafting paper. Two different early smartphones, one Android-like and one iPhone-like without logos, share a central modular building structure under construction; two small anonymous builder figures at the workbench. Restrained technical sketch style, orange accents, spacious composition. Conceptual image about a two-person cross-platform mobile pilot becoming a team project. No readable text, no logos, no money imagery."
+    }
+  ]
+}

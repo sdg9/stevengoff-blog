@@ -23,7 +23,7 @@ A companion app needs the game information, but it also needs assets to arrive, 
 
 This archive entry belongs to that transition. The repository is evidence of the React Native implementation effort, not a timestamp for every sale or audience milestone in the larger story. Those memories cover a broader period.
 
-The project also makes a useful connection to the tools I would build later. A game supplied a reason to learn a mobile framework. Getting the app working supplied a reason to learn the surrounding build and delivery process.
+The project also makes a useful connection to the tools I would build later. The Payday app gave me another place to apply React Native after the [Halloween party and interview process](/2015-halloween-react) had introduced me to it. Getting the app working supplied a reason to learn the surrounding build and delivery process.
 
 That is still a good description of how I pick up technology: start with something I want to use, then follow the problems it creates.
 

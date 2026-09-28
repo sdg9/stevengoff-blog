@@ -1,8 +1,9 @@
 ---
 publishDate: 2025-12-15T00:00:00Z
+updateDate: 2026-09-28T12:00:00Z
 author: Steven Goff
 title: "The Spark Era: How a Payday 2 Skill Calculator Got Millions of Views and Paid for Pizza"
-excerpt: From a side project to an NDA with Overkill Studios. This is the story of how a simple skill calculator website launched my journey into side projects, React Native at work, and the realization that programming is just digital Legos.
+excerpt: From a side project to an NDA with Overkill Studios. This is the story of how a simple skill calculator website reached a huge community, paid for pizza, and became another place to put my growing mobile-development skills to work.
 image: ~/assets/images/posts/01-spark-era-payday2-millions.webp
 category: Retrospective
 tags:
@@ -13,11 +14,11 @@ tags:
   - entrepreneurship
 ---
 
-## The Era That Started It All (2016-2017)
+## More Than the GitHub Graph Showed
 
-Looking back at my GitHub activity from early 2016, you'd see almost nothing. A single commit to my vim config in Q1. A lone PR in Q2. The classic "I'm learning git" pattern that every developer recognizes.
+My early GitHub activity tells only part of this story. Before private GitHub repositories were free, I kept a lot of my projects on Bitbucket. That archive now reaches back to a [2012 music project](/2012-dj-project), with games and web apps in the years that followed.
 
-But behind the scenes, something was brewing that would change my entire trajectory.
+The Payday calculator was one of the side projects that reached far beyond my own computer.
 
 ### When Passion Meets Opportunity
 
@@ -55,18 +56,19 @@ I never got paid for the work. It was just early access and the thrill of being 
 
 After the Payday 2 success, I tried to replicate it with Heroes of the Storm. Made a similar app. It did okay, but never caught the same lightning. That's the nature of side projects: sometimes you catch the wave, sometimes you don't.
 
-The commit data from this era tells an interesting story:
-- **Q3 2016**: 12 commits on `pd2skills-app`, dabbling in mobile with React Native
-- **Q4 2016**: Quiet on GitHub, but learning and exploring
-- **Q1-Q2 2017**: Contributing to open source, starting to figure out this whole ecosystem
+The [July 2016 app commits](/2016-payday-mobile) capture one part of the mobile work. They are a development milestone, not the start date of every part of the Payday story.
 
-### The Real Impact: Bringing React Native to Work
+### The React Native Connection: A Halloween Detour
 
-While building the Payday 2 mobile apps, I'd discovered React Native. And I was immediately hooked. Write once, deploy to iOS and Android? Sign me up.
+There is an important correction to my original telling: I did not first discover React Native through the Payday apps.
 
-This wasn't just a side project skill. I brought it to my day job at a Fortune 500 financial company.
+The learning thread began at a **Halloween party in 2015**, playing Jackbox. I tried making a party game to learn React and Redis, then applied to Jellyvision. During that process, I learned about Redux and React Native. Some Volition employees from Champaign were at that party—a detail that makes the whole chain even more memorable.
 
-When I pitched React Native internally, they estimated it would save **$7-10 million per year** in development costs. By 2017, we were a React Native shop. That transition probably wouldn't have happened (at least not as early) if I hadn't been tinkering with Payday 2 skill calculators in my spare time.
+In January or February 2016, I pitched a React Native rewrite at Discover. That summer, I worked on a pilot with one intern. By December, we had started with a team; in January 2017, we got fully rolling with offshore colleagues too. I remember the eventual savings as **upwards of $10 million per year**.
+
+The Bitbucket repositories corroborate the late-2015 game development and the 2016 mobile prototypes. The party, interview, staffing, rollout, and savings are my recollections. The full story is now in [the Halloween entry](/2015-halloween-react) and [the React Native pilot entry](/2016-react-native-pilot).
+
+Payday was another place to put the framework to work. The spark for learning it came from that party.
 
 ### What I Learned
 
