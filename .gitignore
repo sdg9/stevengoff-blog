@@ -24,3 +24,6 @@ pnpm-lock.yaml
 .astro
 
 .template-repo
+
+# Private editorial evidence notes (reference omitted/sensitive details)
+docs/editorial/gap-sources/

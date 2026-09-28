@@ -14,7 +14,7 @@ const href = getPermalink(post.permalink, 'post');
 
 <article class="group card card-hover flex flex-col overflow-hidden">
   {
-    post.image && (
+    post.image ? (
       <div class="aspect-[16/9] overflow-hidden border-b border-border">
         <Image
           src={post.image}
@@ -27,6 +27,22 @@ const href = getPermalink(post.permalink, 'post');
           loading="lazy"
           decoding="async"
         />
+      </div>
+    ) : (
+      <div
+        class="relative aspect-[16/9] overflow-hidden border-b border-border bg-gradient-to-br from-primary/25 via-muted-bg to-secondary/20"
+        aria-hidden="true"
+      >
+        <div class="bg-grid absolute inset-0 opacity-60"></div>
+        <svg
+          class="absolute inset-0 m-auto w-16 h-16 opacity-80 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6"
+          viewBox="0 0 28 28"
+        >
+          <rect x="1" y="1" width="12" height="12" rx="3" fill="#8b9cff" />
+          <rect x="15" y="1" width="12" height="12" rx="3" fill="#22d3ee" />
+          <rect x="1" y="15" width="12" height="12" rx="3" fill="#f472b6" />
+          <rect x="15" y="15" width="12" height="12" rx="3" fill="#facc15" />
+        </svg>
       </div>
     )
   }
