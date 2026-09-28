@@ -8,13 +8,15 @@ const metadata = {
 ---
 
 <Layout metadata={metadata}>
-  <section class="py-16 md:py-20 px-4 sm:px-6">
+  <section class="relative py-16 md:py-24 px-4 sm:px-6">
+    <div class="bg-grid absolute inset-x-0 top-0 h-96 -z-10 pointer-events-none" aria-hidden="true"></div>
     <div class="max-w-3xl mx-auto">
-      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-8">About Me</h1>
+      <p class="meta mb-4">// about</p>
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-8">Hi, I'm <span class="text-gradient">Steven.</span></h1>
 
-      <div class="prose prose-lg dark:prose-invert max-w-none">
-        <p class="text-xl text-muted leading-relaxed mb-8">
-          I'm Steven—a husband, father of three young kids, follower of Jesus, and lifelong tinkerer
+      <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-heading prose-headings:tracking-tight prose-p:text-foreground/85 prose-li:text-foreground/85 prose-li:marker:text-primary">
+        <p class="!text-xl !text-muted leading-relaxed mb-8">
+          A husband, father of three young kids, follower of Jesus, and lifelong tinkerer
           who believes programming is just digital Legos.
         </p>
 
@@ -64,18 +66,19 @@ const metadata = {
         </p>
       </div>
 
-      <div class="mt-12 pt-8 border-t border-border">
-        <h3 class="text-lg font-semibold mb-4">Connect</h3>
-        <div class="flex gap-4">
-          <a
-            href="https://github.com/sdg9"
-            class="text-muted hover:text-primary transition-colors"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            GitHub →
-          </a>
+      <div class="card mt-14 p-6 md:p-8 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <p class="meta mb-1">// connect</p>
+          <p class="font-heading text-xl font-bold">See what I'm building right now.</p>
         </div>
+        <a
+          href="https://github.com/sdg9"
+          class="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-2.5 text-sm font-semibold text-background transition hover:opacity-90"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub →
+        </a>
       </div>
     </div>
   </section>

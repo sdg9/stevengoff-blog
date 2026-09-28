@@ -2,6 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import { SITE } from 'astrowind:config';
 import { getHomePermalink } from '~/utils/permalinks';
+import Logo from '~/components/Logo.astro';
 
 interface Link {
   text?: string;
@@ -37,98 +38,59 @@ const tagline =
   branding?.tagline || '20 years of side projects, tinkering, and treating programming like digital Legos.';
 ---
 
-<footer class="relative border-t border-border not-prose">
-  <div class="bg-background absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-  <div
-    class="relative max-w-7xl mx-auto px-4 sm:px-6 text-foreground intersect-once intersect-quarter intercept-no-queue motion-safe:md:opacity-0 motion-safe:md:intersect:animate-fade"
-  >
-    <!-- Professional Footer Layout with Branding Section Above -->
+<footer class="relative border-t border-border not-prose mt-12">
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 text-foreground">
+    <div class="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+      <div class="max-w-sm">
+        <a href={getHomePermalink()} class="inline-flex" aria-label={SITE?.name}><Logo /></a>
+        <p class="mt-4 text-sm text-muted leading-relaxed">{tagline}</p>
+      </div>
 
-    <!-- Top Section: Branding, Description, and Social Links -->
-    <div class="py-12 border-b border-border">
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
-        <!-- Left: Branding and Description -->
-        <div class="mb-6 lg:mb-0 lg:flex-1">
-          <div class="mb-4">
-            <a class="inline-block font-bold text-xl text-foreground" href={getHomePermalink()}>
-              {SITE?.name}
-            </a>
-          </div>
-          <p class="text-sm text-muted-foreground leading-relaxed max-w-md">
-            {tagline}
-          </p>
-        </div>
-
-        <!-- Right: Social Media Icons -->
+      <div class="flex gap-12">
+        {
+          links.map(({ title, links: sectionLinks }) => (
+            <div>
+              <h3 class="meta mb-4">{title}</h3>
+              <ul class="space-y-2.5">
+                {sectionLinks?.map(({ text, href }) => (
+                  <li>
+                    <a class="text-sm text-muted hover:text-foreground transition-colors" href={href}>
+                      {text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
         {
           finalSocialLinks?.length ? (
-            <div class="flex space-x-3">
-              {finalSocialLinks.map(({ ariaLabel, href, icon }) => (
-                <a
-                  class="text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50 rounded-lg p-2 transition duration-150 ease-in-out"
-                  aria-label={ariaLabel}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {icon && <Icon name={icon} class="w-5 h-5" />}
-                </a>
-              ))}
+            <div>
+              <h3 class="meta mb-4">Elsewhere</h3>
+              <ul class="space-y-2.5">
+                {finalSocialLinks.map(({ ariaLabel, href, icon }) => (
+                  <li>
+                    <a
+                      class="inline-flex items-center gap-2 text-sm text-muted hover:text-foreground transition-colors"
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {icon && <Icon name={icon} class="w-4 h-4" />}
+                      {ariaLabel}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           ) : null
         }
       </div>
     </div>
 
-    <!-- Bottom Section: 4-Column Navigation -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-8">
-      {
-        links.map(({ title, links: sectionLinks }) => (
-          <div>
-            <h3 class="text-foreground font-semibold mb-4">{title}</h3>
-            {title === 'Contact Us' ? (
-              <div class="flex items-center text-sm text-muted-foreground">
-                <Icon name={sectionLinks[0]?.icon || 'tabler:mail'} class="w-4 h-4 mr-2 flex-shrink-0" />
-                <a href={sectionLinks[0]?.href} class="hover:text-foreground transition duration-150 ease-in-out">
-                  {sectionLinks[0]?.text}
-                </a>
-              </div>
-            ) : (
-              <ul class="space-y-3">
-                {sectionLinks &&
-                  sectionLinks.map(({ text, href }) => (
-                    <li>
-                      <a
-                        class="text-muted-foreground hover:text-foreground transition duration-150 ease-in-out text-sm"
-                        href={href}
-                      >
-                        {text}
-                      </a>
-                    </li>
-                  ))}
-              </ul>
-            )}
-          </div>
-        ))
-      }
-    </div>
-
-    <!-- Horizontal Divider -->
-    <div class="border-t border-border pt-6 pb-6">
-      <!-- Legal Footer Links and Copyright -->
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-        <div class="text-sm text-muted-foreground mb-4 md:mb-0">
-          {footNote || `© ${new Date().getFullYear()} ${SITE?.name}. All rights reserved.`}
-        </div>
-
-        <!-- Links -->
-        <div class="flex flex-wrap gap-6 text-sm">
-          <a
-            href="/sitemap-index.xml"
-            class="text-muted-foreground hover:text-foreground transition duration-150 ease-in-out">Sitemap</a
-          >
-        </div>
-      </div>
+    <div class="mt-12 pt-6 border-t border-border flex flex-col gap-3 md:flex-row md:items-center md:justify-between font-mono text-xs text-muted">
+      <span>© {new Date().getFullYear()} Steven Goff. {footNote}</span>
+      <a href="/sitemap-index.xml" class="hover:text-foreground transition-colors">sitemap.xml</a>
     </div>
   </div>
 </footer>

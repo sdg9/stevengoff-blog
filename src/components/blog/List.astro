@@ -11,12 +11,16 @@ export interface Props {
 const { page } = Astro.props;
 ---
 
-<section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-4xl">
-  <header class="mb-10 md:mb-16">
-    <h1 class="text-4xl md:text-5xl font-bold leading-tighter tracking-tighter font-heading">Blog</h1>
-    <p class="text-muted text-xl mt-2">Thoughts, stories, and ideas.</p>
+<section class="relative px-4 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-6xl">
+  <div class="bg-grid absolute inset-x-0 top-0 h-80 -z-10 pointer-events-none" aria-hidden="true"></div>
+  <header class="mb-10 md:mb-14">
+    <p class="meta mb-3">// the archive</p>
+    <h1 class="text-4xl md:text-6xl font-bold tracking-tight">Blog</h1>
+    <p class="text-muted text-lg md:text-xl mt-4 max-w-2xl">
+      Side projects, game dev experiments, and lessons from 20 years of building things.
+    </p>
   </header>
-  <div class="grid gap-6 lg:gap-8">
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     {page?.data?.map((post) => <PostItem post={post} />)}
   </div>
   <Pagination prevUrl={page?.url?.prev} nextUrl={page?.url?.next} />

@@ -1,10 +1,10 @@
 ---
 import PageLayout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
 import { fetchPosts } from '~/utils/blog';
 import { getPermalink } from '~/utils/permalinks';
 import { getFormattedDate } from '~/utils/utils';
 import Image from '~/components/common/Image.astro';
+import PostItem from '~/components/blog/PostItem.astro';
 
 const metadata = {
   title: "Steven's Dev Blog",
@@ -19,168 +19,169 @@ const recentPosts = posts.slice(1);
 ---
 
 <PageLayout metadata={metadata}>
-  <!-- Hero Section -->
-  <section class="relative py-12 md:py-20 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto text-center">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-        Programming is <span class="text-primary">Digital Legos</span>
+  <!-- Hero -->
+  <section class="relative px-4 sm:px-6 pt-16 pb-12 md:pt-28 md:pb-20">
+    <div class="bg-grid absolute inset-0 -z-10 pointer-events-none" aria-hidden="true"></div>
+    <div class="max-w-6xl mx-auto grid lg:grid-cols-[1.5fr_1fr] gap-12 items-center">
+      <div>
+      <p class="chip mb-8">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-secondary opacity-60"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-secondary"></span>
+        </span>
+        Currently shipping games with AI
+      </p>
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tighter leading-[0.95] max-w-4xl">
+        Programming is <span class="text-gradient">digital Legos.</span>
       </h1>
-      <p class="text-xl md:text-2xl text-muted max-w-2xl mx-auto mb-8">
+      <p class="mt-8 text-lg md:text-xl text-muted max-w-2xl leading-relaxed">
         20 years of side projects, game dev experiments, tax crusades, and AI acceleration.
         A developer's journey through tinkering, learning, and occasionally shipping.
       </p>
-      <div class="flex flex-wrap justify-center gap-4 text-sm text-muted">
-        <span class="flex items-center gap-2">
-          <span class="w-2 h-2 bg-primary rounded-full"></span>
-          React Native by day
-        </span>
-        <span class="flex items-center gap-2">
-          <span class="w-2 h-2 bg-accent rounded-full"></span>
-          Game dev by night
-        </span>
-        <span class="flex items-center gap-2">
-          <span class="w-2 h-2 bg-secondary rounded-full"></span>
-          Father of 3
-        </span>
+      <div class="mt-10 flex flex-wrap items-center gap-3">
+        <a
+          href="/blog"
+          class="inline-flex items-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-semibold text-background transition hover:opacity-90"
+        >
+          Read the blog
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+          </svg>
+        </a>
+        <a
+          href="/about"
+          class="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3 text-sm font-semibold text-foreground transition hover:bg-foreground/5"
+        >
+          About me
+        </a>
+      </div>
+      <dl class="mt-14 grid grid-cols-2 sm:grid-cols-4 gap-px overflow-hidden rounded-2xl border border-border bg-border max-w-3xl">
+        <div class="bg-background/90 p-4">
+          <dt class="meta">Writing code</dt>
+          <dd class="mt-1 font-heading text-xl font-bold">20 yrs</dd>
+        </div>
+        <div class="bg-background/90 p-4">
+          <dt class="meta">By day</dt>
+          <dd class="mt-1 font-heading text-xl font-bold">React Native</dd>
+        </div>
+        <div class="bg-background/90 p-4">
+          <dt class="meta">By night</dt>
+          <dd class="mt-1 font-heading text-xl font-bold">Game dev</dd>
+        </div>
+        <div class="bg-background/90 p-4">
+          <dt class="meta">Father of</dt>
+          <dd class="mt-1 font-heading text-xl font-bold">3</dd>
+        </div>
+      </dl>
+      </div>
+
+      <!-- Code card -->
+      <div class="relative hidden lg:block" aria-hidden="true">
+        <div class="absolute -inset-6 rounded-[2rem] bg-gradient-to-br from-primary/25 via-secondary/10 to-accent/20 blur-2xl"></div>
+        <div class="card relative rotate-1 bg-muted-bg/90 backdrop-blur shadow-2xl">
+          <div class="flex items-center gap-2 border-b border-border px-4 py-3">
+            <span class="h-3 w-3 rounded-full bg-[#f472b6]"></span>
+            <span class="h-3 w-3 rounded-full bg-[#facc15]"></span>
+            <span class="h-3 w-3 rounded-full bg-[#22d3ee]"></span>
+            <span class="ml-3 font-mono text-xs text-muted">life.ts</span>
+          </div>
+          <pre class="overflow-hidden p-5 font-mono text-[13px] leading-6 text-muted"><code><span class="text-accent">const</span> <span class="text-foreground">bricks</span> = [
+  <span class="text-secondary">'games'</span>, <span class="text-secondary">'smart-home'</span>,
+  <span class="text-secondary">'dev-tools'</span>, <span class="text-secondary">'tax-appeals'</span>,
+];
+
+<span class="text-accent">for</span> (<span class="text-accent">const</span> idea <span class="text-accent">of</span> bricks) {'{'}
+  <span class="text-primary">build</span>(idea);
+  <span class="text-primary">learn</span>();
+  <span class="text-muted/70">// ship? sometimes.</span>
+{'}'}</code></pre>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- Featured Post -->
   {featuredPost && (
-    <section class="py-8 px-4 sm:px-6">
-      <div class="max-w-4xl mx-auto">
-        <h2 class="text-sm font-semibold text-primary uppercase tracking-wider mb-6">Latest Post</h2>
-        <article class="group relative bg-muted/30 rounded-2xl overflow-hidden">
+    <section class="px-4 sm:px-6 py-8">
+      <div class="max-w-6xl mx-auto">
+        <p class="meta mb-5">// latest post</p>
+        <article class="group card card-hover grid overflow-hidden md:grid-cols-5">
           {featuredPost.image && (
-            <div class="aspect-[2/1] overflow-hidden">
+            <div class="md:col-span-3 aspect-[16/9] md:aspect-auto overflow-hidden">
               <Image
                 src={featuredPost.image}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 widths={[400, 800, 1200]}
-                sizes="(max-width: 768px) 100vw, 800px"
+                sizes="(max-width: 768px) 100vw, 700px"
                 alt={featuredPost.title}
                 width={1200}
-                height={600}
+                height={675}
                 loading="eager"
               />
             </div>
           )}
-          <div class="p-6 md:p-8">
-            <div class="flex flex-wrap items-center gap-3 text-sm text-muted mb-3">
+          <div class="md:col-span-2 flex flex-col justify-center p-6 md:p-10">
+            <div class="meta flex flex-wrap items-center gap-2 mb-4">
+              {featuredPost.category && <span class="text-primary">{featuredPost.category.title}</span>}
+              {featuredPost.category && <span aria-hidden="true">/</span>}
               <time datetime={String(featuredPost.publishDate)}>{getFormattedDate(featuredPost.publishDate)}</time>
-              {featuredPost.category && (
-                <>
-                  <span>·</span>
-                  <span class="text-primary font-medium capitalize">{featuredPost.category.title}</span>
-                </>
-              )}
-              {featuredPost.readingTime && (
-                <>
-                  <span>·</span>
-                  <span>{Math.ceil(featuredPost.readingTime)} min read</span>
-                </>
-              )}
+              {featuredPost.readingTime && <span aria-hidden="true">/</span>}
+              {featuredPost.readingTime && <span>{Math.ceil(featuredPost.readingTime)} min</span>}
             </div>
-            <h3 class="text-2xl md:text-3xl font-bold mb-3">
-              <a href={getPermalink(featuredPost.permalink, 'post')} class="hover:text-primary transition-colors">
+            <h2 class="text-2xl md:text-3xl font-bold leading-tight mb-4">
+              <a
+                href={getPermalink(featuredPost.permalink, 'post')}
+                class="after:absolute after:inset-0 group-hover:text-primary transition-colors"
+              >
                 {featuredPost.title}
               </a>
-            </h3>
-            {featuredPost.excerpt && (
-              <p class="text-muted text-lg mb-4">{featuredPost.excerpt}</p>
-            )}
-            <a
-              href={getPermalink(featuredPost.permalink, 'post')}
-              class="inline-flex items-center gap-2 text-primary font-medium hover:underline"
-            >
-              Read more
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            </h2>
+            {featuredPost.excerpt && <p class="text-muted leading-relaxed mb-6">{featuredPost.excerpt}</p>}
+            <span class="inline-flex items-center gap-2 text-sm font-semibold text-primary">
+              Read post
+              <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
               </svg>
-            </a>
+            </span>
           </div>
         </article>
       </div>
     </section>
   )}
 
-  <!-- All Posts -->
-  <section class="py-12 px-4 sm:px-6">
-    <div class="max-w-4xl mx-auto">
-      <div class="flex items-center justify-between mb-8">
-        <h2 class="text-2xl font-bold">All Posts</h2>
-        <a href="/blog" class="text-primary hover:underline text-sm font-medium">View all →</a>
+  <!-- More Posts -->
+  {recentPosts.length > 0 && (
+    <section class="px-4 sm:px-6 py-12">
+      <div class="max-w-6xl mx-auto">
+        <div class="flex items-end justify-between mb-6">
+          <p class="meta">// more posts</p>
+          <a href="/blog" class="text-sm font-medium text-muted hover:text-foreground transition-colors">View all →</a>
+        </div>
+        <div class="grid gap-6 md:grid-cols-2">
+          {recentPosts.slice(0, 4).map((post) => <PostItem post={post} />)}
+        </div>
       </div>
-      <div class="grid gap-8">
-        {recentPosts.map((post) => (
-          <article class="group flex flex-col md:flex-row gap-6 pb-8 border-b border-border last:border-0">
-            {post.image && (
-              <a href={getPermalink(post.permalink, 'post')} class="shrink-0">
-                <Image
-                  src={post.image}
-                  class="w-full md:w-48 h-48 object-cover rounded-lg bg-muted group-hover:opacity-90 transition-opacity"
-                  widths={[200, 400]}
-                  sizes="(max-width: 768px) 100vw, 200px"
-                  alt={post.title}
-                  width={200}
-                  height={200}
-                  loading="lazy"
-                />
-              </a>
-            )}
-            <div class="flex flex-col justify-center">
-              <div class="flex flex-wrap items-center gap-2 text-sm text-muted mb-2">
-                <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
-                {post.category && (
-                  <>
-                    <span>·</span>
-                    <span class="text-primary font-medium capitalize">{post.category.title}</span>
-                  </>
-                )}
-                {post.readingTime && (
-                  <>
-                    <span>·</span>
-                    <span>{Math.ceil(post.readingTime)} min read</span>
-                  </>
-                )}
-              </div>
-              <h3 class="text-xl font-bold mb-2">
-                <a href={getPermalink(post.permalink, 'post')} class="hover:text-primary transition-colors">
-                  {post.title}
-                </a>
-              </h3>
-              {post.excerpt && (
-                <p class="text-muted line-clamp-2">{post.excerpt}</p>
-              )}
-              {post.tags && post.tags.length > 0 && (
-                <div class="flex flex-wrap gap-1 mt-3">
-                  {post.tags.slice(0, 3).map((tag) => (
-                    <span class="text-xs font-medium text-muted bg-muted/50 px-2 py-1 rounded">
-                      #{tag.title}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <!-- About Section -->
-  <section class="py-12 px-4 sm:px-6 border-t border-border">
-    <div class="max-w-4xl mx-auto text-center">
-      <h2 class="text-2xl font-bold mb-4">About This Blog</h2>
-      <p class="text-muted max-w-2xl mx-auto mb-6">
-        I'm Steven, a React Native developer by day working in fintech at a Fortune 500 company.
-        By night (and weekends, and naptime), I tinker with game dev, home automation,
-        developer tools, and whatever else catches my curiosity. This blog is a retrospective
-        of 20 years of side projects: the wins, the abandoned repos, and everything in between.
-      </p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="/about" class="text-primary hover:underline font-medium">Learn more about me →</a>
+  <!-- About -->
+  <section class="px-4 sm:px-6 py-12 md:py-20">
+    <div class="max-w-6xl mx-auto">
+      <div class="card overflow-hidden p-8 md:p-12">
+        <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-3xl pointer-events-none" aria-hidden="true"></div>
+        <p class="meta mb-4">// about this blog</p>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight max-w-2xl">
+          Hi, I'm Steven. I build things because it's fun.
+        </h2>
+        <p class="mt-5 text-muted text-lg leading-relaxed max-w-3xl">
+          A React Native developer by day working in fintech at a Fortune 500 company.
+          By night (and weekends, and naptime), I tinker with game dev, home automation,
+          developer tools, and whatever else catches my curiosity. This blog is a retrospective
+          of 20 years of side projects: the wins, the abandoned repos, and everything in between.
+        </p>
+        <a href="/about" class="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+          Learn more about me →
+        </a>
       </div>
     </div>
   </section>

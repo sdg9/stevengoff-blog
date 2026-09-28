@@ -2,8 +2,19 @@
 import { SITE } from 'astrowind:config';
 ---
 
-<span
-  class="self-center ml-2 rtl:ml-0 rtl:mr-2 text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white"
->
-  {SITE?.name}
+<span class="self-center flex items-center gap-2.5 whitespace-nowrap" aria-label={SITE?.name}>
+  <!-- A 2x2 brick: programming is digital Legos -->
+  <svg class="w-7 h-7 shrink-0" viewBox="0 0 28 28" aria-hidden="true">
+    <rect x="1" y="1" width="12" height="12" rx="3" fill="#8b9cff" />
+    <rect x="15" y="1" width="12" height="12" rx="3" fill="#22d3ee" />
+    <rect x="1" y="15" width="12" height="12" rx="3" fill="#f472b6" />
+    <rect x="15" y="15" width="12" height="12" rx="3" fill="#facc15" />
+    <circle cx="7" cy="7" r="2.5" fill="#000" fill-opacity=".18" />
+    <circle cx="21" cy="7" r="2.5" fill="#000" fill-opacity=".18" />
+    <circle cx="7" cy="21" r="2.5" fill="#000" fill-opacity=".18" />
+    <circle cx="21" cy="21" r="2.5" fill="#000" fill-opacity=".18" />
+  </svg>
+  <span class="font-heading text-lg font-bold tracking-tight text-foreground">
+    stevengoff<span class="font-mono font-medium text-muted">.dev</span>
+  </span>
 </span>

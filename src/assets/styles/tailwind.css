@@ -16,7 +16,7 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-border, currentColor);
   }
 }
 
@@ -64,18 +64,62 @@
   @apply btn border-none shadow-none text-muted hover:text-gray-900 dark:text-gray-400 dark:hover:text-white;
 }
 
+/* Glass pill behind the header once the page scrolls */
+#header > div:first-child {
+  @apply transition-all duration-300;
+}
 #header.scroll > div:first-child {
-  @apply bg-page md:bg-white/90 md:backdrop-blur-md;
-  box-shadow: 0 0.375rem 1.5rem 0 rgb(140 152 164 / 13%);
+  @apply bg-background/80 backdrop-blur-xl border-b border-border;
 }
-.dark #header.scroll > div:first-child,
-#header.scroll.dark > div:first-child {
-  @apply bg-page md:bg-[#030621e6] border-b border-gray-500/20;
-  box-shadow: none;
+
+/* ---------- Modern look ---------- */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--aw-font-heading);
+  letter-spacing: -0.02em;
 }
-/* #header.scroll > div:last-child {
-  @apply py-3;
-} */
+
+body {
+  background-image:
+    radial-gradient(60rem 40rem at 15% -10%, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 60%),
+    radial-gradient(50rem 35rem at 95% 0%, color-mix(in srgb, var(--color-secondary) 10%, transparent), transparent 60%);
+  background-repeat: no-repeat;
+}
+
+/* Faint blueprint grid behind the top of each page */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-foreground) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-foreground) 6%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 30%, transparent 75%);
+}
+
+@utility text-gradient {
+  background-image: linear-gradient(100deg, var(--color-primary) 0%, var(--color-secondary) 55%, var(--color-accent) 110%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility card {
+  @apply relative rounded-2xl border border-border bg-muted-bg/60 transition duration-300;
+}
+
+@utility card-hover {
+  @apply hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_20px_60px_-20px_color-mix(in_srgb,var(--color-primary)_45%,transparent)];
+}
+
+@utility chip {
+  @apply inline-flex items-center gap-1.5 rounded-full border border-border bg-muted-bg/70 px-3 py-1 font-mono text-xs text-muted;
+}
+
+@utility meta {
+  @apply font-mono text-xs uppercase tracking-wider text-muted;
+}
 
 #header.expanded nav {
   position: fixed;

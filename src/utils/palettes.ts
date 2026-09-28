@@ -136,6 +136,35 @@ const darkDefaults = {
 };
 
 export const colorPalettes: Record<string, ColorPalette> = {
+  digitalLegos: {
+    name: 'Digital Legos',
+    description: 'Deep ink background with periwinkle and cyan highlights',
+    light: {
+      ...lightDefaults,
+      primary: '#4f5bd5',
+      secondary: '#0e7490',
+      accent: '#db2777',
+      background: '#fafafa',
+      foreground: '#0b0c10',
+      muted: '#f1f1f4',
+      mutedForeground: '#52525b',
+      border: '#e4e4e7',
+    },
+    dark: {
+      ...darkDefaults,
+      primary: '#8b9cff',
+      secondary: '#22d3ee',
+      accent: '#f472b6',
+      background: '#08090d',
+      foreground: '#ededf1',
+      primaryForeground: '#08090d',
+      secondaryForeground: '#08090d',
+      muted: '#12141b',
+      mutedForeground: '#a3a6b4',
+      border: '#1f222c',
+    },
+  },
+
   blueRainLily: {
     name: 'Blue Rain',
     description: 'TBD',

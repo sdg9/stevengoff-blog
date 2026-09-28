@@ -17,75 +17,65 @@ const { post, url } = Astro.props;
 const { Content } = post;
 ---
 
-<section class="py-8 sm:py-16 lg:py-20 mx-auto">
+<section class="relative py-8 sm:py-16 lg:py-20 mx-auto">
+  <div class="bg-grid absolute inset-x-0 top-0 h-96 -z-10 pointer-events-none" aria-hidden="true"></div>
   <article>
-    <header class={post.image ? '' : ''}>
-      <div class="flex flex-col sm:flex-row sm:items-center sm:gap-x-4 max-w-3xl mx-auto mt-0 mb-2 px-4 sm:px-6">
-        <time datetime={String(post.publishDate)} class="text-muted">{getFormattedDate(post.publishDate)}</time>
-        {
-          post.category && (
-            <>
-              <span class="hidden sm:inline text-muted">·</span>
-              <span class="capitalize text-primary font-medium">{post.category?.title}</span>
-            </>
-          )
-        }
-        {
-          post.readingTime && (
-            <>
-              <span class="hidden sm:inline text-muted">·</span>
-              <span class="text-muted">{Math.ceil(post.readingTime)} min read</span>
-            </>
-          )
-        }
+    <header>
+      <div class="max-w-3xl mx-auto px-4 sm:px-6">
+        <a href="/blog" class="meta inline-flex items-center gap-1.5 mb-8 hover:text-foreground transition-colors">
+          <Icon name="tabler:arrow-left" class="w-4 h-4" /> All posts
+        </a>
+        <div class="meta flex flex-wrap items-center gap-2 mb-5">
+          {post.category && <span class="text-primary">{post.category?.title}</span>}
+          {post.category && <span aria-hidden="true">/</span>}
+          <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
+          {post.readingTime && <span aria-hidden="true">/</span>}
+          {post.readingTime && <span>{Math.ceil(post.readingTime)} min read</span>}
+        </div>
+        <h1 class="text-4xl md:text-6xl font-bold leading-[1.05] tracking-tighter">
+          {post.title}
+        </h1>
+        {post.excerpt && <p class="mt-6 mb-10 text-lg md:text-xl text-muted leading-relaxed">{post.excerpt}</p>}
       </div>
-      <h1
-        class="px-4 sm:px-6 max-w-3xl mx-auto text-4xl md:text-5xl font-bold leading-tighter tracking-tighter font-heading"
-      >
-        {post.title}
-      </h1>
-      <p
-        class="max-w-3xl mx-auto mt-4 mb-8 px-4 sm:px-6 text-xl md:text-2xl text-muted dark:text-slate-400 text-justify"
-      >
-        {post.excerpt}
-      </p>
 
       {
         post.image ? (
-          <Image
-            src={post.image}
-            class="max-w-full lg:max-w-[900px] mx-auto mb-6 sm:rounded-md bg-gray-400 dark:bg-slate-700"
-            widths={[400, 900]}
-            sizes="(max-width: 900px) 400px, 900px"
-            alt={post?.excerpt || ''}
-            width={900}
-            height={506}
-            loading="eager"
-            decoding="async"
-          />
+          <div class="max-w-5xl mx-auto px-4 sm:px-6 mb-6">
+            <Image
+              src={post.image}
+              class="w-full rounded-2xl border border-border shadow-2xl"
+              widths={[400, 900, 1200]}
+              sizes="(max-width: 1024px) 100vw, 1024px"
+              alt={post?.excerpt || ''}
+              width={1200}
+              height={675}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
         ) : (
           <div class="max-w-3xl mx-auto px-4 sm:px-6">
-            <div class="border-t dark:border-slate-700" />
+            <div class="border-t border-border" />
           </div>
         )
       }
     </header>
     <div
-      class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg lg:prose-xl dark:prose-invert dark:prose-headings:text-slate-300 prose-headings:font-heading prose-headings:leading-tighter prose-headings:tracking-tighter prose-headings:font-bold prose-a:text-primary dark:prose-a:text-blue-400 prose-img:rounded-md prose-img:shadow-lg mt-8 prose-headings:scroll-mt-[80px]"
+      class="mx-auto px-6 sm:px-6 max-w-3xl prose prose-lg dark:prose-invert prose-headings:font-heading prose-headings:tracking-tight prose-headings:font-bold prose-p:text-foreground/85 prose-li:text-foreground/85 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:text-foreground prose-code:font-mono prose-code:text-secondary prose-code:before:content-none prose-code:after:content-none prose-pre:bg-muted-bg prose-pre:border prose-pre:border-border prose-blockquote:border-l-primary prose-blockquote:text-muted prose-hr:border-border prose-img:rounded-xl prose-img:border prose-img:border-border mt-12 prose-headings:scroll-mt-[80px]"
     >
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>
-    <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-8 flex justify-between flex-col sm:flex-row">
-      <div class="flex flex-wrap gap-1">
+    <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-12 pt-8 border-t border-border flex justify-between flex-col sm:flex-row gap-6">
+      <div class="flex flex-1 flex-wrap content-start gap-1.5">
         {
           post.tags?.map((tag) => (
-            <span class="text-sm font-medium text-muted bg-gray-100 dark:bg-slate-700 px-2 py-1 rounded">
+            <span class="chip">
               #{tag.title}
             </span>
           ))
         }
       </div>
-      <SocialShare url={url} text={post.title} class="mt-5 sm:mt-1 align-middle text-gray-500 dark:text-slate-600" />
+      <SocialShare url={url} text={post.title} class="mt-5 sm:mt-1 align-middle text-muted" />
     </div>
   </article>
 </section>
