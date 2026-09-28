@@ -1,5 +1,6 @@
 ---
-publishDate: 2026-09-27T12:00:00Z
+publishDate: 2026-07-31T12:00:00Z
+updateDate: 2026-09-27T12:00:00Z
 author: Steven Goff
 title: 'Small Apps I Keep Building for Everyday Life'
 excerpt: A stroller timer, a sticker board, a reader, a scheduling poll, and a stay-request calendar. Small apps keep reminding me that useful software starts with an ordinary problem and a few decisions made carefully.
@@ -60,7 +61,7 @@ That's the kind of distinction I enjoy discovering in a small app. Reading a str
 
 And actual audio behavior needs device testing. A unit test can check sentence boundaries; it can't tell me what came out of the speaker.
 
-## Scheduling Without Making Everyone Join First
+## September 27 addition: Scheduling Without Making Everyone Join First
 
 My scheduling app, Doodle, starts with proposed dates and a shared link. People can mark an option as working, possible if needed, or unavailable.
 
@@ -70,7 +71,7 @@ Underneath, organizers and participants have separate private tokens for managin
 
 Those permissions need to work without making account creation the first task.
 
-## A Calendar With Real Boundaries
+## September 27 addition: A Calendar With Real Boundaries
 
 Stays by Owner, in the Rose's Cabin project, applies the same small-app instinct to stay requests. Guests choose dates; hosts approve or decline; the calendar reflects the result. Payments are handled separately.
 

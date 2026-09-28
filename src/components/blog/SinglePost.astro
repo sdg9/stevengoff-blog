@@ -29,6 +29,16 @@ const { Content } = post;
           {post.category && <span class="text-primary">{post.category?.title}</span>}
           {post.category && <span aria-hidden="true">/</span>}
           <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
+          {
+            post.updateDate && post.updateDate > post.publishDate && (
+              <>
+                <span aria-hidden="true">/</span>
+                <span>
+                  Updated <time datetime={post.updateDate.toISOString()}>{getFormattedDate(post.updateDate)}</time>
+                </span>
+              </>
+            )
+          }
           {post.readingTime && <span aria-hidden="true">/</span>}
           {post.readingTime && <span>{Math.ceil(post.readingTime)} min read</span>}
         </div>
@@ -65,15 +75,11 @@ const { Content } = post;
     >
       {Content ? <Content /> : <Fragment set:html={post.content || ''} />}
     </div>
-    <div class="mx-auto px-6 sm:px-6 max-w-3xl mt-12 pt-8 border-t border-border flex justify-between flex-col sm:flex-row gap-6">
+    <div
+      class="mx-auto px-6 sm:px-6 max-w-3xl mt-12 pt-8 border-t border-border flex justify-between flex-col sm:flex-row gap-6"
+    >
       <div class="flex flex-1 flex-wrap content-start gap-1.5">
-        {
-          post.tags?.map((tag) => (
-            <span class="chip">
-              #{tag.title}
-            </span>
-          ))
-        }
+        {post.tags?.map((tag) => <span class="chip">#{tag.title}</span>)}
       </div>
       <SocialShare url={url} text={post.title} class="mt-5 sm:mt-1 align-middle text-muted" />
     </div>

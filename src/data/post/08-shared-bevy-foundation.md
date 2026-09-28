@@ -1,5 +1,6 @@
 ---
-publishDate: 2026-09-27T12:02:00Z
+publishDate: 2026-09-12T12:00:00Z
+updateDate: 2026-09-27T12:00:00Z
 author: Steven Goff
 title: 'The Infrastructure Behind My Growing Game Collection'
 excerpt: "Shared input, networking, saves, and delivery checks help my Bevy projects benefit from each other's fixes without turning every game into the same application."

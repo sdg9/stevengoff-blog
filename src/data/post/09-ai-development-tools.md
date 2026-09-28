@@ -1,5 +1,6 @@
 ---
-publishDate: 2026-09-27T12:00:00Z
+publishDate: 2026-09-05T12:00:00Z
+updateDate: 2026-09-27T12:00:00Z
 author: Steven Goff
 title: 'AI Made More Code—Then I Needed Better Tools'
 excerpt: 'Faster implementation created a different problem: keeping track of work, preserving the spec, and reviewing what actually changed. Baton, terminal signals, and Review Desk are my attempts to make that manageable.'

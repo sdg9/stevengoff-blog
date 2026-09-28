@@ -1,5 +1,6 @@
 ---
-publishDate: 2026-09-27T12:00:00Z
+publishDate: 2026-09-24T12:00:00Z
+updateDate: 2026-09-27T12:00:00Z
 author: Steven Goff
 title: 'From Prototypes to Steam: Building Arcward'
 excerpt: 'Arcward started with a cursor and a reactor. Getting it ready for Steam means thinking about saves, controllers, packaging, and what a successful test actually proves.'

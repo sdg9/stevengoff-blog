@@ -1,5 +1,6 @@
 ---
-publishDate: 2026-09-27T12:00:00Z
+publishDate: 2026-09-23T12:00:00Z
+updateDate: 2026-09-27T12:00:00Z
 author: Steven Goff
 title: 'Web Town Hero: Beyond Websites'
 excerpt: Building a small-business website is only part of the work. Parent portals, booking integrations, contact forms, and ongoing maintenance have made Web Town Hero a broader engineering project.
