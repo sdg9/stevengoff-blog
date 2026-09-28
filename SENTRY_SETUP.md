@@ -1,199 +1,33 @@
-# Sentry Setup Guide
+# Blog analytics and error reporting
 
-This guide walks you through setting up Sentry error tracking for the Murren Properties application.
+## Accounts
 
-## ✅ Already Completed
+- Google Analytics: personal Google login `steveng9@gmail.com`. Dedicated `Steven Goff` account / `stevengoff.dev` property. Terms accepted with explicit authorization. Web stream `Steven’s Dev Blog` (15856339010), measurement ID `G-3K648FWVN0`, configured in `src/config.yaml`.
+- Sentry: `steven@webtownhero.com`, organization `web-town-hero-llc`, project `stevengoff-blog` (4512161840037888).
+- Cloudflare: account `Steveng9@gmail.com` (ff25abd80e7d45c49774b3797b4a724d), currently accessible in the work Chrome profile. Web Analytics already automatically injects its beacon for `stevengoff.dev`, excluding EU visitors. Do not add another beacon.
 
-The following has been pre-configured:
+GA4 dashboard: https://analytics.google.com/analytics/web/#/a409692245p556108239/reports/intelligenthome (account `409692245`, property `556108239`).
 
-- ✓ `@sentry/astro` package installed
-- ✓ Sentry integration added to `astro.config.ts`
-- ✓ Client config created (`sentry.client.config.js`)
-- ✓ Server config created (`sentry.server.config.js`)
-- ✓ Scheduled worker updated with Sentry error logging
-- ✓ DSN configured in config files
+Deployment: Cloudflare Pages project `stevengoff-blog`, automatically built from GitHub `sdg9/stevengoff-blog` branch `main` using `pnpm run build` and output `dist`. The Cloudflare build environment currently has no Sentry upload token, so automated builds skip source-map upload; error capture still works.
 
-## 🔧 Setup Steps
+## GA4 stream settings
 
-### 1. Generate Sentry Auth Token
+The web stream uses `https://stevengoff.dev`. Enhanced measurement's browser-history page views are disabled: the site sends one explicit `page_view` on each `astro:page-load`, including initial load. Advertising consent, Google signals, and ad personalization stay disabled. Optional account data sharing, site-search capture, and form-interaction capture are disabled. Scroll, outbound-click, video, and file-download measurement remain enabled.
 
-The auth token is used to upload source maps during builds for better error stack traces.
+The existing no-banner setting is retained. `/privacy` explains the services and provides Google Analytics opt-out. Only `stevengoff.dev` and `www.stevengoff.dev` load GA; localhost and preview hostnames do not. Missing IDs or blocked storage fail closed. Tests cover navigation, opt-out, and storage failures.
 
-1. Go to: https://sentry.io/settings/account/api/auth-tokens/
-2. Click **"Create New Token"**
-3. Give it a name: `Murren Properties - CI/CD`
-4. Select these scopes:
-   - `project:releases`
-   - `project:write`
-   - `org:read`
-5. Click **"Create Token"**
-6. Copy the token (you won't see it again!)
+## Sentry
 
-### 2. Add Environment Variables
+The public DSN is configured in `sentry.client.config.js` with an optional `PUBLIC_SENTRY_DSN` override. Only production builds on the two production hostnames send events. Default PII, tracing, replay, and automatic breadcrumbs are disabled. Static build/server instrumentation is disabled; Cloudflare Functions require separate runtime instrumentation if used.
 
-#### Local Development (.env)
+Supply `SENTRY_AUTH_TOKEN` only in the build environment for private source map uploads. The token is never public configuration. The Astro integration selects the dedicated project and deletes generated `.map` files after upload. Additional post-build JavaScript compression is disabled to preserve source map correspondence. Local builds without the token skip uploads.
 
-Create/update your `.env` file:
+## Verification
 
-```bash
-# Sentry DSN (already configured)
-SENTRY_DSN=https://196ee5bd6859e424ffccb90fcde71fb3@o4510112500285440.ingest.us.sentry.io/4510112501661696
+- `node --test tests/*.test.mjs`
+- `pnpm run build` (with a build token and network access for source map upload)
+- Confirm no `.map` files remain in `dist`.
+- Preview `/blog`, all seven new article routes, and `/privacy`.
+- After deploying: verify a visit in GA Realtime; verify initial and subsequent Astro navigation do not double-count. Send a clearly labeled synthetic error through the browser SDK and confirm it reaches the dedicated Sentry project with a readable stack.
 
-# Sentry Auth Token (from step 1)
-SENTRY_AUTH_TOKEN=sntrys_YOUR_TOKEN_HERE
-
-# Environment identifier
-ENVIRONMENT=development
-```
-
-#### Cloudflare Pages (Production)
-
-Add these environment variables in the Cloudflare Pages dashboard:
-
-1. Go to: https://dash.cloudflare.com → Your Pages project → Settings → Environment variables
-
-2. Add **Production** variables:
-   ```
-   SENTRY_DSN=https://196ee5bd6859e424ffccb90fcde71fb3@o4510112500285440.ingest.us.sentry.io/4510112501661696
-   SENTRY_AUTH_TOKEN=<your-token-from-step-1>
-   ENVIRONMENT=production
-   ```
-
-3. Add **Preview** variables (same as production but with different environment):
-   ```
-   SENTRY_DSN=https://196ee5bd6859e424ffccb90fcde71fb3@o4510112500285440.ingest.us.sentry.io/4510112501661696
-   SENTRY_AUTH_TOKEN=<your-token-from-step-1>
-   ENVIRONMENT=preview
-   ```
-
-#### GitHub Secrets (for Actions)
-
-1. Go to: Repository → Settings → Secrets and variables → Actions
-2. Add repository secret:
-   ```
-   Name: SENTRY_AUTH_TOKEN
-   Value: <your-token-from-step-1>
-   ```
-
-### 3. Test Sentry Integration
-
-#### Test in Browser
-
-1. Start dev server: `pnpm dev`
-2. Visit: http://localhost:4321/test-sentry
-3. Click **"Throw Test Error"** button
-4. Go to Sentry dashboard: https://sentry.io/organizations/web-town-hero-llc/projects/javascript-astro/
-5. Verify the error appears within ~30 seconds
-6. **Delete `src/pages/test-sentry.astro` after successful test**
-
-#### Test Scheduled Worker
-
-The scheduled worker will automatically log errors to Sentry when sync failures occur.
-
-To manually test:
-```bash
-# Set env vars in .env first
-pnpm sync-properties
-```
-
-If sync fails, check Sentry for the error event.
-
-### 4. Configure Alerts (Optional)
-
-Set up email/Slack alerts for errors:
-
-1. Go to: https://sentry.io/organizations/web-town-hero-llc/projects/javascript-astro/alerts/
-2. Click **"Create Alert Rule"**
-3. Configure based on your preferences
-
-## 📊 Monitoring
-
-### Sentry Dashboard
-
-Access your project dashboard:
-https://sentry.io/organizations/web-town-hero-llc/projects/javascript-astro/
-
-### Key Features
-
-- **Error Tracking**: All uncaught errors from client and server
-- **Performance Monitoring**: Response times and transaction tracking
-- **Source Maps**: Uploaded automatically during builds for readable stack traces
-- **Environment Separation**: Errors tagged by environment (development/preview/production)
-- **Worker Errors**: Property sync failures logged with context (property count, duration, etc.)
-
-## 🎯 What Gets Tracked
-
-### Client-Side (Browser)
-- Uncaught JavaScript errors
-- Unhandled promise rejections
-- Network errors
-- Custom error boundaries in React components
-
-### Server-Side (Astro SSR)
-- API endpoint errors
-- Server-side rendering errors
-- Database/KV operation failures
-
-### Workers (Cloudflare Functions)
-- Property sync failures
-- OwnerRez API errors
-- KV write failures
-- Rate limit violations
-
-## 🔧 Configuration
-
-### Sample Rates
-
-Current configuration (in `sentry.*.config.js`):
-
-```javascript
-tracesSampleRate: 1.0  // 100% of transactions (good for development)
-profilesSampleRate: 1.0  // 100% profiling
-```
-
-**For production**, consider lowering these to reduce costs:
-```javascript
-tracesSampleRate: 0.1  // 10% of transactions
-profilesSampleRate: 0.1  // 10% profiling
-```
-
-### Environment Detection
-
-Errors are automatically tagged with the environment:
-- `development` - local dev server
-- `preview` - Cloudflare Pages preview deployments
-- `production` - production deployment
-
-## 🗑️ Cleanup
-
-After confirming Sentry works:
-
-1. Delete test page: `src/pages/test-sentry.astro`
-2. Delete this guide (optional): `SENTRY_SETUP.md`
-
-## 📚 Resources
-
-- [Sentry Astro Docs](https://docs.sentry.io/platforms/javascript/guides/astro/)
-- [Sentry Dashboard](https://sentry.io/organizations/web-town-hero-llc/)
-- [Source Maps Guide](https://docs.sentry.io/platforms/javascript/sourcemaps/)
-
-## 🐛 Troubleshooting
-
-### Errors not appearing in Sentry
-
-1. **Check DSN**: Ensure `SENTRY_DSN` is set correctly
-2. **Check network**: Open browser DevTools → Network tab, look for requests to `sentry.io`
-3. **Check console**: Look for Sentry init errors in browser console
-4. **Verify integration**: Ensure Sentry is in `astro.config.ts` integrations array
-
-### Source maps not uploaded
-
-1. **Check auth token**: Ensure `SENTRY_AUTH_TOKEN` is set during build
-2. **Check build logs**: Look for "Sentry" or "source maps" in build output
-3. **Verify permissions**: Auth token needs `project:releases` and `project:write` scopes
-
-### Worker errors not appearing
-
-1. **Check env vars**: Ensure `SENTRY_DSN` is set in Cloudflare Pages
-2. **Check logs**: Use `wrangler tail` to see worker logs
-3. **Test manually**: Trigger sync with `pnpm sync-properties` and verify console output
+A successful build/upload is not proof of production event ingestion. Full `pnpm run check:astro` currently reports existing template type errors in unrelated components and the unused geo-consent path; targeted changed-file lint and analytics regression tests should be evaluated separately.

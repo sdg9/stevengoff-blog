@@ -14,7 +14,7 @@ export const headerData = {
       text: 'About',
       href: getPermalink('/about'),
     },
-  ]
+  ],
 };
 
 export const footerData = {
@@ -25,12 +25,10 @@ export const footerData = {
         { text: 'Home', href: getPermalink('/') },
         { text: 'Blog', href: getBlogPermalink() },
         { text: 'About', href: getPermalink('/about') },
-      ]
+      ],
     },
   ],
-  secondaryLinks: [],
-  socialLinks: [
-    { ariaLabel: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/sdg9' },
-  ],
+  secondaryLinks: [{ text: 'Privacy', href: getPermalink('/privacy') }],
+  socialLinks: [{ ariaLabel: 'GitHub', icon: 'tabler:brand-github', href: 'https://github.com/sdg9' }],
   footNote: `Made with Astro. Programming is digital Legos.`,
 };

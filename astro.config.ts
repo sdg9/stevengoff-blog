@@ -60,7 +60,8 @@ export default defineConfig({
         },
       },
       Image: false,
-      JavaScript: true,
+      // Vite already minifies JS; preserve the exact bytes associated with Sentry source maps.
+      JavaScript: false,
       SVG: false,
       Logger: 1,
     }),
@@ -70,10 +71,17 @@ export default defineConfig({
     }),
 
     sentry({
-      // TODO: sgoff0 - update me with new projects
-      project: 'TODO',
-      org: 'web-town-hero-llc',
-      authToken: process.env.SENTRY_AUTH_TOKEN,
+      enabled: { client: true, server: false },
+      unstable_sentryVitePluginOptions: {
+        project: 'stevengoff-blog',
+        org: 'web-town-hero-llc',
+        authToken: process.env.SENTRY_AUTH_TOKEN,
+        telemetry: false,
+      },
+      sourcemaps: {
+        disable: !process.env.SENTRY_AUTH_TOKEN,
+        filesToDeleteAfterUpload: ['./dist/**/*.map'],
+      },
     }),
   ],
 

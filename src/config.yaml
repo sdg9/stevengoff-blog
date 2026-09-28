@@ -65,7 +65,7 @@ analytics:
   useCookieConsent: false
   vendors:
     googleAnalytics:
-      id: null
+      id: G-3K648FWVN0
     plausible:
       domain: null
       src: null
