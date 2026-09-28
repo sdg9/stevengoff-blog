@@ -1,5 +1,5 @@
 ---
-publishDate: 2026-09-23T12:00:00Z
+publishDate: 2026-09-22T12:00:00Z
 updateDate: 2026-09-27T12:00:00Z
 author: Steven Goff
 title: 'Web Town Hero: Beyond Websites'
