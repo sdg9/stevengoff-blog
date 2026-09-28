@@ -1,0 +1,309 @@
+---
+import PageLayout from '~/layouts/PageLayout.astro';
+import Image from '~/components/common/Image.astro';
+import { fetchPosts } from '~/utils/blog';
+import { getPermalink } from '~/utils/permalinks';
+import { getFormattedDate } from '~/utils/utils';
+
+const posts = await fetchPosts();
+const years = [...new Set(posts.map((post) => post.publishDate.getUTCFullYear()))].sort((a, b) => b - a);
+const groups = years.map((year) => {
+  const entries = posts
+    .filter((post) => post.publishDate.getUTCFullYear() === year)
+    .sort((a, b) => a.publishDate.valueOf() - b.publishDate.valueOf());
+  const start = Date.UTC(year, 0, 1);
+  const duration = Date.UTC(year + 1, 0, 1) - start;
+  const lanes: number[] = [];
+  const points = entries.map((post) => {
+    const position = 3 + ((post.publishDate.valueOf() - start) / duration) * 94;
+    let lane = lanes.findIndex((last) => position - last > 16);
+    if (lane === -1) lane = lanes.length;
+    lanes[lane] = position;
+    return { post, position, lane };
+  });
+  return { year, entries, points, lanes: lanes.length };
+});
+const metadata = {
+  title: 'Project Timeline',
+  description:
+    'Explore the games, apps, hardware experiments, and developer tools in my Git history, from 2014 onward.',
+};
+---
+
+<PageLayout metadata={metadata}>
+  <section class="relative max-w-6xl mx-auto px-4 sm:px-6 py-12 md:py-20">
+    <div class="bg-grid absolute inset-x-0 top-0 h-96 -z-10 pointer-events-none" aria-hidden="true"></div>
+    <header class="max-w-3xl mb-10">
+      <p class="meta mb-4">// a history of making things</p>
+      <h1 class="text-4xl md:text-6xl font-bold tracking-tight">One idea led to another.</h1>
+      <p class="text-lg text-muted mt-6 leading-relaxed">
+        Games, little apps, a smarter house, and the tools built along the way.
+        {posts.length} stories from {years.at(-1)} to {years[0]}, anchored to the work behind them.
+      </p>
+      <p class="text-sm text-muted mt-4">
+        Historical entries are written in retrospect and dated to documented project milestones. Gaps mean there isn't a
+        selected story for that period.
+      </p>
+    </header>
+
+    <nav aria-label="Jump to a year" class="flex flex-wrap gap-2 mb-10">
+      {
+        years.map((year) => (
+          <a href={`#year-${year}`} class="chip hover:text-primary focus-visible:outline focus-visible:outline-2">
+            {year}
+          </a>
+        ))
+      }
+    </nav>
+    <p class="timeline-instructions meta mb-8">Hover or focus a marker to preview. Click it to read the story.</p>
+
+    <div class="space-y-12">
+      {
+        groups.map(({ year, entries, points, lanes }) => (
+          <section
+            id={`year-${year}`}
+            class="timeline-year scroll-mt-24 border-t border-border pt-6"
+            aria-labelledby={`heading-${year}`}
+          >
+            <header class="flex items-baseline gap-4 mb-6">
+              <h2 id={`heading-${year}`} class="font-heading text-3xl font-bold tracking-tight">
+                {year}
+              </h2>
+              <span class="meta">
+                {entries.length} {entries.length === 1 ? 'story' : 'stories'}
+              </span>
+            </header>
+            <div class="timeline-desktop">
+              <div class="preview-stack">
+                {entries.map((post, index) => (
+                  <article
+                    id={`preview-${post.slug}`}
+                    class="timeline-preview card overflow-hidden"
+                    hidden={index !== entries.length - 1}
+                  >
+                    <a
+                      href={getPermalink(post.permalink, 'post')}
+                      class="block focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+                    >
+                      {post.image && (
+                        <Image
+                          src={post.image}
+                          alt=""
+                          width={560}
+                          height={315}
+                          widths={[400, 560]}
+                          sizes="380px"
+                          class="w-full aspect-video object-cover"
+                        />
+                      )}
+                      <div class="p-5">
+                        <p class="meta text-primary mb-2">
+                          <time datetime={post.publishDate.toISOString()}>{getFormattedDate(post.publishDate)}</time>
+                        </p>
+                        <h3 class="font-heading text-xl font-bold leading-snug">{post.title}</h3>
+                        <p class="text-sm text-muted mt-3 leading-relaxed">{post.excerpt}</p>
+                        <span class="inline-block text-sm font-semibold text-primary mt-4">
+                          Read the story <span aria-hidden="true">↗</span>
+                        </span>
+                      </div>
+                    </a>
+                  </article>
+                ))}
+              </div>
+              <div
+                class="year-chart"
+                style={`--chart-height: ${Math.max(240, lanes * 42 + 80)}px`}
+                aria-label={`${year} article timeline`}
+              >
+                <div class="quarter-grid" aria-hidden="true">
+                  {['Jan–Mar', 'Apr–Jun', 'Jul–Sep', 'Oct–Dec'].map((label) => (
+                    <span>{label}</span>
+                  ))}
+                </div>
+                <div class="year-axis" aria-hidden="true" />
+                {points.map(({ post, position, lane }, index) => (
+                  <a
+                    href={getPermalink(post.permalink, 'post')}
+                    class:list={['timeline-marker', { 'is-selected': index === entries.length - 1 }]}
+                    style={`--position: ${position}%; --marker-top: ${24 + lane * 42}px`}
+                    data-preview={`preview-${post.slug}`}
+                    aria-label={`${getFormattedDate(post.publishDate)}: ${post.title}`}
+                    aria-controls={`preview-${post.slug}`}
+                  >
+                    <span class="marker-dot" aria-hidden="true" />
+                    <span class="marker-date" aria-hidden="true">
+                      {post.publishDate.toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        timeZone: 'UTC',
+                      })}
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            <ol class="timeline-mobile border-l border-border ml-2 pl-5 space-y-6">
+              {[...entries].reverse().map((post) => (
+                <li class="relative">
+                  <span class="absolute -left-[26px] top-2 w-2.5 h-2.5 rounded-full bg-primary" aria-hidden="true" />
+                  <a
+                    href={getPermalink(post.permalink, 'post')}
+                    class="card block overflow-hidden focus-visible:outline focus-visible:outline-2"
+                  >
+                    {post.image && (
+                      <Image
+                        src={post.image}
+                        alt=""
+                        width={600}
+                        height={338}
+                        widths={[400, 600]}
+                        sizes="(max-width: 767px) 90vw, 600px"
+                        class="w-full aspect-video object-cover"
+                      />
+                    )}
+                    <div class="p-4">
+                      <p class="meta text-primary mb-2">
+                        <time datetime={post.publishDate.toISOString()}>{getFormattedDate(post.publishDate)}</time>
+                      </p>
+                      <h3 class="text-lg font-bold leading-snug">{post.title}</h3>
+                      <p class="text-sm text-muted mt-2">{post.excerpt}</p>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .timeline-desktop,
+  .timeline-instructions {
+    display: none;
+  }
+  .timeline-preview[hidden] {
+    display: none;
+  }
+  @media (min-width: 768px) {
+    .timeline-mobile {
+      display: none;
+    }
+    .timeline-instructions {
+      display: block;
+    }
+    .timeline-desktop {
+      display: grid;
+      grid-template-columns: minmax(250px, 380px) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: center;
+    }
+    .preview-stack {
+      min-height: 470px;
+    }
+    .year-chart {
+      position: relative;
+      height: var(--chart-height);
+      margin: 0 1rem;
+    }
+    .quarter-grid {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+    .quarter-grid span {
+      border-left: 1px dashed color-mix(in srgb, var(--color-border) 50%, transparent);
+      font-size: 0.65rem;
+      padding: 0.5rem;
+      align-self: stretch;
+      display: flex;
+      align-items: flex-end;
+      opacity: 0.55;
+    }
+    .year-axis {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 40px;
+      height: 2px;
+      background: currentColor;
+      opacity: 0.25;
+    }
+    .timeline-marker {
+      position: absolute;
+      left: var(--position);
+      top: var(--marker-top);
+      width: 40px;
+      height: 38px;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      color: var(--color-text-muted);
+    }
+    .timeline-marker::after {
+      content: '';
+      position: absolute;
+      width: 1px;
+      height: calc(var(--chart-height) - var(--marker-top) - 58px);
+      top: 18px;
+      background: currentColor;
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: -1;
+    }
+    .marker-dot {
+      width: 12px;
+      height: 12px;
+      border: 2px solid currentColor;
+      background: var(--color-background);
+      border-radius: 50%;
+    }
+    .marker-date {
+      font-size: 0.62rem;
+      white-space: nowrap;
+      margin-top: 3px;
+    }
+    .timeline-marker:hover,
+    .timeline-marker:focus-visible,
+    .timeline-marker.is-selected {
+      color: var(--color-primary);
+    }
+    .timeline-marker.is-selected .marker-dot,
+    .timeline-marker:hover .marker-dot {
+      background: currentColor;
+      box-shadow: 0 0 0 5px color-mix(in srgb, currentColor 15%, transparent);
+    }
+    .timeline-marker:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 4px;
+    }
+  }
+</style>
+
+<script>
+  function setupTimelines() {
+    document.querySelectorAll<HTMLElement>('.timeline-year').forEach((year) => {
+      year.querySelectorAll<HTMLAnchorElement>('[data-preview]').forEach((marker) => {
+        const select = () => {
+          year.querySelectorAll<HTMLElement>('.timeline-preview').forEach((preview) => {
+            preview.hidden = preview.id !== marker.dataset.preview;
+          });
+          year
+            .querySelectorAll('[data-preview]')
+            .forEach((point) => point.classList.toggle('is-selected', point === marker));
+        };
+        marker.addEventListener('pointerenter', select);
+        marker.addEventListener('focus', select);
+      });
+    });
+  }
+  setupTimelines();
+  document.addEventListener('astro:after-swap', setupTimelines);
+</script>

@@ -19,6 +19,9 @@ const { page } = Astro.props;
     <p class="text-muted text-lg md:text-xl mt-4 max-w-2xl">
       Side projects, game dev experiments, and lessons from 20 years of building things.
     </p>
+    <a href="/timeline" class="inline-block mt-5 text-primary font-semibold hover:underline"
+      >Explore the project timeline <span aria-hidden="true">→</span></a
+    >
   </header>
   <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     {page?.data?.map((post) => <PostItem post={post} />)}

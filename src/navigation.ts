@@ -11,6 +11,10 @@ export const headerData = {
       href: getBlogPermalink(),
     },
     {
+      text: 'Timeline',
+      href: getPermalink('/timeline'),
+    },
+    {
       text: 'About',
       href: getPermalink('/about'),
     },
@@ -24,6 +28,7 @@ export const footerData = {
       links: [
         { text: 'Home', href: getPermalink('/') },
         { text: 'Blog', href: getBlogPermalink() },
+        { text: 'Timeline', href: getPermalink('/timeline') },
         { text: 'About', href: getPermalink('/about') },
         { text: 'Privacy', href: getPermalink('/privacy') },
       ],

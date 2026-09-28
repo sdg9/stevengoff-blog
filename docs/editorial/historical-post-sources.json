@@ -1,0 +1,1477 @@
+[
+  {
+    "slug": "2014-hot-potato",
+    "date": "2014-12-18",
+    "quarter": "2014-Q4",
+    "repository": "sdg9/HotPotato",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "6250226551d58b99d876b6c2f82a01b966707cc5",
+        "date": "2014-12-18",
+        "subject": "added gitignore"
+      },
+      {
+        "sha": "7c3562307d47e3ce3745e6cd5b85393bac62d32b",
+        "date": "2014-12-18",
+        "subject": "initial commit"
+      },
+      {
+        "sha": "93d18c3d4825c196a74ad55a227959630b889ae9",
+        "date": "2014-12-18",
+        "subject": "first commit"
+      },
+      {
+        "sha": "46f260cb759c7cbdd39123862a3cf64fc45efe02",
+        "date": "2014-12-18",
+        "subject": "initial checking"
+      }
+    ]
+  },
+  {
+    "slug": "2016-payday-mobile",
+    "date": "2016-07-11",
+    "quarter": "2016-Q3",
+    "repository": "sdg9/pd2skills-app",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "cc4b9c27e054a4bfea62f083423c30a823cf9fa3",
+        "date": "2016-07-10",
+        "subject": "initial checkin"
+      },
+      {
+        "sha": "560aba46d7e815fc85c609bec2a980a94824fa38",
+        "date": "2016-07-10",
+        "subject": "initial setup complete"
+      },
+      {
+        "sha": "a6012864b11cc0762a43b61b263ccb9d6c0681ff",
+        "date": "2016-07-11",
+        "subject": "Setting up skill tabs"
+      },
+      {
+        "sha": "c047cd1a29b46127c57a613d2f0cbc5d7a5eb129",
+        "date": "2016-07-11",
+        "subject": "Drawer items"
+      },
+      {
+        "sha": "1f5e846ead46783932aa66e34eba369fc7ce411c",
+        "date": "2016-07-11",
+        "subject": "removed unused images"
+      },
+      {
+        "sha": "4f0960cb72a4dcdc25eb61cf05353d0d66271038",
+        "date": "2016-07-11",
+        "subject": "fix package.json"
+      },
+      {
+        "sha": "aba12206c2a654cf92a3b7354610eb08d1cd13dc",
+        "date": "2016-07-11",
+        "subject": "build"
+      },
+      {
+        "sha": "3cbef8fa563e1b1fb9a42b125c62353871fd3d93",
+        "date": "2016-07-11",
+        "subject": "dummy release key"
+      }
+    ]
+  },
+  {
+    "slug": "2017-git-stats",
+    "date": "2017-01-28",
+    "quarter": "2017-Q1",
+    "repository": "sdg9/git-stats",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "2a22c4891140f457cc12ec16ed8cb8c9e672a696",
+        "date": "2017-01-28",
+        "subject": "first commit"
+      }
+    ]
+  },
+  {
+    "slug": "2017-home-assistant",
+    "date": "2017-08-27",
+    "quarter": "2017-Q3",
+    "repository": "sdg9/NodeMCU",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "2ab6370662b1796ec30f7027470ce3ce7d448cde",
+        "date": "2017-08-27",
+        "subject": "Initial commit"
+      },
+      {
+        "sha": "7fe0e0d371db2c3fa30d90c176d609ef441c5601",
+        "date": "2017-08-27",
+        "subject": "Initial commit"
+      },
+      {
+        "sha": "6c9bfa25d8e6053c95e1ba17a8e4398e370d7f2b",
+        "date": "2017-08-27",
+        "subject": "Add readme for motion sensor"
+      },
+      {
+        "sha": "972a447dbd9e9b91b6e1d3560c2e2db17628b72e",
+        "date": "2017-08-27",
+        "subject": "Edit image link"
+      },
+      {
+        "sha": "edb60b8f2272eda6091a38dfe01552a144b379cd",
+        "date": "2017-08-27",
+        "subject": "Enhance motion sensing logic"
+      },
+      {
+        "sha": "95f19eda3eadc3060232fface431b29bf84522f8",
+        "date": "2017-08-27",
+        "subject": "Enhance motion logic"
+      }
+    ]
+  },
+  {
+    "slug": "2017-trivia",
+    "date": "2017-12-04",
+    "quarter": "2017-Q4",
+    "repository": "BMBros/TriviaWeb",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "fbdbbac6f90b0a218a0390ec53ef77aaea7e16ae",
+        "date": "2017-11-03",
+        "subject": "Run firebase init"
+      },
+      {
+        "sha": "11a020aaac2375136a2931fc6b28df5c6d053782",
+        "date": "2017-11-05",
+        "subject": "Remove default example"
+      },
+      {
+        "sha": "8eba6ebfb30bf6d74c82b82f942dfbb4af341539",
+        "date": "2017-12-01",
+        "subject": "Temporarily remove flow as it is unnecessarily failing (#46)"
+      },
+      {
+        "sha": "b44f17be77c425131c61f550d6cdb369c8866b3d",
+        "date": "2017-12-01",
+        "subject": "Require exact match on numbers (#47)"
+      },
+      {
+        "sha": "47f6ab4428010cb5a3c8a186c6713170aad9fbb2",
+        "date": "2017-12-01",
+        "subject": "Exact match when 3 chars or less (#48)"
+      },
+      {
+        "sha": "af238cd4185c960b322dbb5af1525353feac077b",
+        "date": "2017-12-01",
+        "subject": "Fix persisting answer when not supposed to (#49)"
+      },
+      {
+        "sha": "732dc3656f9ab60031f751f6101639f58ce92c15",
+        "date": "2017-12-02",
+        "subject": "UI tweak (#50)"
+      },
+      {
+        "sha": "2a06b59ff4bb6541ca371282d494e2edf7de37ce",
+        "date": "2017-12-04",
+        "subject": "Show final scores (#51)"
+      }
+    ]
+  },
+  {
+    "slug": "2018-rewards-points",
+    "date": "2018-01-14",
+    "quarter": "2018-Q1",
+    "repository": "sdg9/RewardsPoints",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "081a323043be9fb1c1be7a178a25e0028804f66f",
+        "date": "2018-01-14",
+        "subject": "Updates"
+      },
+      {
+        "sha": "1a0372007b7b1a071024981691019c3e33002f1d",
+        "date": "2018-01-14",
+        "subject": "rerun script"
+      },
+      {
+        "sha": "cad4dcf7e007da3990db38048b2cc5fb229ebd42",
+        "date": "2018-01-14",
+        "subject": "Updated rewards"
+      },
+      {
+        "sha": "e6a3a49942a47c0ca69d57445b302f7551abc289",
+        "date": "2018-01-14",
+        "subject": "Link with appcenter"
+      },
+      {
+        "sha": "c1769d50e965fbfbc13adaad3e97c972f4822bd6",
+        "date": "2018-01-14",
+        "subject": "Configured codepush"
+      }
+    ]
+  },
+  {
+    "slug": "2018-review-stats",
+    "date": "2018-04-25",
+    "quarter": "2018-Q2",
+    "repository": "sdg9/git-review-stats",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "a02c877ca723d76b847f22051da8d15e1f4c4366",
+        "date": "2018-04-19",
+        "subject": "Create git review stats website"
+      },
+      {
+        "sha": "96e9540d063d7b8c78e8dc489745eebc49aa0576",
+        "date": "2018-04-20",
+        "subject": "Site enhancements"
+      },
+      {
+        "sha": "67c35087aaa3749ac36473fff5c612c1637a4d28",
+        "date": "2018-04-25",
+        "subject": "Export to csv"
+      }
+    ]
+  },
+  {
+    "slug": "2018-laser-sensor",
+    "date": "2018-09-22",
+    "quarter": "2018-Q3",
+    "repository": "sdg9/NodeMCU",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "ff3ec963708196c4c712b599285c4fdd6cf2bdc6",
+        "date": "2018-09-22",
+        "subject": "Add laser sensor example"
+      }
+    ]
+  },
+  {
+    "slug": "2018-tax-dashboard",
+    "date": "2018-12-15",
+    "quarter": "2018-Q4",
+    "repository": "sdg9/tax-web-client",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "c7303411161c87e55e928ebec48e3921bd584417",
+        "date": "2018-11-19",
+        "subject": "Add Sidebar component"
+      },
+      {
+        "sha": "ebc28f6c9c96c388129e170b9a3df5b158d6af1a",
+        "date": "2018-11-20",
+        "subject": "WIP"
+      },
+      {
+        "sha": "2dded9705c9023b27be7ac40303ed3c2e1d8c765",
+        "date": "2018-12-15",
+        "subject": "Tables wip"
+      },
+      {
+        "sha": "238fa8f2fac2b3a132bff8aa0b8ee4b131df2a04",
+        "date": "2018-12-15",
+        "subject": "Some UI tweaks"
+      },
+      {
+        "sha": "6af6b48fc01ac3604cad75e71041fc59a9d730d8",
+        "date": "2018-12-15",
+        "subject": "Remove you are here popup"
+      },
+      {
+        "sha": "8a0c3146b038d934423f1d53509db8714c1f3000",
+        "date": "2018-12-15",
+        "subject": "Add paper effect elsewhere"
+      },
+      {
+        "sha": "286539d8abae0a23da7b5aebd650ba880e47ce83",
+        "date": "2018-12-15",
+        "subject": "More ui updates"
+      },
+      {
+        "sha": "6298d27d3a21cdc44db2fbb35add6e7c4c2cbb4b",
+        "date": "2018-12-15",
+        "subject": "Updates"
+      }
+    ]
+  },
+  {
+    "slug": "2019-watchface",
+    "date": "2019-01-28",
+    "quarter": "2019-Q1",
+    "repository": "sdg9/stef-clock",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "f533e2a2f396ef1f36c9c433d3c20635ad65d70e",
+        "date": "2019-01-27",
+        "subject": "Initial checkin"
+      },
+      {
+        "sha": "9395d401b1c7a6a4c297ce7cf062fae578f17aaf",
+        "date": "2019-01-27",
+        "subject": "Base setup"
+      },
+      {
+        "sha": "c5b98c1189dba4357f7316c45c6a1b130718bbad",
+        "date": "2019-01-28",
+        "subject": "Adjust weather logic"
+      },
+      {
+        "sha": "68630b0df271179e4803b016b2bd21bcbc745579",
+        "date": "2019-01-28",
+        "subject": "Add HR, location, internet access"
+      },
+      {
+        "sha": "6c391acc5bb17c61581464ed592272efce2a7c61",
+        "date": "2019-01-28",
+        "subject": "Remove weather callback success/error response"
+      },
+      {
+        "sha": "ed75d3c17a8d28051014e15af8c0764a1dc07361",
+        "date": "2019-01-28",
+        "subject": "Multiple screens and smart home integration"
+      },
+      {
+        "sha": "6d5ae416587582b08e98575048e8e8f0411f6a21",
+        "date": "2019-01-28",
+        "subject": "Lots of smart home"
+      },
+      {
+        "sha": "cbce4186513a710a8e449952942590f53fc1e32c",
+        "date": "2019-01-28",
+        "subject": "Smart home working"
+      }
+    ]
+  },
+  {
+    "slug": "2019-codenames",
+    "date": "2019-06-02",
+    "quarter": "2019-Q2",
+    "repository": "sdg9/CodenamesGame",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "82df8aee682e77dcd682027914eec475a3a28ed9",
+        "date": "2019-05-06",
+        "subject": "Colors on press working okay"
+      },
+      {
+        "sha": "1108220912ecbf93973352d18ba0b64b7d40487e",
+        "date": "2019-05-06",
+        "subject": "Cleanup"
+      },
+      {
+        "sha": "bf0c76c8d2ed7e90a9bdd532077885a2b7c87d7d",
+        "date": "2019-06-01",
+        "subject": "Add comment about breaking netwokr sync"
+      },
+      {
+        "sha": "81c5b8af1189f8596c918834c14be5d12acf7389",
+        "date": "2019-06-01",
+        "subject": "Add working example"
+      },
+      {
+        "sha": "fd4128ac165069024ef27c1c91b73f6289721c99",
+        "date": "2019-06-01",
+        "subject": "Merge branch 'artemis'"
+      },
+      {
+        "sha": "d0225255c04b19b7cde4d71855b7468fb7fa0c83",
+        "date": "2019-06-02",
+        "subject": "Fix but with server running properly"
+      },
+      {
+        "sha": "7d14b6b8dbd4ec752eabebeba03a44881f923181",
+        "date": "2019-06-02",
+        "subject": "Get android running"
+      },
+      {
+        "sha": "21d5a0e69a7d87bdfa90d6bc9f767d2d0ec936ff",
+        "date": "2019-06-02",
+        "subject": "Next step notes"
+      }
+    ]
+  },
+  {
+    "slug": "2019-coop-deckbuilder",
+    "date": "2019-07-14",
+    "quarter": "2019-Q3",
+    "repository": "sdg9/Coop-Deckbuilder",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "0484c9418cb59aa9ca7345f496dca2908eac0f7a",
+        "date": "2019-07-03",
+        "subject": "Merge pull request #56 from sdg9/monsterGroups"
+      },
+      {
+        "sha": "692112e46b39f12f2e69a657205c5328d064a97e",
+        "date": "2019-07-03",
+        "subject": "Add draw card buff"
+      },
+      {
+        "sha": "e36369df997852c5628c56872c87404220e3c1c9",
+        "date": "2019-07-13",
+        "subject": "Self review"
+      },
+      {
+        "sha": "0193f643f0e6757cb768c76580e67e5efe93c9d4",
+        "date": "2019-07-13",
+        "subject": "Merge pull request #93 from sdg9/jsonTemplates"
+      },
+      {
+        "sha": "666ea1742b23e521fe6251f815e9e8074e7f0589",
+        "date": "2019-07-13",
+        "subject": "Comments"
+      },
+      {
+        "sha": "07c8db994b6204c79830ff120996f2a377b5a36b",
+        "date": "2019-07-13",
+        "subject": "Merge branch 'master' of https://github.com/sdg9/Coop-Deckbuilder"
+      },
+      {
+        "sha": "402e081e4507ebc3820b96d3f115dd5274a78967",
+        "date": "2019-07-13",
+        "subject": "More json comments"
+      },
+      {
+        "sha": "445a6f0741c817591e411e57c2126d39549b3bd6",
+        "date": "2019-07-14",
+        "subject": "Fix build from surface book"
+      }
+    ]
+  },
+  {
+    "slug": "2019-printer-firmware",
+    "date": "2019-10-24",
+    "quarter": "2019-Q4",
+    "repository": "sdg9/Marlin",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "49315dbe37a439dd5276cb66b32e89c9b2d0d93c",
+        "date": "2019-10-24",
+        "subject": "Configure BLTouch Marlin for Ender3"
+      },
+      {
+        "sha": "c607c78dd577de0a05f8dd68c2c254ff8a79ac9f",
+        "date": "2019-10-24",
+        "subject": "Update bltouch to use 5 points"
+      }
+    ]
+  },
+  {
+    "slug": "2020-pi-scanner",
+    "date": "2020-02-02",
+    "quarter": "2020-Q1",
+    "repository": "sdg9/piScanner",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "3a5fc8c3c3dd69e3d241943270af56f42c1a5fe9",
+        "date": "2020-02-01",
+        "subject": "Initial checking"
+      },
+      {
+        "sha": "0c251512e72143a9e4510391ddba35ec37e706af",
+        "date": "2020-02-01",
+        "subject": "Setup capistrano"
+      },
+      {
+        "sha": "5cd7a49d2c855891ded874e6f3238720e0241747",
+        "date": "2020-02-02",
+        "subject": "Disable networking"
+      },
+      {
+        "sha": "621ea8b424753412095578c8c7c52693fe02ab8a",
+        "date": "2020-02-02",
+        "subject": "Fix timeout"
+      },
+      {
+        "sha": "b9eaeee30530e0287b73a506872801f00d7253a6",
+        "date": "2020-02-02",
+        "subject": "Camera logic master"
+      },
+      {
+        "sha": "3e3b8d182cef8060f0af59c4548495ab2a143feb",
+        "date": "2020-02-02",
+        "subject": "Master rotate"
+      },
+      {
+        "sha": "0c7a20a35a5c74b2aa75e0033e27adaea2621ce6",
+        "date": "2020-02-02",
+        "subject": "Try and fix steps in master"
+      },
+      {
+        "sha": "ee74efddc4384d2a1dccb851622b5e25379794d2",
+        "date": "2020-02-02",
+        "subject": "Notes"
+      }
+    ]
+  },
+  {
+    "slug": "2020-pathogenesis",
+    "date": "2020-09-30",
+    "quarter": "2020-Q3",
+    "repository": "sdg9/pathogenesis",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "5196d8a913007b2c2a978442e19e240953b30e41",
+        "date": "2020-09-18",
+        "subject": "Initial checkin"
+      },
+      {
+        "sha": "632cbd0b3a0c946d83b59311ce64ef3310d4029a",
+        "date": "2020-09-18",
+        "subject": "Create tilemap and add to scene."
+      },
+      {
+        "sha": "eb74de3aae3faf0d4df575bf5da2465f0b9b3201",
+        "date": "2020-09-30",
+        "subject": "Don't use TCP in GKS when using UDP protocol..."
+      },
+      {
+        "sha": "b7ab7698ab32d47119f036837a9fed62a11061bd",
+        "date": "2020-09-30",
+        "subject": "Fix agones server healthcheck"
+      },
+      {
+        "sha": "359f67bb1e19d7713f1690bf33c97b9a6261d122",
+        "date": "2020-09-30",
+        "subject": "Don't use alpha feature"
+      },
+      {
+        "sha": "2dc11d90e7977c9bdb68c2ae15e4295ff9062d6d",
+        "date": "2020-09-30",
+        "subject": "Add comments to fleet file"
+      },
+      {
+        "sha": "2c230324920f328461e4a9fc26707a988eb9bfd2",
+        "date": "2020-09-30",
+        "subject": "Add notes about openmatch"
+      },
+      {
+        "sha": "f7220ed04ac693bf9bef6450acc240d6ec228392",
+        "date": "2020-09-30",
+        "subject": "Merge pull request #90 from sdg9/feature/fixDedicatedServerForAgones"
+      }
+    ]
+  },
+  {
+    "slug": "2020-game-matchmaking",
+    "date": "2020-11-08",
+    "quarter": "2020-Q4",
+    "repository": "sdg9/pathogenesis-matchmaker-go",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "686d15a113ad4b03928607f15fde1474c0948bfc",
+        "date": "2020-10-04",
+        "subject": "Initial checkin"
+      },
+      {
+        "sha": "95d4414331d3ff61074cb867cedb149190f81f81",
+        "date": "2020-10-04",
+        "subject": "Raw functionality working to allocate gs and get ip & port"
+      },
+      {
+        "sha": "c6cd9e2b7a6a82e315b34c3deca1154bf55b4890",
+        "date": "2020-11-08",
+        "subject": "Rename action name"
+      },
+      {
+        "sha": "aebccaae92c6d6e0adadc809803a79379b9bc97c",
+        "date": "2020-11-08",
+        "subject": "Generate certs on the fly"
+      },
+      {
+        "sha": "9723cd4d997ce500204d4ea4f99a8778e339a296",
+        "date": "2020-11-08",
+        "subject": "Generate key with no prompt"
+      },
+      {
+        "sha": "f02a4f127bdc6dab940cb192779d89cedff9d9fa",
+        "date": "2020-11-08",
+        "subject": "Fix cert process"
+      },
+      {
+        "sha": "f144a6eabe965e1c7408c6d821721a4e4219902c",
+        "date": "2020-11-08",
+        "subject": "Test if new sha fixes create cluster from scratch issue, e.g. can't re-use sha during build"
+      },
+      {
+        "sha": "bbfed739059dae143eb48d5a654760cbbc103597",
+        "date": "2020-11-08",
+        "subject": "Potential fix for building matchmaker"
+      }
+    ]
+  },
+  {
+    "slug": "2021-ecs-card-game",
+    "date": "2021-02-02",
+    "quarter": "2021-Q1",
+    "repository": "sdg9/ECSNetworkingCardGame",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "a0ed4a00e47820f40e4b133c93a0c059228869a9",
+        "date": "2021-01-21",
+        "subject": "Add test for relic trigger on x card played"
+      },
+      {
+        "sha": "82f97299334e71a6c7eb455c06fe29525129f4d6",
+        "date": "2021-01-21",
+        "subject": "Rename various systems from Relic to Power."
+      },
+      {
+        "sha": "b40131212c16affef3fbdd3a0813d4e3028dbcc0",
+        "date": "2021-02-02",
+        "subject": "Move files around in prep for new power container instead of relic template approach."
+      },
+      {
+        "sha": "f46c368ff6e51b3458be7125f0736e8697cad68f",
+        "date": "2021-02-02",
+        "subject": "Fix all compilation issues during migration of old RelicTemplate to new PowerContainerTemplate"
+      },
+      {
+        "sha": "23214a0890a5ced96d42dac1ca52697c05ec91d3",
+        "date": "2021-02-02",
+        "subject": "Card creation shares card create entity util"
+      },
+      {
+        "sha": "afd6d3b71136ba5fb9ee2eb62ef060a304253644",
+        "date": "2021-02-02",
+        "subject": "Work on initial custom card text to show different colors with keywords and possibly upgraded values."
+      },
+      {
+        "sha": "8920fe68ed9ea3aee0d4363daa72209f5ca962fe",
+        "date": "2021-02-02",
+        "subject": "Implement card level concept"
+      },
+      {
+        "sha": "2aca51bba16e5a0a5c7c06e92ab8e6c02afd8ff6",
+        "date": "2021-02-02",
+        "subject": "Resolving errors while tyring to add in Assassin and invisible power"
+      }
+    ]
+  },
+  {
+    "slug": "2021-gpu-crawler",
+    "date": "2021-06-10",
+    "quarter": "2021-Q2",
+    "repository": "sdg9/BestBuyCrawler",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "3b32820fb3bcf9e6ece5405b122aa982105dae63",
+        "date": "2021-06-10",
+        "subject": "BB crawler wip"
+      },
+      {
+        "sha": "e94af131bca48da4cdd8dddb858b6e04794c4b8e",
+        "date": "2021-06-10",
+        "subject": "Working crawler, emails on completion"
+      },
+      {
+        "sha": "fb69e58634762118e7abf5acfc68c24b6449d321",
+        "date": "2021-06-10",
+        "subject": "Add readme"
+      },
+      {
+        "sha": "d24b7f771c83fa25efda7d25eb8388900e07d476",
+        "date": "2021-06-10",
+        "subject": "New idea on searching for list of cards instead of just 1"
+      }
+    ]
+  },
+  {
+    "slug": "2021-algorithm-practice",
+    "date": "2021-09-28",
+    "quarter": "2021-Q3",
+    "repository": "sdg9/AlgorithmPrep",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "070bfbdb503c74b63c50e517813b7a60a8e6ab7e",
+        "date": "2021-09-26",
+        "subject": "git init"
+      },
+      {
+        "sha": "95b56aa09f8f62e6023e3a0266940c0e2248b217",
+        "date": "2021-09-26",
+        "subject": "Add nodemon and ts-node"
+      },
+      {
+        "sha": "9ca12c062cd5ec73ad391f1cb2ee17ec0e48c939",
+        "date": "2021-09-27",
+        "subject": "Implement selection sort"
+      },
+      {
+        "sha": "ab12fc2b54d19cc0dfb0f291edd785846588a3ba",
+        "date": "2021-09-27",
+        "subject": "WIP problem 3"
+      },
+      {
+        "sha": "8d983a713acb4632d8fb59477f9f371d84be1c17",
+        "date": "2021-09-28",
+        "subject": "Add binary tree"
+      },
+      {
+        "sha": "8219297b859bae43a1fa789fd6efea884cb5d9d0",
+        "date": "2021-09-28",
+        "subject": "Implement link list"
+      },
+      {
+        "sha": "6e4b0b37abae09f020e6f2e35f237c95c545ef67",
+        "date": "2021-09-28",
+        "subject": "Rotary lock WIP"
+      },
+      {
+        "sha": "c251844c4ef63b2f5f051f6f682db569b116f52f",
+        "date": "2021-09-28",
+        "subject": "Rotary lock fix sorting on some machines"
+      }
+    ]
+  },
+  {
+    "slug": "2021-printer-calibration",
+    "date": "2021-10-29",
+    "quarter": "2021-Q4",
+    "repository": "sdg9/Marlin-1",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "295fb2b6de165259e2a2dc646e6620503784eb6e",
+        "date": "2021-10-28",
+        "subject": "Add ender3 configs"
+      },
+      {
+        "sha": "916133945fc4e838ebd55ba9f766ccac818a5c6b",
+        "date": "2021-10-28",
+        "subject": "Update bltouch to use 5 points"
+      },
+      {
+        "sha": "643012bca3308428bc9b1eafeb76d32c34c7fbc8",
+        "date": "2021-10-28",
+        "subject": "Compilation fixes and getting build to proper filesize"
+      },
+      {
+        "sha": "4a814ffd6b5446dd378ba0949583480c94bf7c87",
+        "date": "2021-10-28",
+        "subject": "Adjust bltouch probe offset"
+      },
+      {
+        "sha": "8df96210a3ff39c1b5edf512327124fa86caaa6e",
+        "date": "2021-10-28",
+        "subject": "Updates for bltouch"
+      },
+      {
+        "sha": "a2adf79baa3bece9cd8a493681d1f5cdadc07cd2",
+        "date": "2021-10-28",
+        "subject": "Fix build issues"
+      },
+      {
+        "sha": "8ee64d347058cc449a93edcc6d9ebc3818191ea9",
+        "date": "2021-10-28",
+        "subject": "Speed up leveling"
+      },
+      {
+        "sha": "9efa8232b0e0902281d4aebf94ad32055eb3437d",
+        "date": "2021-10-29",
+        "subject": "Use 6 points for bed leveling"
+      }
+    ]
+  },
+  {
+    "slug": "2022-mezzo",
+    "date": "2022-06-06",
+    "quarter": "2022-Q2",
+    "repository": "caribou-crew/mezzo",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "3e7702a4a9451ccbced9f64bc7eff3ccf1c57cce",
+        "date": "2022-04-23",
+        "subject": "Address merge conflicts"
+      },
+      {
+        "sha": "3f37b850ff0a3fd156c38e395acf6b5ec0904189",
+        "date": "2022-04-23",
+        "subject": "Refactor variant buttons and simplify dynamic icons"
+      },
+      {
+        "sha": "d37b1d1151c85253baaeec366cbf58f0d305b535",
+        "date": "2022-05-29",
+        "subject": "feat: suppress record & profiles if disabled (#145)"
+      },
+      {
+        "sha": "f49498feb43e7f8b2b33e447a1daed2b381c4a14",
+        "date": "2022-06-02",
+        "subject": "feat: highlight selected network item on click (#148)"
+      },
+      {
+        "sha": "d33f389aaf2cd76c069cadf7c03c0dddb28f8c4c",
+        "date": "2022-06-02",
+        "subject": "feat: show pending requests (#149)"
+      },
+      {
+        "sha": "b426b80507d4a7f2e3c3ed4ef92c45c7d6520c01",
+        "date": "2022-06-02",
+        "subject": "fix: export reference to plugins for consumer"
+      },
+      {
+        "sha": "1e514d1f291a6aa107e08554c3b17f3f8e41b187",
+        "date": "2022-06-02",
+        "subject": "fix: useRelativeUrl for web client"
+      },
+      {
+        "sha": "297920af8ac775bac888660291ae92bfc1dee727",
+        "date": "2022-06-06",
+        "subject": "fix: fix file path logic in server's mocks used for development/testing (#150)"
+      }
+    ]
+  },
+  {
+    "slug": "2022-versioned-components",
+    "date": "2022-09-20",
+    "quarter": "2022-Q3",
+    "repository": "sdg9/react-native-versioned-components-yarn1",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "bc11a1235de980cbeba20d5f1c0c9f0958f00746",
+        "date": "2022-09-03",
+        "subject": "Initial checkin"
+      },
+      {
+        "sha": "fcfcc2402eb673bd4824b7608308ac848b53d920",
+        "date": "2022-09-03",
+        "subject": "WIP local vs remote package, using local despite specifying remote version #"
+      },
+      {
+        "sha": "048715b6f21d3616e6c49d97dfb2f503cdf05419",
+        "date": "2022-09-12",
+        "subject": "Different remote versions work"
+      },
+      {
+        "sha": "3d79c13fa74c57dc0df675e59c24641e3ee678cd",
+        "date": "2022-09-12",
+        "subject": "use microsoft's metro resolver with symlink suppot"
+      },
+      {
+        "sha": "19ef09ac8303e65edf7e89fbb4bb4a18edb11b0a",
+        "date": "2022-09-19",
+        "subject": "update example and readme to use consistent version"
+      },
+      {
+        "sha": "f341e820ee284a3bc48704e397d3ab2b2da307f0",
+        "date": "2022-09-20",
+        "subject": "update readme"
+      },
+      {
+        "sha": "e4df2d5f6415ba03d73d2d9bb1e91f1e4d95c110",
+        "date": "2022-09-20",
+        "subject": "update readme"
+      },
+      {
+        "sha": "8505ff894e113999c0c2567cd9ea6e1b7091be31",
+        "date": "2022-09-20",
+        "subject": "update readme"
+      }
+    ]
+  },
+  {
+    "slug": "2022-celsius-data",
+    "date": "2022-10-09",
+    "quarter": "2022-Q4",
+    "repository": "sdg9/celsius-pdf-data",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "fabed39b16b4db9c30303e136264b2c4f081d3db",
+        "date": "2022-10-09",
+        "subject": "Initial checkin"
+      }
+    ]
+  },
+  {
+    "slug": "2023-mezzo-maintenance",
+    "date": "2023-03-21",
+    "quarter": "2023-Q1",
+    "repository": "caribou-crew/mezzo",
+    "publicRepository": true,
+    "evidence": [
+      {
+        "sha": "e49f1e19ec708c9016653274e7bd1f53f8642f19",
+        "date": "2023-03-20",
+        "subject": "build(nx): run nx migrate"
+      },
+      {
+        "sha": "b0796a2d0c4d057bc91bbad73cbfec7b83fe00f0",
+        "date": "2023-03-20",
+        "subject": "fix(nx workspace): fix nx workspace configs around webpack post upgrade"
+      },
+      {
+        "sha": "43745ef668b48d00553acb7c9d44080e282d97fb",
+        "date": "2023-03-20",
+        "subject": "fix(npm update): update all dependencies and fix breaking changes"
+      },
+      {
+        "sha": "77399d526af429bac6c910ba75b5f3f4a8bd0fcd",
+        "date": "2023-03-20",
+        "subject": "fix(lcov): fix lcov merger for use in ci test coveralls"
+      },
+      {
+        "sha": "f8fba1c139194ee3aba09e07b6b741e32b0eab95",
+        "date": "2023-03-20",
+        "subject": "Merge pull request #152 from sdg9/sdg9/npmMinimalUpdate"
+      },
+      {
+        "sha": "c317f2da5e8830974085885615aeb0d14e65e3b7",
+        "date": "2023-03-21",
+        "subject": "docs: update readme"
+      }
+    ]
+  },
+  {
+    "slug": "2023-card-coalition",
+    "date": "2023-06-06",
+    "quarter": "2023-Q2",
+    "repository": "sdg9/CardCoalition",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "4a23a3da5060282904fa88dde5b90b292f956afd",
+        "date": "2023-05-25",
+        "subject": "Relay implemented, can only join via Quantum Console, next step via lobby"
+      },
+      {
+        "sha": "55bbaf633dc77418441a65752ec0c86942032629",
+        "date": "2023-05-25",
+        "subject": "Relay and lobby working"
+      },
+      {
+        "sha": "8b76352cbe2a127b65aab79c2a070f1b673a92a9",
+        "date": "2023-06-05",
+        "subject": "Fix issue with enemy turn and player drawing 2x the cards"
+      },
+      {
+        "sha": "6675cec46ed8fbd19bda711bf69e529886091f04",
+        "date": "2023-06-05",
+        "subject": "Fix max health, preserve health and correct status/block between combat"
+      },
+      {
+        "sha": "9e355adc96ac0d42f1a734f1aafa99fdf765c87f",
+        "date": "2023-06-05",
+        "subject": "Add some alternate reward options"
+      },
+      {
+        "sha": "ee591aa2371aef4b1023061440a3a05259c7f0b9",
+        "date": "2023-06-05",
+        "subject": "WIP view deck"
+      },
+      {
+        "sha": "0396c276dbe8d9d6248be155fd5cf73b46df2bff",
+        "date": "2023-06-06",
+        "subject": "WIP card selection in grid"
+      },
+      {
+        "sha": "d323874918f0900d3dd0657075d95ced372bdf7d",
+        "date": "2023-06-06",
+        "subject": "WIP deck scrollview, may have introduced rect transform dotween error"
+      }
+    ]
+  },
+  {
+    "slug": "2023-diablo-inventory",
+    "date": "2023-07-02",
+    "quarter": "2023-Q3",
+    "repository": "sdg9/diablo4-inventory",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "27e910f14d736e8a3abc11ca157b5561599b7aee",
+        "date": "2023-07-01",
+        "subject": "update readme"
+      },
+      {
+        "sha": "411649cf10fc96a3f0d75b23f26675e13f052705",
+        "date": "2023-07-01",
+        "subject": "Update unit tests"
+      },
+      {
+        "sha": "c74531e923f9f7ea5e720850ce8b1853c4f26cb6",
+        "date": "2023-07-01",
+        "subject": "Enhance/optimize scripts"
+      },
+      {
+        "sha": "bbf518341fa6632cc968acf9c71225d904f74bbe",
+        "date": "2023-07-01",
+        "subject": "Do two circles if item isn't refreshing after move"
+      },
+      {
+        "sha": "2458de4a0dffc226aa399abfffdbf077616c5ecc",
+        "date": "2023-07-02",
+        "subject": "WIP"
+      },
+      {
+        "sha": "f8b9e63362c8bf5776b6739d0176f98c1a189c1e",
+        "date": "2023-07-02",
+        "subject": "Fix sword matching on crit and simplify ocr sanitization"
+      },
+      {
+        "sha": "4aed40a6bd371804c6e26e1f17ae58cfab4608e4",
+        "date": "2023-07-02",
+        "subject": "Fix bug with mark as junk script"
+      }
+    ]
+  },
+  {
+    "slug": "2023-payday3-skills",
+    "date": "2023-09-19",
+    "quarter": "2023-Q3",
+    "repository": "caribou-crew/pd3skills",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "62b4873996d6c38fa8dec49f02a59d316ad72d42",
+        "date": "2023-09-11",
+        "subject": "initial commit"
+      },
+      {
+        "sha": "0aacc4f03076b834c0f00a19311223aad1ca8524",
+        "date": "2023-09-11",
+        "subject": "add readme"
+      },
+      {
+        "sha": "f5d7c6ed2c65e7672031021c5353f2f89ad5d868",
+        "date": "2023-09-18",
+        "subject": "attempt to implement verified links"
+      },
+      {
+        "sha": "751ce332aed4c47a39e30ac5bbfd3e7de64733dd",
+        "date": "2023-09-18",
+        "subject": "Fix URL serialization (#56)"
+      },
+      {
+        "sha": "9f119a74de0fd9a59d0dccd0bb21ce11e4988963",
+        "date": "2023-09-19",
+        "subject": "change additional info text so it's different than pd3.gg"
+      },
+      {
+        "sha": "9f96e1366d063cde0e9e60852e9a6217f954f63a",
+        "date": "2023-09-19",
+        "subject": "allow editing max skill points (#58)"
+      },
+      {
+        "sha": "f50136f6dd0d94cd3937453c51b729b4dfaa7d50",
+        "date": "2023-09-19",
+        "subject": "update skills to match game at launch"
+      },
+      {
+        "sha": "4ae3f72bd085567d7a4a8fcfcec6915d2fd43db6",
+        "date": "2023-09-19",
+        "subject": "fix skill point ui and url"
+      }
+    ]
+  },
+  {
+    "slug": "2023-godot-experiments",
+    "date": "2023-12-05",
+    "quarter": "2023-Q4",
+    "repository": "caribou-crew/one-more-run",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "6f1d8e818efd542b4ddab376dda7754abdd78573",
+        "date": "2023-10-27",
+        "subject": "Initial commit"
+      },
+      {
+        "sha": "e8e71eab3e2fe9aae2479ffd972b4847521c5034",
+        "date": "2023-10-27",
+        "subject": "initial project creation"
+      },
+      {
+        "sha": "f6df8dcbd8f020a86a7e02f991594977ee5e791c",
+        "date": "2023-11-24",
+        "subject": "Update to Godot 4.2 RC1 (#57)"
+      },
+      {
+        "sha": "053030406606e2c5e65ca735310265084d9e1821",
+        "date": "2023-11-26",
+        "subject": "use 4.2.0-rc.2 (#60)"
+      },
+      {
+        "sha": "489ae9dd80fb8e04eca8cbe35b696851a5840c8b",
+        "date": "2023-11-28",
+        "subject": "Misc Fixes (#62)"
+      },
+      {
+        "sha": "72cb70a69a0ca02c5f5392f6b1981692cf8fea84",
+        "date": "2023-12-03",
+        "subject": "Multiplayer basics (#63)"
+      },
+      {
+        "sha": "0478b025a912359efa141420b372d945dae01be0",
+        "date": "2023-12-04",
+        "subject": "Misc Fixes (#66)"
+      },
+      {
+        "sha": "0acc01e40352a9a70a4595b2cca7bb3d2ff281e3",
+        "date": "2023-12-05",
+        "subject": "Reward selection and persistence (#67)"
+      }
+    ]
+  },
+  {
+    "slug": "2024-sticker-app",
+    "date": "2024-03-31",
+    "quarter": "2024-Q1",
+    "repository": "sdg9/StickerApp",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "89f36eaf28533ef0452304e748ede1f83f9753b3",
+        "date": "2024-03-03",
+        "subject": "New Ignite 9.6.2 app"
+      },
+      {
+        "sha": "9df7bddd0b13f2b423bde62c503112f5dae23d4b",
+        "date": "2024-03-03",
+        "subject": "wip sticker app"
+      },
+      {
+        "sha": "6100cd923981079b890598146e8fc3995fafc747",
+        "date": "2024-03-30",
+        "subject": "Test preview by GH Actions"
+      },
+      {
+        "sha": "b81a557382c9f5f577ae603fe884788d498825eb",
+        "date": "2024-03-30",
+        "subject": "enable corepack"
+      },
+      {
+        "sha": "68c646c1b92eb3a3d22640bb4d8f3e3da4459b66",
+        "date": "2024-03-30",
+        "subject": "cleanup gitignore"
+      },
+      {
+        "sha": "a9f0f40f206f38301f12c2d87893f1dd861dc63d",
+        "date": "2024-03-30",
+        "subject": "Regenerate logo via npx ignite-cli generate splash-screen 191015"
+      },
+      {
+        "sha": "3fe4cec37c3308979df92f7ef8e4416d4394461b",
+        "date": "2024-03-30",
+        "subject": "update android app icon via npx ignite-cli generate app-icon android --skip-source-equality-validation"
+      },
+      {
+        "sha": "7312b9480ae3077dda4c5db2f39e6c015b18d1f0",
+        "date": "2024-03-31",
+        "subject": "use flex for sticker width instead of hardcoded values"
+      }
+    ]
+  },
+  {
+    "slug": "2024-tax-return",
+    "date": "2024-06-25",
+    "quarter": "2024-Q2",
+    "repository": "sdg9/tax2024-mono",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "8237e000597bb44b0b839f59012f555b0f7a3c89",
+        "date": "2024-05-09",
+        "subject": "initial commit, wip on getting to running state"
+      },
+      {
+        "sha": "0e21f2364956eec220abe8237813953719b387b5",
+        "date": "2024-05-09",
+        "subject": "temporarily copying over t3 app and it loads w/ no server side calls"
+      },
+      {
+        "sha": "1c7187e5996f575515877a271886be5045ecb4e3",
+        "date": "2024-06-25",
+        "subject": "read local html from pins missing it"
+      },
+      {
+        "sha": "e29de8546194762f2eee4d0e1b62556cc6b3278d",
+        "date": "2024-06-25",
+        "subject": "add new test for data that couldn't find values"
+      },
+      {
+        "sha": "7573de5702f48b38624e2880bd697f145fece47e",
+        "date": "2024-06-25",
+        "subject": "update tests"
+      },
+      {
+        "sha": "65fa10286d404df25ac149a717989d074a73d804",
+        "date": "2024-06-25",
+        "subject": "include neighborhood in parsed data and update readme"
+      },
+      {
+        "sha": "68442d9456751519a48be5321086eb51f3acd781",
+        "date": "2024-06-25",
+        "subject": "add neighborhood to db"
+      },
+      {
+        "sha": "4a5fd9d2d5f2617d49ec599797ccd37b381d597e",
+        "date": "2024-06-25",
+        "subject": "update script to insert neighborhoods"
+      }
+    ]
+  },
+  {
+    "slug": "2024-nodebuster",
+    "date": "2024-12-27",
+    "quarter": "2024-Q4",
+    "repository": "sdg9/NodeBuster",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "0903bec490302ff13ac63f8115902d1dee855bea",
+        "date": "2024-11-20",
+        "subject": "Add ability to see chosen skills at shop by pressing 'K'"
+      },
+      {
+        "sha": "f4d487b70b0a99aafae2457ada0a75f756e9ae79",
+        "date": "2024-11-20",
+        "subject": "Adjust color of skills popup"
+      },
+      {
+        "sha": "c6d238b91aa503bd4c9a4b3cf3e4b36cd22710b6",
+        "date": "2024-12-20",
+        "subject": "limbo ai auto update on visible rect"
+      },
+      {
+        "sha": "752231413b2f14be3e00e050f033515e4aa9bb6d",
+        "date": "2024-12-22",
+        "subject": "Trail attack (#67)"
+      },
+      {
+        "sha": "88125dc29f61668a95fbd9867baefdbd389a95f3",
+        "date": "2024-12-22",
+        "subject": "fix amount in guaranteed crit"
+      },
+      {
+        "sha": "aa401ebf7d05f993217058b19334f71419e9cd24",
+        "date": "2024-12-24",
+        "subject": "fix but with incorrect has_pre_reqs logic"
+      },
+      {
+        "sha": "b17b523226971781c5658abca884f163160a6f9c",
+        "date": "2024-12-24",
+        "subject": "enhance \"pong\" rectangle boss, create shared blackboard (#72)"
+      },
+      {
+        "sha": "7a00bd0a0f497429519b55aa4b9417457885ae21",
+        "date": "2024-12-27",
+        "subject": "Add turret modifier (#74)"
+      }
+    ]
+  },
+  {
+    "slug": "2025-godot-workshop",
+    "date": "2025-03-20",
+    "quarter": "2025-Q1",
+    "repository": "sdg9/NodeBuster",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "1eba6fd63214f229b2c9364801cbb2ff78938c76",
+        "date": "2025-01-02",
+        "subject": "Add support for an enemy to reposition/teleport when hovered by the player"
+      },
+      {
+        "sha": "945156db3f998e61d9b842c09a1c59c759b48af9",
+        "date": "2025-01-02",
+        "subject": "turret is spawned not there onready, update accordingly"
+      },
+      {
+        "sha": "7d043d8014f896af6858e190df95a294777c3e1a",
+        "date": "2025-03-07",
+        "subject": "upgrade to godot 4.4"
+      },
+      {
+        "sha": "636cc3447a9710cd6713b75474f13050dfcefb57",
+        "date": "2025-03-16",
+        "subject": "commit godog 4.4 auto created uids"
+      },
+      {
+        "sha": "c81c2855300639441f05b0fb650229797ad4504b",
+        "date": "2025-03-16",
+        "subject": "update documentation"
+      },
+      {
+        "sha": "57be9a7ace3e179c4b8eba8de7e3523f7510a12a",
+        "date": "2025-03-17",
+        "subject": "copilot instructions"
+      },
+      {
+        "sha": "18ad1ef8abb27de436527ec9360ac6c8bc7daf4b",
+        "date": "2025-03-18",
+        "subject": "add design docs created with the help fo chatgpt"
+      },
+      {
+        "sha": "274d8cb7f64d374b7870ad578dc2a79f05ec392d",
+        "date": "2025-03-20",
+        "subject": "update copilot instructions"
+      }
+    ]
+  },
+  {
+    "slug": "2025-do-more",
+    "date": "2025-06-14",
+    "quarter": "2025-Q2",
+    "repository": "sdg9/do-more-live-more",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "2a5973524e4b30d4163532aecca2a3805a077751",
+        "date": "2025-04-12",
+        "subject": "disabling not yet ready functionality"
+      },
+      {
+        "sha": "bd87239e630230663bb234f2621b70144365b3a0",
+        "date": "2025-04-12",
+        "subject": "animate deck screen entrance"
+      },
+      {
+        "sha": "4b3cfe5199cfcbd2e13846eb73408de604b8010f",
+        "date": "2025-06-10",
+        "subject": "attempt to fix  (NOBRIDGE) WARN  \"inherit\" is not a valid color or brush [Component Stack]"
+      },
+      {
+        "sha": "f31e618c025ae325df6bc067eaae77574acd8f7b",
+        "date": "2025-06-10",
+        "subject": "allow scrolling the card text"
+      },
+      {
+        "sha": "5d4503bed8d445d5269100f61426a53db9b7cd6e",
+        "date": "2025-06-10",
+        "subject": "only show DoMoreLiveMore.com watermark when sharing"
+      },
+      {
+        "sha": "600942bc0b35d9911f0d711e6e4fcafaf1982813",
+        "date": "2025-06-10",
+        "subject": "remove logging on swipe"
+      },
+      {
+        "sha": "71650a5d147c87a72c55dfd32ad9011346c7286e",
+        "date": "2025-06-11",
+        "subject": "use blue background deck art"
+      },
+      {
+        "sha": "3907d84f1cc35769303c57fa6c90bcebce2dce4d",
+        "date": "2025-06-14",
+        "subject": "Update the share icon"
+      }
+    ]
+  },
+  {
+    "slug": "2025-browser-deckbuilder",
+    "date": "2025-09-29",
+    "quarter": "2025-Q3",
+    "repository": "sdg9/html5-coop-digital-card-game",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "fd058b42af853b9bffe73ef3e30f9bf10fea018f",
+        "date": "2025-09-21",
+        "subject": "fix lint error"
+      },
+      {
+        "sha": "edcef05ff25e4fe9ecca6ad6d10f3abf1dbc3033",
+        "date": "2025-09-21",
+        "subject": "Merge pull request #95 from sdg9/earth"
+      },
+      {
+        "sha": "87ae2f9f0e095c1142972e085c74fd27755335dd",
+        "date": "2025-09-29",
+        "subject": "fix: update symbol types from shapes to elements in enemy definitions"
+      },
+      {
+        "sha": "486ed8f7045c27bb511200543bfad86556130430",
+        "date": "2025-09-29",
+        "subject": "fix: resolve intermittent enemy drag-drop targeting failures"
+      },
+      {
+        "sha": "fb5b12a1a8d60cfbbc9669d24a82b6232aadce38",
+        "date": "2025-09-29",
+        "subject": "fix failing tests"
+      },
+      {
+        "sha": "58f1b48ec5ed59a9d9e6225d20a5643fb47b7151",
+        "date": "2025-09-29",
+        "subject": "adjust intent symbol on enemy card"
+      },
+      {
+        "sha": "125cacf5d6e3cf7e220ee5e606123f4fefbff001",
+        "date": "2025-09-29",
+        "subject": "fix: resolve enemy targeting bug with reliable hit detection"
+      },
+      {
+        "sha": "93a69dd0609cccacab49e6b520c0067e7503235d",
+        "date": "2025-09-29",
+        "subject": "Fix array mutation bug in SymbolMatcher by removing unsafe non-null assertion"
+      }
+    ]
+  },
+  {
+    "slug": "2025-white-label",
+    "date": "2025-11-30",
+    "quarter": "2025-Q4",
+    "repository": "sdg9/white-label-app",
+    "publicRepository": false,
+    "evidence": [
+      {
+        "sha": "7159a38f2253c22ce62dcf9c83bc8379d25caa7d",
+        "date": "2025-11-28",
+        "subject": "complete 4-2 implementation and review"
+      },
+      {
+        "sha": "54276f34909efc50dcb98005f809a60d0d2a1504",
+        "date": "2025-11-28",
+        "subject": "create story and context for 4-3"
+      },
+      {
+        "sha": "2939870688f9fa38a7638afcd9e9869e2d6b475e",
+        "date": "2025-11-30",
+        "subject": "Turn program badge into reusable component"
+      },
+      {
+        "sha": "b2f78ae7d8d21dd52df7c93d50e45e10b718fbd7",
+        "date": "2025-11-30",
+        "subject": "consistent header between dashboard and card detail"
+      },
+      {
+        "sha": "292c370878680605bacd4e22ae4de9156b316212",
+        "date": "2025-11-30",
+        "subject": "\"Claude PR Assistant workflow\""
+      },
+      {
+        "sha": "893e0666bb91e285247aa448062b656f62572875",
+        "date": "2025-11-30",
+        "subject": "\"Claude Code Review workflow\""
+      },
+      {
+        "sha": "2a46c4bbfc37eb254618dd97867df814e42df17c",
+        "date": "2025-11-30",
+        "subject": "Merge pull request #1 from sdg9/add-claude-github-actions-1764517849745"
+      },
+      {
+        "sha": "bd997bc5a6426c04688ce0b4a1d2351097b87f67",
+        "date": "2025-11-30",
+        "subject": "Merge pull request #4 from sdg9/claude/issue-3-20251130-1644"
+      }
+    ]
+  }
+]
