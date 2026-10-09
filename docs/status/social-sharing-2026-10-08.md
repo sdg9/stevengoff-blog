@@ -7,7 +7,7 @@ verify: npm run build
 ---
 
 ## Next actions
-- Repair www hostname TLS separately.
+- Finish www DNS repair after Cloudflare dashboard sign-in: CNAME www must point to stevengoff-blog.pages.dev; verify existing record before editing.
 
 ## Needs Steven
 - none
@@ -24,3 +24,9 @@ verify: npm run build
 - Launch S4: metadata, image response and legibility pass; third-party social platform cache/share-preview refresh not tested.
 - Launch D3/D7: Blog apex and image pass. www.stevengoff.dev returns HTTP 525 (existing hostname/TLS issue; not changed). Article-specific artwork retained.
 - Forms, DNS, icons and indexing unchanged; unrelated launch checks not applicable.
+
+## Hostname follow-up
+- 2026-10-08: added www.stevengoff.dev to the existing personal-account Pages project (domain ID b364e97d-8061-4473-8f81-bbc8a281335d). Status pending: CNAME record not set. HTTPS still 525; not claimed fixed.
+- Wrangler OAuth can manage Pages but DNS access returns code 10000. Shared dashboard requires sign-in. No DNS records changed.
+- stevengoff.com and www.stevengoff.com return NXDOMAIN; no matching zone in available account. Awaiting spelling/ownership clarification.
+- Social-sharing changes verified on origin/main in both blog and Caribou repos. Unrelated Caribou catalog edits remain untouched.
