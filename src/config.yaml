@@ -24,13 +24,11 @@ metadata:
   openGraph:
     site_name: Steven's Dev Blog
     images:
-      - url: ~/assets/images/default.png
+      - url: ~/assets/images/steven-goff-social.png
         width: 1200
-        height: 628
+        height: 630
     type: website
   twitter:
-    handle: "@onwidget"
-    site: "@onwidget"
     cardType: summary_large_image
 i18n:
   language: en
